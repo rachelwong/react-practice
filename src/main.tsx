@@ -4,6 +4,7 @@ import { Routes as AllRoutes, Route, BrowserRouter as Router } from "react-route
 import App from './App.tsx';
 import ROUTES from './constants/Routes.ts';
 import Counter from './Counter.tsx';
+import './index.css';
 import './styles.scss';
 
 createRoot(document.getElementById('root')!).render(

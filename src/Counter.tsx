@@ -1,8 +1,7 @@
+import Layout from "./components/Layout";
 
 const Counter = () => {
-  return (
-    <div>Counter</div>
-  )
-}
+  return <Layout>Counter</Layout>;
+};
 
-export default Counter
+export default Counter;
