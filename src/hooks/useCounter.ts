@@ -11,7 +11,12 @@ interface UseCounterProps {
 const useCounter = ({
   initialValue = 0,
   maxValue,
-}: { initialValue?: number; maxValue?: number } = {}): UseCounterProps => {
+  waitPeriod,
+}: {
+  initialValue?: number;
+  maxValue?: number;
+  waitPeriod?: number;
+} = {}): UseCounterProps => {
   const [value, setValue] = useState<number>(initialValue);
   const isSubmitting = useRef(false);
 
@@ -22,7 +27,7 @@ const useCounter = ({
     isSubmitting.current = true;
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, waitPeriod));
       if (!!value) {
         setValue((prev) => prev - 1);
       }
@@ -39,7 +44,7 @@ const useCounter = ({
     }
     isSubmitting.current = true;
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, waitPeriod));
 
       setValue((prev) => {
         if (maxValue !== undefined && prev + 1 > maxValue) {
