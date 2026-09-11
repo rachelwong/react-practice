@@ -7,6 +7,7 @@ export const ROUTES = {
   FORM_VALIDATION: "/form-validation",
   STAR_REVIEW: "/stars-review",
   TIMER: "/timer",
+  DOG_LIST: "/dog-ceos",
   MULTI_SIGN_UP: "/multi-sign-up",
 } as const;
 
@@ -35,6 +36,11 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.STAR_REVIEW,
     title: "Timer",
     description: "useEffect & cleanup setInterval",
+  },
+  {
+    route: ROUTES.DOG_LIST,
+    title: "Dog Ceo list",
+    description: "Display listing and persisting data across browser sessions",
   },
   {
     route: ROUTES.MULTI_SIGN_UP,
