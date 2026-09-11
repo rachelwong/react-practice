@@ -26,7 +26,12 @@ createRoot(document.getElementById("root")!).render(
         <Route path={ROUTES.FORM_VALIDATION} element={<BasicForm />} />
         <Route path={ROUTES.STAR_REVIEW} element={<StarReview />} />
         <Route path={ROUTES.TIMER} element={<Timer />} />
-        <Route path={ROUTES.MULTI_SIGN_UP} element={<MultiSignupForm />} />
+        <Route path={ROUTES.MULTI_SIGN_UP}>
+          <Route index element={<MultiSignupForm />} />
+          <Route path="account" element={<MultiSignupForm />} />
+          <Route path="profile" element={<MultiSignupForm />} />
+          <Route path="review" element={<MultiSignupForm />} />
+        </Route>
       </AllRoutes>
     </Router>
   </StrictMode>,
