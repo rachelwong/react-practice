@@ -16,7 +16,7 @@ function App() {
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-3 grid-flow-row">
         {ROUTE_CONFIG.map((config) => {
           return (
-            <Link to={config.route}>
+            <Link key={`${config.title}${config.route}`} to={config.route}>
               <Card
                 className="flex-auto h-full p-4 w-full flex-col justify-between hover:bg-slate-50"
                 size="sm"
