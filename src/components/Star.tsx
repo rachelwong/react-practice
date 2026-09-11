@@ -28,7 +28,7 @@ const Star = ({
         className="star__label"
       >
         <input
-          type="radio"
+          type="radio" // TODO radio type does not allow for deselect
           id={`star${index}`}
           name="rating"
           value={index}
