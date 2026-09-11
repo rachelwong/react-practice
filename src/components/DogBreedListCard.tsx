@@ -109,6 +109,7 @@ const DogBreedListCard = ({
             />
             <Button
               variant="default"
+              disabled={!!isDisabled && !isSelected}
               onClick={() =>
                 updateImageNumber({
                   breedName: breed.name,

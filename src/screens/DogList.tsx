@@ -76,6 +76,19 @@ const DogList = () => {
   };
 
   useEffect(() => {
+    if (selectedBreeds.length) {
+      setSelectedBreeds((prev) =>
+        prev.map((breed) => {
+          return {
+            ...breed,
+            maxNumImages: selectedBreeds.length === MAX_NUM_SELECTION ? 5 : 10,
+          };
+        }),
+      );
+    }
+  }, [selectedBreeds.map((x) => x.name)]);
+
+  useEffect(() => {
     // Double firing in DEV due to StrictMode
     getBreeds();
   }, []);
@@ -127,8 +140,8 @@ const DogList = () => {
         <div className="breed-list w-1/2 flex flex-col pr-4 gap-y-6">
           <h2 className="font-bold text-lg">List of breeds</h2>
           {loadingAllBreeds && (
-            <Card className="w-full max-w-xs">
-              <CardHeader>
+            <Card className="w-full max-w-xs flex flex-col">
+              <CardHeader className="flex flex-col">
                 <Skeleton className="h-4 w-2/3" />
                 <Skeleton className="h-4 w-1/2" />
               </CardHeader>
@@ -163,7 +176,7 @@ const DogList = () => {
         </div>
         <div className="selected-dog-images w-1/2 pl-4 flex flex-col">
           <h2 className="font-bold text-lg">Selected breeds</h2>
-          <div className="mt-6 flex flex-col">
+          <div className="mt-6 flex flex-col gap-y-6">
             {!selectedBreeds.length && (
               <Alert className="w-full border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-50 my-3">
                 <AlertDescription>No breeds selected</AlertDescription>
