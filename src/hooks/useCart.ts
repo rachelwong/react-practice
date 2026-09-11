@@ -1,3 +1,4 @@
+import { AVAILABLE_PRODUCTS } from "@/constants";
 import { CART_ACTION, type CartItem } from "@/types/Cart";
 import { CurrencyFormatter } from "@/utils";
 import { useReducer } from "react";
@@ -37,21 +38,27 @@ function cartReducer(state: CartState, action: CartAction): CartState {
 const useCart = (): {
   cartItems: CartItem[];
   invoiceTotal: string;
-  addItemToCart: (item: CartItem) => void;
+  addItemToCart: (id: string) => void;
   clearCart: () => void;
   removeItemFromCart: (id: string) => void;
   removeAllId: (id: string) => void;
+  allAvailableProducts: CartItem[];
 } => {
   const [state, dispatch] = useReducer(cartReducer, initialState);
 
   const invoiceAmount = state.items.reduce((acc, cur) => {
     return acc + cur.price;
   }, 0);
+  const allAvailableProducts = AVAILABLE_PRODUCTS;
 
   const formattedInvoiceAmount = CurrencyFormatter.format(invoiceAmount);
 
-  const addItemToCart = (item: CartItem): void => {
-    dispatch({ type: CART_ACTION.ADD_ITEM, payload: item });
+  const addItemToCart = (id: string): void => {
+    const product = allAvailableProducts.find((x) => x.id === id);
+    if (!product) {
+      return;
+    }
+    dispatch({ type: CART_ACTION.ADD_ITEM, payload: product });
   };
 
   const clearCart = (): void => {
@@ -85,6 +92,7 @@ const useCart = (): {
     removeItemFromCart,
     removeAllId,
     clearCart,
+    allAvailableProducts,
   };
 };
 

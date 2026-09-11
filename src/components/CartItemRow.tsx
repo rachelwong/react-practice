@@ -1,8 +1,7 @@
 // Component to display one type of product by name, id, quantity
 // Actions are remove 1, add 1, remove all of this id
 
-import { AVAILABLE_PRODUCTS } from "@/constants";
-import type { CartItem, CartItemDisplay } from "@/types/Cart";
+import type { CartItemDisplay } from "@/types/Cart";
 import { CurrencyFormatter } from "@/utils";
 import { Button } from "./ui/button";
 import { TableCell, TableRow } from "./ui/table";
@@ -11,7 +10,7 @@ interface CartItemRowProps {
   item: CartItemDisplay;
   removeSingle: (id: string) => void;
   removeAllById: (id: string) => void;
-  addItem: (item: CartItem) => void;
+  addItem: (id: string) => void;
 }
 
 const CartItemRow = ({
@@ -20,8 +19,6 @@ const CartItemRow = ({
   removeAllById,
   addItem,
 }: CartItemRowProps) => {
-  const productToPurchase = AVAILABLE_PRODUCTS.find((x) => x.id === item.id);
-
   return (
     <TableRow key={item.id}>
       <TableCell className="font-medium">{item.id}</TableCell>
@@ -31,12 +28,9 @@ const CartItemRow = ({
       <TableCell className="text-right gap-3 flex align-center justify-end">
         <Button
           variant="outline"
-          disabled={!productToPurchase}
           className="bg-green-500"
           onClick={() => {
-            if (productToPurchase) {
-              addItem(productToPurchase);
-            }
+            addItem(item.id);
           }}
         >
           +

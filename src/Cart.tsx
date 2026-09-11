@@ -10,12 +10,12 @@ import CartItemRow from "./components/CartItemRow";
 import Layout from "./components/Layout";
 import { Alert, AlertDescription, AlertTitle } from "./components/ui/alert";
 import { Button } from "./components/ui/button";
-import { AVAILABLE_PRODUCTS } from "./constants";
 import useCart from "./hooks/useCart";
 import type { CartItemDisplay } from "./types/Cart";
 
 const Cart = () => {
   const {
+    allAvailableProducts,
     cartItems,
     invoiceTotal,
     addItemToCart,
@@ -66,13 +66,13 @@ const Cart = () => {
     <Layout heading={cartHeading}>
       <div className="cart">
         <div className="cart-actions flex items-center justify-start gap-x6">
-          {AVAILABLE_PRODUCTS.map((product) => {
+          {allAvailableProducts.map((product) => {
             return (
               <Button
                 key={product.id}
                 className="cart-btn"
                 onClick={() => {
-                  addItemToCart(product);
+                  addItemToCart(product.id);
                 }}
               >
                 Add {product.name}
