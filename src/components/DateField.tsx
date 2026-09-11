@@ -11,7 +11,7 @@ import {
 } from "./ui/select";
 
 interface DateFieldProps {
-  day?: string;
+  // day?: string;
   month?: string;
   year?: string;
   onDayChange?: () => void;
@@ -23,10 +23,10 @@ interface DateFieldProps {
 }
 
 const DateField = ({
-  day, // TODO
+  // day, // TODO
   month,
   year,
-  onDayChange, // TODO
+  // onDayChange, // TODO
   onMonthChange,
   onYearChange,
   yearValues,
