@@ -74,7 +74,6 @@ const DateField = ({
               items={yearsValues}
               value={year}
               onValueChange={(value: string | null) => {
-                console.log("on year change", value);
                 if (value) {
                   onYearChange(value);
                 }
