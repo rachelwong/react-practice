@@ -4,5 +4,6 @@ export const ROUTES = {
   CART: "/cart",
   FORM_VALIDATION: "/form-validation",
   STAR_REVIEW: "/stars-review",
+  TIMER: "/timer",
   MULTI_SIGN_UP: "/multi-sign-up",
 } as const;

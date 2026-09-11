@@ -1,3 +1,5 @@
+import { intervalToDuration } from "date-fns";
+
 export const CurrencyFormatter = new Intl.NumberFormat("en-AU", {
   style: "currency",
   currency: "AUD",
@@ -11,4 +13,12 @@ export const convertForSelect = (values: string[] | number[]) => {
       value: x.toString(),
     };
   });
+};
+
+export const integerToMinuteSeconds = (value: number) => {
+  const { minutes = 0, seconds: secs = 0 } = intervalToDuration({
+    start: 0,
+    end: value * 1000,
+  });
+  return [minutes, secs].map((unit) => String(unit).padStart(2, "0")).join(":");
 };

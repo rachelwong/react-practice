@@ -20,6 +20,9 @@ function App() {
           <Link to={ROUTES.STAR_REVIEW}>5-Star review</Link>
         </li>
         <li className="hover:text-sky-600">
+          <Link to={ROUTES.TIMER}>Timer</Link>
+        </li>
+        <li className="hover:text-sky-600">
           <Link to={ROUTES.MULTI_SIGN_UP}>Multi step sign up</Link>
         </li>
       </ol>

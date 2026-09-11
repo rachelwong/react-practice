@@ -13,6 +13,7 @@ import Cart from "./screens/Cart.tsx";
 import Counter from "./screens/Counter.tsx";
 import MultiSignupForm from "./screens/MultiSignupForm.tsx";
 import StarReview from "./screens/StarReview.tsx";
+import Timer from "./screens/Timer.tsx";
 import "./styles.scss";
 
 createRoot(document.getElementById("root")!).render(
@@ -24,6 +25,7 @@ createRoot(document.getElementById("root")!).render(
         <Route path={ROUTES.CART} element={<Cart />} />
         <Route path={ROUTES.FORM_VALIDATION} element={<BasicForm />} />
         <Route path={ROUTES.STAR_REVIEW} element={<StarReview />} />
+        <Route path={ROUTES.TIMER} element={<Timer />} />
         <Route path={ROUTES.MULTI_SIGN_UP} element={<MultiSignupForm />} />
       </AllRoutes>
     </Router>
