@@ -1,8 +1,8 @@
+import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import useCounter from "@/hooks/useCounter";
 import { millisecondsToSeconds } from "date-fns";
-import Layout from "./components/Layout";
-import useCounter from "./hooks/useCounter";
 
 const TEST_INIT_VAL = 4;
 const TEST_WAIT_MILLISECONDS = 2000;

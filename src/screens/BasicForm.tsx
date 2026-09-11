@@ -1,8 +1,8 @@
-import DateField from "./components/DateField";
-import Layout from "./components/Layout";
-import { Alert, AlertDescription, AlertTitle } from "./components/ui/alert";
-import { Button } from "./components/ui/button";
-import { Checkbox } from "./components/ui/checkbox";
+import DateField from "@/components/DateField";
+import Layout from "@/components/Layout";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Field,
   FieldDescription,
@@ -11,10 +11,10 @@ import {
   FieldLegend,
   FieldSeparator,
   FieldSet,
-} from "./components/ui/field";
-import { Input } from "./components/ui/input";
-import { threeYearRange } from "./constants";
-import useBasicForm from "./hooks/useBasicForm";
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { threeYearRange } from "@/constants";
+import useBasicForm from "@/hooks/useBasicForm";
 
 const BasicForm = () => {
   const formHeading = (

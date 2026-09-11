@@ -1,3 +1,7 @@
+import CartItemRow from "@/components/CartItemRow";
+import Layout from "@/components/Layout";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableCell,
@@ -6,12 +10,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import CartItemRow from "./components/CartItemRow";
-import Layout from "./components/Layout";
-import { Alert, AlertDescription, AlertTitle } from "./components/ui/alert";
-import { Button } from "./components/ui/button";
-import useCart from "./hooks/useCart";
-import type { CartItemDisplay } from "./types/Cart";
+import useCart from "@/hooks/useCart";
+import type { CartItemDisplay } from "@/types/Cart";
 
 const Cart = () => {
   const {

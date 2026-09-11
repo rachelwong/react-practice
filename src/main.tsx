@@ -7,12 +7,12 @@ import {
   BrowserRouter as Router,
 } from "react-router";
 import App from "./App.tsx";
-import BasicForm from "./BasicForm.tsx";
-import Cart from "./Cart.tsx";
-import Counter from "./Counter.tsx";
-import MultiSignupForm from "./MultiSignupForm.tsx";
-import StarReview from "./StarReview.tsx";
 import "./index.css";
+import BasicForm from "./screens/BasicForm.tsx";
+import Cart from "./screens/Cart.tsx";
+import Counter from "./screens/Counter.tsx";
+import MultiSignupForm from "./screens/MultiSignupForm.tsx";
+import StarReview from "./screens/StarReview.tsx";
 import "./styles.scss";
 
 createRoot(document.getElementById("root")!).render(

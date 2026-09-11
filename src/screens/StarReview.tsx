@@ -1,10 +1,10 @@
+import Layout from "@/components/Layout";
+import Star from "@/components/Star";
+import { Alert, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Field, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 import { useCallback, useMemo, useState, type ChangeEvent } from "react";
-import Layout from "./components/Layout";
-import Star from "./components/Star";
-import { Alert, AlertTitle } from "./components/ui/alert";
-import { Button } from "./components/ui/button";
-import { Field, FieldLabel } from "./components/ui/field";
-import { Input } from "./components/ui/input";
 
 const TEST_STAR_VALUE = 5;
 const TEST_MAX_STAR_VALUE = 10;
