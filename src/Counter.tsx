@@ -16,13 +16,18 @@ const Counter = () => {
   const secondsWait = millisecondsToSeconds(TEST_WAIT_MILLISECONDS);
 
   return (
-    <Layout>
-      <h3>Counter</h3>
-      <p>Limits: whole positive integers with optional maximum limit</p>
-      <p>
-        Prevents rapid double click of buttons with a {secondsWait} second
-        {secondsWait > 1 ? "s" : ""} wait
-      </p>
+    <Layout
+      heading={
+        <>
+          <h3>Counter</h3>
+          <p>Limits: whole positive integers with optional maximum limit</p>
+          <p>
+            Prevents rapid double click of buttons with a {secondsWait} second
+            {secondsWait > 1 ? "s" : ""} wait
+          </p>
+        </>
+      }
+    >
       <div className="flex items-center justify-start gap-x-6">
         <Button size="lg" disabled={isSubmitting.current} onClick={decrement}>
           - Subtract

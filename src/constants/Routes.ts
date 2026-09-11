@@ -1,6 +1,5 @@
-const ROUTES = {
-  HOME: '/',
-  COUNTER: '/counter'
-}
-
-export default ROUTES;
+export const ROUTES = {
+  HOME: "/",
+  COUNTER: "/counter",
+  CART: "/cart",
+} as const;
