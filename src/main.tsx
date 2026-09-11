@@ -1,3 +1,4 @@
+import { ROUTES } from "@/constants";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import {
@@ -6,9 +7,10 @@ import {
   BrowserRouter as Router,
 } from "react-router";
 import App from "./App.tsx";
+import BasicForm from "./BasicForm.tsx";
 import Cart from "./Cart.tsx";
-import { ROUTES } from "@/constants";
 import Counter from "./Counter.tsx";
+import MultiSignupForm from "./MultiSignupForm.tsx";
 import "./index.css";
 import "./styles.scss";
 
@@ -19,6 +21,8 @@ createRoot(document.getElementById("root")!).render(
         <Route path={ROUTES.HOME} element={<App />} />
         <Route path={ROUTES.COUNTER} element={<Counter />} />
         <Route path={ROUTES.CART} element={<Cart />} />
+        <Route path={ROUTES.FORM_VALIDATION} element={<BasicForm />} />
+        <Route path={ROUTES.MULTI_SIGN_UP} element={<MultiSignupForm />} />
       </AllRoutes>
     </Router>
   </StrictMode>,
