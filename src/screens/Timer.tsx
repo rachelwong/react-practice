@@ -8,10 +8,10 @@ const maxTimerSecondstimerValue = 3599; // 59:59 in mm:ss
 const Timer = () => {
   const [clockTime, setClock] = useState(new Date());
   const [timer, setTimer] = useState<number>(0);
-  const [playStatus, setPlayStatus] = useState<boolean>(true);
+  const [playStatus, setPlayStatus] = useState<boolean>(false); // false = stopped, true = start
 
   useEffect(() => {
-    if (playStatus) {
+    if (!playStatus) {
       return;
     }
     if (timer < maxTimerSecondstimerValue) {
@@ -23,7 +23,7 @@ const Timer = () => {
   }, [clockTime]);
 
   useEffect(() => {
-    if (playStatus) {
+    if (!playStatus) {
       return;
     }
     const timerId = setInterval(() => {
@@ -33,7 +33,7 @@ const Timer = () => {
   }, [playStatus]);
 
   const handleReset = () => {
-    setPlayStatus(true);
+    setPlayStatus(false);
     setTimer(0);
   };
 
@@ -54,7 +54,7 @@ const Timer = () => {
         size="lg"
         onClick={() => setPlayStatus((prev) => !prev)}
       >
-        {playStatus ? "Start" : "Stop"}
+        {playStatus ? "Stop" : "Start"}
       </Button>
       <Button variant="outline" size="lg" onClick={() => handleReset()}>
         Reset
