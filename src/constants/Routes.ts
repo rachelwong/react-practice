@@ -43,6 +43,7 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     title: "Dog Ceo list",
     description:
       "Display listing and persisting data across browser sessions. In progress to centralise state management.",
+    inProgress: true,
   },
   {
     route: ROUTES.CUSTOM_TEXTAREA,
@@ -53,6 +54,5 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.MULTI_SIGN_UP,
     title: "Multi-step Form",
     description: "useReducer to handle multi-step form validation",
-    inProgress: true,
   },
 ];
