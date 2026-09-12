@@ -10,6 +10,7 @@ export const ROUTES = {
   DOG_LIST: "/dog-ceos",
   CUSTOM_TEXTAREA: "/custom-textarea",
   MULTI_SIGN_UP: "/multi-sign-up",
+  CAROUSEL: "/carousel",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -54,5 +55,11 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.MULTI_SIGN_UP,
     title: "Multi-step Form",
     description: "useReducer to handle multi-step form validation",
+    inProgress: true,
+  },
+  {
+    route: ROUTES.CAROUSEL,
+    title: "Roll your own carousel",
+    description: "In component state management",
   },
 ];
