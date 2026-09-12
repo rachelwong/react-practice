@@ -85,6 +85,11 @@ function multiStepFormReducer(
           dateOfBirthError: action.payload,
         },
       };
+    case MultiStepFormActionType.UPDATE_STEP:
+      return {
+        ...state,
+        step: action.payload,
+      };
     default:
       return state;
   }

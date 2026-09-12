@@ -1,5 +1,6 @@
 import { GENDER_OPTIONS } from "@/constants";
 import {
+  MULTI_FORM_STEP_ACTION,
   MULTI_FORM_STEPS,
   MultiStepFormActionType,
   type MultiStepFormState,
@@ -36,6 +37,9 @@ export type MultiStepFormContextValue = {
   }) => void;
   validateDateOfBirth: () => void;
   genderOptions: SelectOptionType[];
+  onChangeStep: (
+    val: (typeof MULTI_FORM_STEP_ACTION)[keyof typeof MULTI_FORM_STEP_ACTION],
+  ) => void;
 };
 
 const initialState = {
@@ -170,6 +174,31 @@ export function MultiStepFormProvider({ children }: { children: ReactNode }) {
     validateDateOfBirth();
   };
 
+  const onChangeStep = (
+    val: (typeof MULTI_FORM_STEP_ACTION)[keyof typeof MULTI_FORM_STEP_ACTION],
+  ) => {
+    let currentStep = state.step;
+    let currentStepIndex = MULTI_FORM_STEPS.indexOf(currentStep);
+    let totalStepCount = MULTI_FORM_STEPS.length;
+    if (
+      val === MULTI_FORM_STEP_ACTION.NEXT &&
+      currentStepIndex + 1 <= totalStepCount
+    ) {
+      let nextStep = MULTI_FORM_STEPS[currentStepIndex + 1];
+      dispatch({
+        type: MultiStepFormActionType.UPDATE_STEP,
+        payload: nextStep,
+      });
+    } else if (val === MULTI_FORM_STEP_ACTION.BACK && currentStepIndex > 0) {
+      const prevStep = MULTI_FORM_STEPS[currentStepIndex - 1];
+      dispatch({
+        type: MultiStepFormActionType.UPDATE_STEP,
+        payload: prevStep,
+      });
+    }
+    return;
+  };
+
   return (
     <MultiStepFormContext.Provider
       value={{
@@ -185,6 +214,7 @@ export function MultiStepFormProvider({ children }: { children: ReactNode }) {
         onChangeDateOfBirth,
         validateDateOfBirth,
         genderOptions,
+        onChangeStep,
       }}
     >
       {children}

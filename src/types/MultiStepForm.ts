@@ -12,6 +12,11 @@ export const MULTI_FORM_STEPS = [
   FORM_STEP_ID.REVIEW,
 ];
 
+export const MULTI_FORM_STEP_ACTION = {
+  NEXT: "NEXT",
+  BACK: "BACK",
+};
+
 export type MultiStepFormData = {
   email: string; // account
   password: string; // account
@@ -46,6 +51,7 @@ export const MultiStepFormActionType = {
   SET_PASSWORD_ERROR: "SET_PASSWORD_ERROR",
   SET_NAME_ERROR: "SET_NAME_ERROR",
   SET_DOB_ERROR: "SET_DOB_ERROR",
+  UPDATE_STEP: "UPDATE_STEP",
 } as const;
 
 export type MultiStepFormAction =
@@ -88,4 +94,8 @@ export type MultiStepFormAction =
   | {
       type: typeof MultiStepFormActionType.SET_DOB_ERROR;
       payload: string | null;
+    }
+  | {
+      type: typeof MultiStepFormActionType.UPDATE_STEP;
+      payload: (typeof FORM_STEP_ID)[keyof typeof FORM_STEP_ID];
     };

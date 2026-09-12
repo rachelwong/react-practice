@@ -2,12 +2,22 @@ import AccountStep from "@/components/AccountStep";
 import Layout from "@/components/Layout";
 import ProfileStep from "@/components/ProfileStep";
 import ReviewStep from "@/components/ReviewStep";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useMultiStepForm } from "@/context/MultiStepFormContext";
-import { MULTI_FORM_STEPS } from "@/types/MultiStepForm";
+import {
+  FORM_STEP_ID,
+  MULTI_FORM_STEP_ACTION,
+  MULTI_FORM_STEPS,
+} from "@/types/MultiStepForm";
 
 const MultiSignupForm = () => {
-  const { state } = useMultiStepForm();
+  const { state, onChangeStep } = useMultiStepForm();
+  const formattedCurrentStep = MULTI_FORM_STEPS.indexOf(state.step) + 1;
+  const totalSteps = MULTI_FORM_STEPS.length;
+  const canProceed = MULTI_FORM_STEPS.indexOf(state.step) + 1 < totalSteps;
+  const canGoBack = !!MULTI_FORM_STEPS.indexOf(state.step);
+
   return (
     <Layout
       heading={
@@ -27,35 +37,29 @@ const MultiSignupForm = () => {
     >
       <Card className="w-full p-6">
         <h3 className="text-lg font-extrabold text-slate-900">
-          Step {JSON.stringify(state.step)} of {MULTI_FORM_STEPS.length}{" "}
-          {JSON.stringify(MULTI_FORM_STEPS.indexOf(state.step))}
+          Step {formattedCurrentStep} of {totalSteps}
         </h3>
-        <AccountStep />
-        <ProfileStep />
-        <ReviewStep />
-        {/* <div className="mt-6 nav flex flex-row justify-between align-center">
+        {state.step === FORM_STEP_ID.ACCOUNT && <AccountStep />}
+        {state.step === FORM_STEP_ID.PROFILE && <ProfileStep />}
+        {state.step === FORM_STEP_ID.REVIEW && <ReviewStep />}
+        <div className="mt-6 nav flex flex-row justify-between align-center">
           <Button
-            variant="outline"
-            disabled={!onSubmit}
-            onClick={() => {
-              if (onSubmit) {
-                onSubmit();
-              }
-            }}
+            size="lg"
+            variant="default"
+            disabled={!canGoBack}
+            onClick={() => onChangeStep(MULTI_FORM_STEP_ACTION.BACK)}
           >
             Back
           </Button>
           <Button
-            disabled={!onSubmit}
-            onClick={() => {
-              if (onSubmit) {
-                onSubmit();
-              }
-            }}
+            size="lg"
+            variant="default"
+            disabled={!canProceed}
+            onClick={() => onChangeStep(MULTI_FORM_STEP_ACTION.NEXT)}
           >
             Next
           </Button>
-        </div> */}
+        </div>
       </Card>
     </Layout>
   );
