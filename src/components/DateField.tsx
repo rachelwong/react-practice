@@ -32,30 +32,30 @@ const DateField = ({
 
   return (
     <div className="date-field">
-      <FieldLabel>{label && "Date"}</FieldLabel>
+      <FieldLabel className="text-md mb-2">{label || "Date"}</FieldLabel>
       <div className="grid grid-cols-3 gap-4">
-        {onDayChange && day && (
+        {onDayChange && (
           <SelectField
             label="Day"
             onChange={onDayChange}
             selectOptions={dayValues}
-            value={day}
+            value={day ?? ""}
           />
         )}
-        {onMonthChange && month && (
+        {onMonthChange && (
           <SelectField
             label="Month"
             onChange={onMonthChange}
             selectOptions={monthsValues}
-            value={month}
+            value={month ?? ""}
           />
         )}
-        {!!yearValues?.length && onYearChange && year && (
+        {!!yearValues?.length && onYearChange && (
           <SelectField
             label="Year"
             onChange={onYearChange}
             selectOptions={yearsValues}
-            value={year}
+            value={year ?? ""}
           />
         )}
       </div>

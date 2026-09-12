@@ -31,7 +31,9 @@ const SelectField = ({
 }: SelectFieldProps) => {
   return (
     <Field className={classNames("w-full", classnames)}>
-      <FieldLabel htmlFor={`select-${label}`}>{label}</FieldLabel>
+      <FieldLabel className="text-sm" htmlFor={`select-${label}`}>
+        {label}
+      </FieldLabel>
       <Select
         items={selectOptions}
         value={value}

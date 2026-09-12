@@ -1,5 +1,5 @@
 import { DateTimeFormat } from "@/constants";
-import { differenceInYears, isMatch, parse } from "date-fns";
+import { differenceInYears, getYear, isMatch, parse, subYears } from "date-fns";
 
 // checks the string is a real calendar date in dd/MM/yyyy (rejects 31/02/2020, 29/02/2023, etc.)
 export const isValidDateString = ({
@@ -25,4 +25,12 @@ export const isOver18 = ({
   }
   const providedDate = parse(dateOfBirth, dateFormat, new Date());
   return differenceInYears(asOfDate || new Date(), providedDate) >= 18;
+};
+
+// x number of years *including* this year
+export const getNumPreviousYears = (howManyYearsAgo: number): number[] => {
+  const currentDate = new Date();
+  return Array.from(Array(howManyYearsAgo).keys()).map((amount) =>
+    getYear(subYears(currentDate, amount)),
+  );
 };

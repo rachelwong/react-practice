@@ -12,6 +12,7 @@ const ProfileStep = () => {
     onChangeGender,
     genderOptions,
     onChangeDateOfBirth,
+    yearValues,
   } = useMultiStepForm();
   return (
     <div className="flex flex-col gap-y-4 bg-amber-100">
@@ -33,6 +34,7 @@ const ProfileStep = () => {
         day={formData.dateOfBirth.day}
         month={formData.dateOfBirth.month}
         year={formData.dateOfBirth.year}
+        yearValues={yearValues}
         onDayChange={(val) => onChangeDateOfBirth({ day: val })}
         onMonthChange={(val) => onChangeDateOfBirth({ month: val })}
         onYearChange={(val) => onChangeDateOfBirth({ year: val })}

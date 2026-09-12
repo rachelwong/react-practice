@@ -29,6 +29,7 @@ const AccountStep = () => {
         <FieldLabel>Password</FieldLabel>
         <Input
           placeholder="password"
+          type="password"
           value={formData.password}
           onBlur={(e) => {
             validatePassword(e.target.value);

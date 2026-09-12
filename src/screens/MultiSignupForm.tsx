@@ -12,11 +12,9 @@ import {
 } from "@/types/MultiStepForm";
 
 const MultiSignupForm = () => {
-  const { state, onChangeStep } = useMultiStepForm();
+  const { state, onChangeStep, canProceed, canGoBack } = useMultiStepForm();
   const formattedCurrentStep = MULTI_FORM_STEPS.indexOf(state.step) + 1;
   const totalSteps = MULTI_FORM_STEPS.length;
-  const canProceed = MULTI_FORM_STEPS.indexOf(state.step) + 1 < totalSteps;
-  const canGoBack = !!MULTI_FORM_STEPS.indexOf(state.step);
 
   return (
     <Layout
@@ -39,6 +37,8 @@ const MultiSignupForm = () => {
         <h3 className="text-lg font-extrabold text-slate-900">
           Step {formattedCurrentStep} of {totalSteps}
         </h3>
+        <p>canProceed {JSON.stringify(canProceed)}</p>
+        <p>{JSON.stringify(state.formData)}</p>
         {state.step === FORM_STEP_ID.ACCOUNT && <AccountStep />}
         {state.step === FORM_STEP_ID.PROFILE && <ProfileStep />}
         {state.step === FORM_STEP_ID.REVIEW && <ReviewStep />}
@@ -57,7 +57,7 @@ const MultiSignupForm = () => {
             disabled={!canProceed}
             onClick={() => onChangeStep(MULTI_FORM_STEP_ACTION.NEXT)}
           >
-            Next
+            {state.step === FORM_STEP_ID.REVIEW ? "Submit" : "Next"}
           </Button>
         </div>
       </Card>
