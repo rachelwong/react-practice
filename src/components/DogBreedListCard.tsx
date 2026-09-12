@@ -84,49 +84,51 @@ const DogBreedListCard = ({
         Number of sub-breeds:{"  "}
         <span className="font-extrabold">{breed.numSubBreeds}</span>
       </CardContent>
-      <CardFooter
-        className={classNames({
-          "bg-neutral-100": !isDisabled && !isSelected,
-          "border-neutral-300 bg-neutral-300 text-neutral-700":
-            !!isDisabled && !isSelected,
-          "bg-green-100 text-green-900": !isDisabled && isSelected,
-        })}
-      >
-        <CardAction className="flex flex-col w-full">
-          <Field>
-            <FieldLabel>Specify number of images to display</FieldLabel>
-          </Field>
-          <FieldContent className="w-full flex justify-between flex-row gap-x-6 align-center mt-4">
-            <Input
-              className="w-full "
-              max="10"
-              type="number"
-              min="1"
-              disabled={!!isDisabled && !isSelected}
-              placeholder="Number of images"
-              aria-disabled={(!!isDisabled && !isSelected) || undefined}
-              onChange={(e) => handleImageNum(e)}
-            />
-            <Button
-              variant="default"
-              disabled={!!isDisabled && !isSelected}
-              onClick={() =>
-                updateImageNumber({
-                  breedName: breed.name,
-                  imageNum,
-                })
-              }
-            >
-              Confirm
-            </Button>
-          </FieldContent>
-          {!!imageNumError && (
-            <p className="text-sm text-red-900 mt-2">
-              Number must be 1 or larger with no decimals.
-            </p>
-          )}
-        </CardAction>
-      </CardFooter>
+      {!isDisabled && isSelected && (
+        <CardFooter
+          className={classNames({
+            "bg-neutral-100": !isDisabled && !isSelected,
+            "border-neutral-300 bg-neutral-300 text-neutral-700":
+              !!isDisabled && !isSelected,
+            "bg-green-100 text-green-900": !isDisabled && isSelected,
+          })}
+        >
+          <CardAction className="flex flex-col w-full">
+            <Field>
+              <FieldLabel>Specify number of images to display</FieldLabel>
+            </Field>
+            <FieldContent className="w-full flex justify-between flex-row gap-x-6 align-center mt-4">
+              <Input
+                className="w-full "
+                max="10"
+                type="number"
+                min="1"
+                disabled={!!isDisabled && !isSelected}
+                placeholder="Number of images"
+                aria-disabled={(!!isDisabled && !isSelected) || undefined}
+                onChange={(e) => handleImageNum(e)}
+              />
+              <Button
+                variant="default"
+                disabled={!!isDisabled && !isSelected}
+                onClick={() =>
+                  updateImageNumber({
+                    breedName: breed.name,
+                    imageNum,
+                  })
+                }
+              >
+                Confirm
+              </Button>
+            </FieldContent>
+            {!!imageNumError && (
+              <p className="text-sm text-red-900 mt-2">
+                Number must be 1 or larger with no decimals.
+              </p>
+            )}
+          </CardAction>
+        </CardFooter>
+      )}
     </Card>
   );
 };

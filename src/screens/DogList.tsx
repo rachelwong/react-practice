@@ -76,7 +76,7 @@ const DogList = () => {
   };
 
   useEffect(() => {
-    if (selectedBreeds.length) {
+    if (selectedBreeds?.length) {
       setSelectedBreeds((prev) =>
         prev.map((breed) => {
           return {
@@ -86,7 +86,7 @@ const DogList = () => {
         }),
       );
     }
-  }, [selectedBreeds.map((x) => x.name)]);
+  }, [selectedBreeds?.map((x) => x.name)]);
 
   useEffect(() => {
     // Double firing in DEV due to StrictMode
@@ -177,13 +177,13 @@ const DogList = () => {
         <div className="selected-dog-images w-1/2 pl-4 flex flex-col">
           <h2 className="font-bold text-lg">Selected breeds</h2>
           <div className="mt-6 flex flex-col gap-y-6">
-            {!selectedBreeds.length && (
+            {!selectedBreeds?.length && (
               <Alert className="w-full border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-50 my-3">
                 <AlertDescription>No breeds selected</AlertDescription>
               </Alert>
             )}
-            {selectedBreeds.length > 0 &&
-              selectedBreeds.map((breed) => (
+            {selectedBreeds?.length > 0 &&
+              selectedBreeds?.map((breed) => (
                 <DogBreedImageCard key={breed.name} breed={breed} />
               ))}
           </div>
