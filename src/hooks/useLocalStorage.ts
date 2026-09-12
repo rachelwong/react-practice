@@ -1,35 +1,62 @@
-const useLocalStorage = <T>({ key, value }: { key?: string; value?: T }) => {
-  const storedLocalStorage = (): T | undefined => {
-    if (!!key && !!localStorage.getItem(key)) {
-      const item = JSON.parse(localStorage.getItem(key) || "{}");
-      return item;
+import { useState } from "react";
+
+type SetValue<T> = T | ((prevValue: T) => T);
+
+const useLocalStorage = <T>({
+  key,
+  initialValue,
+}: {
+  key: string;
+  initialValue?: T | (() => T);
+}) => {
+  const [value, setStoredValue] = useState<T | undefined>(() => {
+    const initialValueToUse =
+      initialValue instanceof Function ? initialValue() : initialValue;
+
+    try {
+      const rawLocalStorage = window.localStorage.getItem(key);
+      // TODO: the parsed value is trusted as `T` with no runtime validation -
+      // a stale/corrupted entry of a different shape will silently flow
+      // through as if it matched `T`.
+      return rawLocalStorage ? JSON.parse(rawLocalStorage) : initialValueToUse;
+    } catch (err) {
+      console.error(`Error reading localStorage key "${key}": ${err}`);
+      return initialValueToUse;
+    }
+  });
+
+  const setValue = (nextValueOrUpdater: SetValue<T>) => {
+    setStoredValue((prev) => {
+      const nextValue =
+        nextValueOrUpdater instanceof Function
+          ? nextValueOrUpdater(prev as T)
+          : nextValueOrUpdater;
+
+      console.log("useLocalStorage setValue", key, nextValue);
+
+      try {
+        window.localStorage.setItem(key, JSON.stringify(nextValue));
+        return nextValue;
+      } catch (err) {
+        console.error(`Error setting localStorage key "${key}": ${err}`);
+        return prev;
+      }
+    });
+  };
+
+  const removeValue = () => {
+    try {
+      window.localStorage.removeItem(key);
+      setStoredValue(undefined);
+    } catch (err) {
+      console.error(`Error removing localStorage key "${key}": ${err}`);
     }
   };
 
-  const updateLocalStorage = () => {
-    if (!key || !localStorage.getItem(key)) {
-      return null; // TODO should it?
-    }
-    localStorage.setItem(key, JSON.stringify(value));
-  };
-
-  const removeLocalStorage = () => {
-    if (!key || !localStorage.getItem(key)) {
-      return null; // TODO should it?
-    }
-    localStorage.removeItem(key);
-  };
-
-  const clearLocalStorage = () => {
-    localStorage.clear();
-  };
-
-  return {
-    storedLocalStorage,
-    updateLocalStorage,
-    removeLocalStorage,
-    clearLocalStorage,
-  };
+  // TODO: no cross-tab / same-tab sync - if another tab, or another
+  // component instance using this same key, writes to localStorage, this
+  // hook's value will not update to reflect it.
+  return [value, setValue, removeValue] as const;
 };
 
 export default useLocalStorage;
