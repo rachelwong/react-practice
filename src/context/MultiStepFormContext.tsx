@@ -11,6 +11,7 @@ import {
   validName,
   validPassword,
 } from "@/utils";
+import { isOver18, isValidDateString } from "@/utils/DateTimeUtils";
 import { createContext, useContext, useReducer, type ReactNode } from "react";
 import multiStepFormReducer from "./MultiStepFormReducer";
 
@@ -24,6 +25,16 @@ export type MultiStepFormContextValue = {
   validateEmail: (val: string) => void;
   validateName: (val: string) => void;
   onChangeGender: (val: string) => void;
+  onChangeDateOfBirth: ({
+    day,
+    month,
+    year,
+  }: {
+    day?: string;
+    month?: string;
+    year?: string;
+  }) => void;
+  validateDateOfBirth: () => void;
   genderOptions: SelectOptionType[];
 };
 
@@ -33,8 +44,12 @@ const initialState = {
     email: "",
     name: "",
     password: "",
-    dateOfBirth: "",
-    gender: undefined,
+    dateOfBirth: {
+      day: "",
+      month: "",
+      year: "",
+    },
+    gender: "",
     emailError: null,
     passwordError: null,
     nameError: null,
@@ -104,6 +119,57 @@ export function MultiStepFormProvider({ children }: { children: ReactNode }) {
   const onFormSubmit = () => {};
 
   const genderOptions = convertForSelect(GENDER_OPTIONS);
+
+  const validateDateOfBirth = () => {
+    const dobStr = `${state.formData.dateOfBirth.day}/${state.formData.dateOfBirth.month}/${state.formData.dateOfBirth.year}`;
+
+    // check if invalid date || empty date
+    if (!isValidDateString({ date: dobStr })) {
+      dispatch({
+        type: MultiStepFormActionType.SET_DOB_ERROR,
+        payload: "Invalid date of birth provided. Please try again.",
+      });
+      return;
+    }
+    // check if under 18
+    else if (!isOver18({ dateOfBirth: dobStr })) {
+      dispatch({
+        type: MultiStepFormActionType.SET_DOB_ERROR,
+        payload: "You must be over the age of 18 in order to sign up.",
+      });
+      return;
+    }
+    dispatch({
+      type: MultiStepFormActionType.SET_DOB_ERROR,
+      payload: null,
+    });
+    return;
+  };
+
+  const onChangeDateOfBirth = ({
+    day,
+    month,
+    year,
+  }: {
+    day?: string;
+    month?: string;
+    year?: string;
+  }): void => {
+    dispatch({
+      type: MultiStepFormActionType.SET_DOB_ERROR,
+      payload: null,
+    });
+    dispatch({
+      type: MultiStepFormActionType.UPDATE_DOB,
+      payload: {
+        day: day || state.formData.dateOfBirth.day,
+        month: month || state.formData.dateOfBirth.month,
+        year: year || state.formData.dateOfBirth.year,
+      },
+    });
+    validateDateOfBirth();
+  };
+
   return (
     <MultiStepFormContext.Provider
       value={{
@@ -116,6 +182,8 @@ export function MultiStepFormProvider({ children }: { children: ReactNode }) {
         validateName,
         onChangeGender,
         onChangeName,
+        onChangeDateOfBirth,
+        validateDateOfBirth,
         genderOptions,
       }}
     >

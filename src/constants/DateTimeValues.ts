@@ -35,3 +35,9 @@ export const threeYearRange = [
   currentYearStart.getFullYear(),
   ...nextThreeYears,
 ].sort((a, b) => a - b);
+
+export const daysOfMonth = Array.from(Array(31).keys());
+
+export const DateTimeFormat = {
+  DMY: "dd/MM/yyyy",
+};

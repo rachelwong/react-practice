@@ -16,8 +16,12 @@ export type MultiStepFormData = {
   email: string; // account
   password: string; // account
   name: string; // profile
-  dateOfBirth: string;
-  gender?: (typeof GENDER)[keyof typeof GENDER];
+  dateOfBirth: {
+    day: string;
+    month: string;
+    year: string;
+  };
+  gender: (typeof GENDER)[keyof typeof GENDER];
 };
 
 export type MultiStepFormError = {
@@ -59,7 +63,11 @@ export type MultiStepFormAction =
     }
   | {
       type: typeof MultiStepFormActionType.UPDATE_DOB;
-      payload: string;
+      payload: {
+        day: string;
+        month: string;
+        year: string;
+      };
     }
   | {
       type: typeof MultiStepFormActionType.UPDATE_GENDER;

@@ -1,5 +1,7 @@
 import AccountStep from "@/components/AccountStep";
 import Layout from "@/components/Layout";
+import ProfileStep from "@/components/ProfileStep";
+import ReviewStep from "@/components/ReviewStep";
 import { Card } from "@/components/ui/card";
 import { useMultiStepForm } from "@/context/MultiStepFormContext";
 import { MULTI_FORM_STEPS } from "@/types/MultiStepForm";
@@ -28,10 +30,9 @@ const MultiSignupForm = () => {
           Step {JSON.stringify(state.step)} of {MULTI_FORM_STEPS.length}{" "}
           {JSON.stringify(MULTI_FORM_STEPS.indexOf(state.step))}
         </h3>
-
-        <p>on parent email {JSON.stringify(state.formData.email)}</p>
-        <p>on parent password {JSON.stringify(state.formData.password)}</p>
         <AccountStep />
+        <ProfileStep />
+        <ReviewStep />
         {/* <div className="mt-6 nav flex flex-row justify-between align-center">
           <Button
             variant="outline"

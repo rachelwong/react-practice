@@ -1,28 +1,22 @@
 import { useMultiStepForm } from "@/context/MultiStepFormContext";
 import { Input } from "@base-ui/react/input";
 import DateField from "./DateField";
+import SelectField from "./SelectField";
 import { Field, FieldLabel } from "./ui/field";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
 
 const ProfileStep = () => {
   const {
     state: { formData },
     onChangeName,
     validateName,
+    onChangeGender,
     genderOptions,
+    onChangeDateOfBirth,
   } = useMultiStepForm();
   return (
-    <div className="flex flex-col gap-y-4">
+    <div className="flex flex-col gap-y-4 bg-amber-100">
       <Field>
-        <FieldLabel>Email</FieldLabel>
+        <FieldLabel>Name</FieldLabel>
         <Input
           type="text"
           value={formData.name}
@@ -34,25 +28,21 @@ const ProfileStep = () => {
       {!!formData.nameError && (
         <p className="text-bold text-xs text-red-900">{formData.nameError}</p>
       )}
-      <DateField />
-      <Field>
-        <FieldLabel>Gender</FieldLabel>
-        <Select items={genderOptions}>
-          <SelectTrigger className="w-full max-w-48">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Gender</SelectLabel>
-              {genderOptions.map((gender) => (
-                <SelectItem key={gender.value} value={gender.value}>
-                  {gender.label}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </Field>
+      <DateField
+        label="Date of Birth"
+        day={formData.dateOfBirth.day}
+        month={formData.dateOfBirth.month}
+        year={formData.dateOfBirth.year}
+        onDayChange={(val) => onChangeDateOfBirth({ day: val })}
+        onMonthChange={(val) => onChangeDateOfBirth({ month: val })}
+        onYearChange={(val) => onChangeDateOfBirth({ year: val })}
+      />
+      <SelectField
+        selectOptions={genderOptions}
+        value={formData.gender}
+        onChange={onChangeGender}
+        label={"Gender"}
+      />
     </div>
   );
 };

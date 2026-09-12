@@ -38,7 +38,11 @@ function multiStepFormReducer(
         ...state,
         formData: {
           ...state.formData,
-          dateOfBirth: action.payload,
+          dateOfBirth: {
+            day: action.payload.day,
+            month: action.payload.month,
+            year: action.payload.year,
+          },
         },
       };
     case MultiStepFormActionType.UPDATE_GENDER:

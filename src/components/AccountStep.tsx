@@ -11,10 +11,7 @@ const AccountStep = () => {
     validatePassword,
   } = useMultiStepForm();
   return (
-    <div className="flex flex-col gap-y-4">
-      <p>on account email {JSON.stringify(formData.email)}</p>
-      <p>on accountpassword {JSON.stringify(formData.password)}</p>
-
+    <div className="flex flex-col gap-y-4 bg-pink-100">
       <Field>
         <FieldLabel>Email</FieldLabel>
         <Input
