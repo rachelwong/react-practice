@@ -1,4 +1,6 @@
+import { Badge } from "@/components/ui/badge";
 import { ROUTE_CONFIG } from "@/constants";
+import { BookmarkIcon } from "lucide-react";
 import { Link } from "react-router";
 import Layout from "./components/Layout";
 import { Button } from "./components/ui/button";
@@ -25,6 +27,12 @@ function App() {
                   <CardTitle className="text-lg font-extrabold text-center">
                     <h3>{config.title}</h3>
                   </CardTitle>
+                  {config.inProgress && (
+                    <Badge className="mx-auto" variant="outline">
+                      <BookmarkIcon />
+                      <span>In progress</span>
+                    </Badge>
+                  )}
                 </CardHeader>
                 {config.description && (
                   <CardContent className="text-xs text-slate-900 w-full text-center">
