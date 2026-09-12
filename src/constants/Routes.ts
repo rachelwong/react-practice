@@ -33,14 +33,15 @@ export const ROUTE_CONFIG: RouteConfig[] = [
       "useMemo & useCallback to handle onMouseEnter & onMouseOut events",
   },
   {
-    route: ROUTES.STAR_REVIEW,
+    route: ROUTES.TIMER,
     title: "Timer",
     description: "useEffect & cleanup setInterval",
   },
   {
     route: ROUTES.DOG_LIST,
     title: "Dog Ceo list",
-    description: "Display listing and persisting data across browser sessions",
+    description:
+      "Display listing and persisting data across browser sessions. In progress to centralise state management.",
   },
   {
     route: ROUTES.MULTI_SIGN_UP,
