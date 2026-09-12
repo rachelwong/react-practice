@@ -8,6 +8,7 @@ export const ROUTES = {
   STAR_REVIEW: "/stars-review",
   TIMER: "/timer",
   DOG_LIST: "/dog-ceos",
+  CUSTOM_TEXTAREA: "/custom-textarea",
   MULTI_SIGN_UP: "/multi-sign-up",
 } as const;
 
@@ -42,6 +43,11 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     title: "Dog Ceo list",
     description:
       "Display listing and persisting data across browser sessions. In progress to centralise state management.",
+  },
+  {
+    route: ROUTES.CUSTOM_TEXTAREA,
+    title: "Custom Textarea",
+    description: "Controlled custom text area component",
   },
   {
     route: ROUTES.MULTI_SIGN_UP,
