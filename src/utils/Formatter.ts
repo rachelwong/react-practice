@@ -1,3 +1,4 @@
+import type { SelectOptionType } from "@/types/Select";
 import { intervalToDuration } from "date-fns";
 
 export const CurrencyFormatter = new Intl.NumberFormat("en-AU", {
@@ -6,7 +7,9 @@ export const CurrencyFormatter = new Intl.NumberFormat("en-AU", {
 });
 
 // small utils to convert any array into label/value objects for dropdown
-export const convertForSelect = (values: string[] | number[]) => {
+export const convertForSelect = (
+  values: string[] | number[],
+): SelectOptionType[] => {
   return values.map((x: string | number) => {
     return {
       label: x.toString(),

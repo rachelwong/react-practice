@@ -7,6 +7,7 @@ import {
   BrowserRouter as Router,
 } from "react-router";
 import App from "./App.tsx";
+import { MultiStepFormProvider } from "./context/MultiStepFormContext.tsx";
 import "./index.css";
 import BasicForm from "./screens/BasicForm.tsx";
 import Cart from "./screens/Cart.tsx";
@@ -30,12 +31,15 @@ createRoot(document.getElementById("root")!).render(
         <Route path={ROUTES.TIMER} element={<Timer />} />
         <Route path={ROUTES.DOG_LIST} element={<DogList />} />
         <Route path={ROUTES.CUSTOM_TEXTAREA} element={<CustomTextArea />} />
-        <Route path={ROUTES.MULTI_SIGN_UP}>
-          <Route index element={<MultiSignupForm />} />
-          <Route path="account" element={<MultiSignupForm />} />
-          <Route path="profile" element={<MultiSignupForm />} />
-          <Route path="review" element={<MultiSignupForm />} />
-        </Route>
+
+        <Route
+          path={ROUTES.MULTI_SIGN_UP}
+          element={
+            <MultiStepFormProvider>
+              <MultiSignupForm />
+            </MultiStepFormProvider>
+          }
+        />
       </AllRoutes>
     </Router>
   </StrictMode>,
