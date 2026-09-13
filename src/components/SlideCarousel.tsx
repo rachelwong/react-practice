@@ -179,16 +179,28 @@ const SlideCarousel = ({
       {imageUrls.map((url, index) => {
         const distanceOffset =
           getImageSlot({ imageIndex: index, currentIndex }) + slideBy;
+
+        // image is not current/next/previous
+        const imageNotImminent =
+          Math.abs(getImageSlot({ imageIndex: index, currentIndex })) === 2;
+
         return (
           <div
             key={url}
             className={classNames(
               "absolute top-0 left-0 right-0 bottom-0 block w-full h-full",
               {
-                "transition-transform duration-300 ease-out": !skipTransition,
+                "transition-transform duration-300 ease-out":
+                  !skipTransition && !imageNotImminent,
+                "z-4": !imageNotImminent,
               },
             )}
             style={{
+              // moves images that are not current/next/previous
+              // lower down so they don't accidentally appear (they are z-index 0)
+              // current on very top, followed by immediately next/previous, followed finally by far away images
+              zIndex:
+                2 - Math.abs(getImageSlot({ imageIndex: index, currentIndex })),
               transform: `translateX(${distanceOffset * 100}%)`,
             }}
           >

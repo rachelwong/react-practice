@@ -1,4 +1,5 @@
 import Layout from "@/components/Layout";
+import NoSlideCarousel from "@/components/NoSlideCarousel";
 import SlideCarousel from "@/components/SlideCarousel";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -73,6 +74,12 @@ const Carousel = () => {
       )}
       {!loading && imageUrls.length && (
         <>
+          <h2 className="text-2xl font-extrabold mb-2">No Slide</h2>
+          <NoSlideCarousel
+            className="my-4"
+            totalImages={totalImages}
+            imageUrls={imageUrls}
+          />
           <h1 className="text-2xl font-extrabold mb-2">
             Sliding with CSS transition{" "}
             <span className="text-sm">(Claude Code helped with solution)</span>
@@ -82,8 +89,6 @@ const Carousel = () => {
             totalImages={totalImages}
             imageUrls={imageUrls}
           />
-
-          <h2 className="text-2xl font-extrabold mb-2">No Slide</h2>
         </>
       )}
     </Layout>
