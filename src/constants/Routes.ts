@@ -14,6 +14,7 @@ export const ROUTES = {
   ACCORDION: "/accordion",
   COPY: "/copy",
   ASYNC_VALIDATION: "/async-validation",
+  MUSIC_PLAYER: "/music",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -79,5 +80,10 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.ASYNC_VALIDATION,
     title: "Async Field Validation",
     description: "Mock email validation",
+  },
+  {
+    route: ROUTES.MUSIC_PLAYER,
+    title: "iTunes Music Player",
+    description: "Global Context & iTunes Search API",
   },
 ];
