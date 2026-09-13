@@ -16,7 +16,7 @@ const MusicPlayer = () => {
           <h3>Music player</h3>
           <p>
             Original brief from{" "}
-            <Link to="/public/flip_code_challenge_fe.pdf" target="_blank">
+            <Link to="/flip_code_challenge_fe.pdf" target="_blank">
               Open file here
             </Link>
           </p>
