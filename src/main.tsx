@@ -10,6 +10,7 @@ import App from "./App.tsx";
 import { MultiStepFormProvider } from "./context/MultiStepFormContext.tsx";
 import "./index.css";
 import AccordionList from "./screens/AccordionList.tsx";
+import AsyncFieldValidation from "./screens/AsyncFieldValidation.tsx";
 import BasicForm from "./screens/BasicForm.tsx";
 import Carousel from "./screens/Carousel.tsx";
 import Cart from "./screens/Cart.tsx";
@@ -46,6 +47,10 @@ createRoot(document.getElementById("root")!).render(
         <Route path={ROUTES.CAROUSEL} element={<Carousel />} />
         <Route path={ROUTES.ACCORDION} element={<AccordionList />} />
         <Route path={ROUTES.COPY} element={<CopyToClipboard />} />
+        <Route
+          path={ROUTES.ASYNC_VALIDATION}
+          element={<AsyncFieldValidation />}
+        />
       </AllRoutes>
     </Router>
   </StrictMode>,

@@ -13,6 +13,7 @@ export const ROUTES = {
   CAROUSEL: "/carousel",
   ACCORDION: "/accordion",
   COPY: "/copy",
+  ASYNC_VALIDATION: "/async-validation",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -73,5 +74,10 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.COPY,
     title: "Copy to Clipboard",
     description: "With custom hook",
+  },
+  {
+    route: ROUTES.ASYNC_VALIDATION,
+    title: "Async Field Validation",
+    description: "Mock email validation",
   },
 ];
