@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react";
 import { Button } from "./ui/button";
 
 const NoSlideCarousel = ({
@@ -11,8 +12,32 @@ const NoSlideCarousel = ({
   imageUrls: string[];
   totalImages: number;
 }) => {
-  const onLeftClick = () => {};
-  const onRightClick = () => {};
+  // SSOT for index of image currently shown
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+
+  // decrement currentIndex but circle back to last if ended up on first
+  const onLeftClick = () => {
+    if (currentIndex === 0) {
+      setCurrentIndex(totalImages);
+      return;
+    }
+    if (currentIndex !== 0) {
+      setCurrentIndex((prev) => prev - 1);
+      return;
+    }
+  };
+
+  // increment currentIndex but circle back to first if ended up on last
+  const onRightClick = () => {
+    if (currentIndex === totalImages) {
+      setCurrentIndex(0);
+      return;
+    }
+    if (currentIndex !== totalImages) {
+      setCurrentIndex((prev) => prev + 1);
+      return;
+    }
+  };
 
   return (
     <div
@@ -45,7 +70,31 @@ const NoSlideCarousel = ({
           </Button>
         </div>
       </div>
-      NoSlideCarousel
+      {imageUrls.map((url, index) => {
+        return (
+          <div
+            key={url}
+            className={classNames(
+              "image-holder",
+              "absolute top-0 left-0 right-0 bottom-0 block w-full h-full",
+              {
+                hidden: index !== currentIndex,
+              },
+            )}
+          >
+            <div className="absolute top-2 right-2 block border-3 border-red-900 block bg-slate-300 z-10 p-3">
+              <h1 className="text-lg font-extrabold text-white-900">
+                {index} / {totalImages}
+              </h1>
+            </div>
+            <img
+              src={url}
+              alt={`carousel-image--${index}`}
+              className={classNames("object-cover block w-full h-full")}
+            />
+          </div>
+        );
+      })}
     </div>
   );
 };

@@ -210,7 +210,6 @@ const SlideCarousel = ({
               </h1>
             </div>
             <img
-              key={url}
               src={url}
               alt={`carousel-image--${index}`}
               className={classNames(
