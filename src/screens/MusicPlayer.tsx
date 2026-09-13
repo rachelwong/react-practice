@@ -32,19 +32,6 @@ const MusicPlayer = () => {
         </>
       }
     >
-      <p>searchResults {JSON.stringify(searchResults.length)}</p>
-      <p>activeTrack {JSON.stringify(activeTrack?.trackName)}</p>
-      <p>
-        activeAlbum{" "}
-        {JSON.stringify(
-          activeAlbum?.map((x) => x.wrapperType === "track").length,
-        )}{" "}
-        {JSON.stringify(
-          activeAlbum.find((x) => x.wrapperType === "collection")
-            ?.collectionName,
-        )}
-      </p>
-
       <div className="relative flex flex-col justify-between border-3 border-red-400 h-150 overflow-y-auto bg-slate-100">
         {loadingSearch && (
           <div className="absolute w-full h-full top-0 left-0 bottom-0 right-0 bg-opacity-50 bg-slate-300 flex flex-row align-center justify-center transition-opacity duration-500 ease-in-out pointer-events-none">

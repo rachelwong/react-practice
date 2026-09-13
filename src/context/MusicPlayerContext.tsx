@@ -55,14 +55,13 @@ export function MusicPlayerProvider({ children }: { children: ReactNode }) {
   const getAlbumByTrack = async (id: string) => {
     setError(null);
 
-    if (!id || !activeTrack || !activeTrack?.collectionId) {
+    if (!id) {
       setError(`No active track selected with valid id to get album details`);
       return;
     }
 
     try {
       setLoadingSearch(true);
-
       const data = await getItunesAlbumTracks({
         id,
       });

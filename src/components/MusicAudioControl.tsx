@@ -27,7 +27,7 @@ const MusicAudioControl = ({ className }: { className?: string }) => {
   };
 
   return (
-    <div className={classNames("audio-player", className)}>
+    <div className={classNames("audio-player block h-auto w-fit", className)}>
       <audio ref={audioRef} src={activeTrack?.previewUrl} />
       <Button
         size="icon-lg"

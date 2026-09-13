@@ -8,7 +8,6 @@ const getItunesArtistSearch = async ({
 }): Promise<ItunesArtistSearchResponse | null> => {
   try {
     const param = encodeURIComponent(artist.trim().replace(/ /g, "+"));
-    console.log("param", artist, param);
     const baseUrl = `https://itunes.apple.com/search?&entity=musicTrack&term=${param}`;
 
     const { data } = await axios.get(baseUrl);
