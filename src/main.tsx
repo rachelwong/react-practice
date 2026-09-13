@@ -10,12 +10,12 @@ import App from "./App.tsx";
 import { MultiStepFormProvider } from "./context/MultiStepFormContext.tsx";
 import "./index.css";
 import BasicForm from "./screens/BasicForm.tsx";
+import Carousel from "./screens/Carousel.tsx";
 import Cart from "./screens/Cart.tsx";
 import Counter from "./screens/Counter.tsx";
 import CustomTextArea from "./screens/CustomTextArea.tsx";
 import DogList from "./screens/DogList.tsx";
 import MultiSignupForm from "./screens/MultiSignupForm.tsx";
-import SlideCarousel from "./screens/SlideCarousel.tsx";
 import StarReview from "./screens/StarReview.tsx";
 import Timer from "./screens/Timer.tsx";
 import "./styles.scss";
@@ -41,7 +41,7 @@ createRoot(document.getElementById("root")!).render(
             </MultiStepFormProvider>
           }
         />
-        <Route path={ROUTES.CAROUSEL} element={<SlideCarousel />} />
+        <Route path={ROUTES.CAROUSEL} element={<Carousel />} />
       </AllRoutes>
     </Router>
   </StrictMode>,
