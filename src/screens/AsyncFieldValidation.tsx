@@ -1,5 +1,5 @@
 import Layout from "@/components/Layout";
-import { Alert } from "@/components/ui/alert";
+import { Alert, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Field, FieldTitle } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -87,6 +87,12 @@ const AsyncFieldValidation = () => {
       }
     >
       <div className="container w-120 mx-auto my-0">
+        <Alert className="bg-amber-200">
+          <AlertTitle>
+            This exercise will not work as it's wired up with open source API
+            that has a CORS policy. Tested locally.
+          </AlertTitle>
+        </Alert>
         <Field>
           <FieldTitle>Email</FieldTitle>
           <Input
