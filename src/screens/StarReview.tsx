@@ -19,6 +19,10 @@ const StarReview = () => {
     (e: ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
       if (!isNaN(Number(e.target.value))) {
         setNumStars(Number(e.target.value));
+
+        // reset when number of rating has been changed
+        setRating(null);
+        setHoveredRating(null);
       }
     },
     [],
