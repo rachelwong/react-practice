@@ -11,6 +11,7 @@ export const ROUTES = {
   CUSTOM_TEXTAREA: "/custom-textarea",
   MULTI_SIGN_UP: "/multi-sign-up",
   CAROUSEL: "/carousel",
+  ACCORDION: "/accordion",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -60,6 +61,11 @@ export const ROUTE_CONFIG: RouteConfig[] = [
   {
     route: ROUTES.CAROUSEL,
     title: "Roll your own carousel",
+    description: "In component state management",
+  },
+  {
+    route: ROUTES.ACCORDION,
+    title: "Roll your own accordion",
     description: "In component state management",
   },
 ];

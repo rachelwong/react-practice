@@ -1,0 +1,23 @@
+{
+  "accordionTitle": "Frequently Asked Questions",
+  "items": [
+    {
+      "id": "faq-1",
+      "isOpenByDefault": true,
+      "title": "What is your return policy?",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eget est non nulla eleifend accumsan. Proin pulvinar, lectus vitae commodo dictum, velit odio dignissim sem, a luctus orci dui sit amet risus. Nulla facilisi. Sed fringilla vulputate tellus, ut venenatis est posuere quis. Proin quis interdum quam. Aenean vehicula placerat ex, et molestie neque tempus quis. In mollis sagittis ex, quis maximus lorem auctor a. Quisque convallis elit non neque lacinia, et blandit quam dignissim. Donec sed pellentesque lacus."
+    },
+    {
+      "id": "faq-2",
+      "isOpenByDefault": false,
+      "title": "How long does shipping take?",
+      "content": "Aenean diam felis, iaculis porttitor odio ut, pellentesque porttitor massa. Donec id bibendum sem. Etiam velit dui, mattis eu luctus bibendum, commodo id quam. Pellentesque at venenatis ligula, et ornare justo. Quisque porta pulvinar quam, ut luctus augue hendrerit ac. Maecenas euismod quam est, ut viverra quam mattis nec. Phasellus fringilla luctus velit non congue. Integer sollicitudin tristique neque, efficitur facilisis nibh rutrum quis. Nullam id ipsum ut risus hendrerit accumsan."
+    },
+    {
+      "id": "faq-3",
+      "isOpenByDefault": false,
+      "title": "Do you ship internationally?",
+      "content": "Yes, we ship to over 50 countries worldwide. Shipping fees and delivery times vary by destination."
+    }
+  ]
+}
