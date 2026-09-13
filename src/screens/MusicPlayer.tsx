@@ -7,8 +7,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { useMusicPlayerContext } from "@/context/MusicPlayerContext";
 
 const MusicPlayer = () => {
-  const { searchResults, activeTrack, activeAlbum, loadingSearch } =
-    useMusicPlayerContext();
+  const { activeTrack, loadingSearch } = useMusicPlayerContext();
   return (
     <Layout
       heading={
