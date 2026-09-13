@@ -12,6 +12,7 @@ export const ROUTES = {
   MULTI_SIGN_UP: "/multi-sign-up",
   CAROUSEL: "/carousel",
   ACCORDION: "/accordion",
+  COPY: "/copy",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -67,5 +68,10 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.ACCORDION,
     title: "Roll your own accordion",
     description: "In component state management",
+  },
+  {
+    route: ROUTES.COPY,
+    title: "Copy to Clipboard",
+    description: "With custom hook",
   },
 ];

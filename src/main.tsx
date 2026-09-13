@@ -13,6 +13,7 @@ import AccordionList from "./screens/AccordionList.tsx";
 import BasicForm from "./screens/BasicForm.tsx";
 import Carousel from "./screens/Carousel.tsx";
 import Cart from "./screens/Cart.tsx";
+import CopyToClipboard from "./screens/CopyToClipboard.tsx";
 import Counter from "./screens/Counter.tsx";
 import CustomTextArea from "./screens/CustomTextArea.tsx";
 import DogList from "./screens/DogList.tsx";
@@ -44,6 +45,7 @@ createRoot(document.getElementById("root")!).render(
         />
         <Route path={ROUTES.CAROUSEL} element={<Carousel />} />
         <Route path={ROUTES.ACCORDION} element={<AccordionList />} />
+        <Route path={ROUTES.COPY} element={<CopyToClipboard />} />
       </AllRoutes>
     </Router>
   </StrictMode>,
