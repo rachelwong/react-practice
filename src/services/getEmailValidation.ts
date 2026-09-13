@@ -5,10 +5,10 @@ const getEmailValidation = async (
   emailStr: string,
 ): Promise<EmailValidationResponse> => {
   // TODO could look at cloning corsAnywhere to deploy
-  const corsAnywhere = "https://cors-anywhere.herokuapp.com/";
+  // const corsAnywhere = "https://cors-anywhere.herokuapp.com/";
   const baseURL = `https://rapid-email-verifier.fly.dev/api/validate?email=${emailStr}`;
   try {
-    const { data } = await axios.get(corsAnywhere + baseURL);
+    const { data } = await axios.get(baseURL);
     return data;
   } catch (err) {
     console.error(`Error validating ${emailStr} error: ${err}`);
