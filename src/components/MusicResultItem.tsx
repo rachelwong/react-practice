@@ -1,8 +1,9 @@
 import { useMusicPlayerContext } from "@/context/MusicPlayerContext";
 import type { TrackResult } from "@/services/types/ItunesMusicSearchResponse";
+import MusicWaveSurfer from "./MusicWaveSurfer";
 
 const MusicResultItem = ({ track }: { track: TrackResult }) => {
-  const { onSelectTrack } = useMusicPlayerContext();
+  const { onSelectTrack, activeTrack } = useMusicPlayerContext();
   return (
     <button
       className="music-result-item flex relative flex-row align-stretch justify-between block border-1 border-slate-900"
@@ -27,7 +28,11 @@ const MusicResultItem = ({ track }: { track: TrackResult }) => {
           <p className="text-xs text-slate-500">{track.collectionName}</p>
         </div>
       </div>
-      <div className="sound-wave w-1/3">Sound wave goes here</div>
+      <div className="sound-wave w-1/3">
+        {!!activeTrack &&
+          activeTrack?.previewUrl &&
+          activeTrack?.trackId === track.trackId && <MusicWaveSurfer />}
+      </div>
     </button>
   );
 };

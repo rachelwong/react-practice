@@ -10,6 +10,7 @@ import {
   useRef,
   useState,
   type ChangeEvent,
+  type Dispatch,
   type ReactNode,
 } from "react";
 
@@ -21,10 +22,12 @@ export interface MusicPlayerContextType {
   loadingSearch: boolean;
   error: string | null;
   activeTrack: TrackResult | null;
+  isAudioPlaying: boolean;
   onChangeSearch: (e: ChangeEvent<HTMLInputElement, HTMLInputElement>) => void;
   onSearchArtist: () => void;
   onSelectTrack: (track: TrackResult) => void;
   activeAlbum: (AlbumResult | TrackResult)[];
+  setIsAudioPlaying: Dispatch<React.SetStateAction<boolean>>;
 }
 
 const MusicPlayerContext = createContext<MusicPlayerContextType>(initialValue);
@@ -38,6 +41,8 @@ export function MusicPlayerProvider({ children }: { children: ReactNode }) {
   const [activeAlbum, setActiveAlbum] = useState<(AlbumResult | TrackResult)[]>(
     [],
   );
+
+  const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false); // false = not playing
 
   const isSubmitting = useRef<boolean>(false);
 
@@ -122,9 +127,11 @@ export function MusicPlayerProvider({ children }: { children: ReactNode }) {
     activeTrack,
     error,
     activeAlbum,
+    isAudioPlaying,
     onChangeSearch,
     onSearchArtist,
     onSelectTrack,
+    setIsAudioPlaying,
   };
 
   return (

@@ -5,10 +5,10 @@ import { useRef, useState } from "react";
 import { Button } from "./ui/button";
 
 const MusicAudioControl = ({ className }: { className?: string }) => {
-  const { activeTrack } = useMusicPlayerContext();
+  const { activeTrack, setIsAudioPlaying, isAudioPlaying } =
+    useMusicPlayerContext();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false); // false = not playing
 
   const togglePlayAudio = () => {
     if (!audioRef?.current) {
@@ -18,11 +18,11 @@ const MusicAudioControl = ({ className }: { className?: string }) => {
 
     if (audioRef.current.paused) {
       audioRef.current.play().then(() => {
-        setIsPlaying(true);
+        setIsAudioPlaying(true);
       });
     } else {
       audioRef.current.pause();
-      setIsPlaying(false);
+      setIsAudioPlaying(false);
     }
   };
 
@@ -34,7 +34,7 @@ const MusicAudioControl = ({ className }: { className?: string }) => {
         variant="default"
         onClick={() => togglePlayAudio()}
       >
-        {isPlaying ? <Pause /> : <Play />}
+        {isAudioPlaying ? <Pause /> : <Play />}
       </Button>
       {!!error && <p className="text-red-900">{error}</p>}
     </div>
