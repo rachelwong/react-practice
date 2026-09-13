@@ -6,7 +6,7 @@ import { Copy } from "lucide-react";
 import { useRef } from "react";
 
 const CopyToClipboard = () => {
-  const { isCopied, copy, error: isCopiedError } = useCopyToClipboard({});
+  const { copied, copy, error: isCopiedError } = useCopyToClipboard({});
   const textRef = useRef<HTMLParagraphElement>(null);
 
   const onCopy = (text: string) => {
@@ -24,6 +24,7 @@ const CopyToClipboard = () => {
               https://www.reactgrind.com/problems/copy-to-clipboard
             </a>
           </p>
+          <p>With code review from Claude Code</p>
         </>
       }
     >
@@ -42,7 +43,7 @@ const CopyToClipboard = () => {
           <Copy />
           Copy
         </Button>
-        {isCopied && (
+        {copied && (
           <Alert className="bg-green-200 text-green-600">Copy Success!</Alert>
         )}
         {isCopiedError && (
