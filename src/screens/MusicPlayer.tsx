@@ -5,6 +5,7 @@ import MusicProfile from "@/components/MusicProfile";
 import MusicSearchList from "@/components/MusicSearchList";
 import { Spinner } from "@/components/ui/spinner";
 import { useMusicPlayerContext } from "@/context/MusicPlayerContext";
+import { Link } from "react-router";
 
 const MusicPlayer = () => {
   const { activeTrack, loadingSearch } = useMusicPlayerContext();
@@ -15,9 +16,9 @@ const MusicPlayer = () => {
           <h3>Music player</h3>
           <p>
             Original brief from{" "}
-            <a href="../../public/flip_code_challenge_fe.pdf" target="_blank">
+            <Link to="/public/flip_code_challenge_fe.pdf" target="_blank">
               Open file here
-            </a>
+            </Link>
           </p>
           <p>
             Uses open source API{" "}
