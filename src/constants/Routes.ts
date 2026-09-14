@@ -15,6 +15,7 @@ export const ROUTES = {
   COPY: "/copy",
   ASYNC_VALIDATION: "/async-validation",
   MUSIC_PLAYER: "/music",
+  DEBOUNCE: "/debounce",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -86,4 +87,5 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     title: "iTunes Music Player",
     description: "Global Context & iTunes Search API",
   },
+  { route: ROUTES.DEBOUNCE, title: "useDebounce", description: "Custom hook" },
 ];

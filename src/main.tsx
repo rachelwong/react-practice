@@ -18,6 +18,7 @@ import Cart from "./screens/Cart.tsx";
 import CopyToClipboard from "./screens/CopyToClipboard.tsx";
 import Counter from "./screens/Counter.tsx";
 import CustomTextArea from "./screens/CustomTextArea.tsx";
+import Debounce from "./screens/Debounce.tsx";
 import DogList from "./screens/DogList.tsx";
 import MultiSignupForm from "./screens/MultiSignupForm.tsx";
 import MusicPlayer from "./screens/MusicPlayer.tsx";
@@ -60,6 +61,7 @@ createRoot(document.getElementById("root")!).render(
             </MusicPlayerProvider>
           }
         />
+        <Route path={ROUTES.DEBOUNCE} element={<Debounce />} />
       </AllRoutes>
     </Router>
   </StrictMode>,
