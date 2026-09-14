@@ -4,7 +4,8 @@ import MusicResultItem from "./MusicResultItem";
 import { Alert, AlertTitle } from "./ui/alert";
 
 const MusicSearchList = ({ className }: { className?: string }) => {
-  const { search, searchResults } = useMusicPlayerContext();
+  const { search, searchResults, error, loadingSearch } =
+    useMusicPlayerContext();
   return (
     <div
       className={classNames(
@@ -12,7 +13,7 @@ const MusicSearchList = ({ className }: { className?: string }) => {
         className,
       )}
     >
-      {!searchResults.length && !!search && (
+      {!searchResults.length && !search && error && !loadingSearch && (
         <Alert>
           <AlertTitle>No results for {search}</AlertTitle>
         </Alert>

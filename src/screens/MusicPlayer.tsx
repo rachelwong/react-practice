@@ -5,10 +5,13 @@ import MusicProfile from "@/components/MusicProfile";
 import MusicSearchList from "@/components/MusicSearchList";
 import { Spinner } from "@/components/ui/spinner";
 import { useMusicPlayerContext } from "@/context/MusicPlayerContext";
+import useScreenSize from "@/hooks/useScreenSize";
 import { Link } from "react-router";
 
 const MusicPlayer = () => {
   const { activeTrack, loadingSearch } = useMusicPlayerContext();
+  const { isMobile } = useScreenSize();
+
   return (
     <Layout
       heading={
@@ -43,8 +46,7 @@ const MusicPlayer = () => {
           <MusicSearchList />
           <MusicProfile />
         </div>
-        {/* TODO Only for mobile */}
-        {activeTrack && <MusicPlayerBar />}
+        {activeTrack && isMobile && <MusicPlayerBar />}
       </div>
     </Layout>
   );
