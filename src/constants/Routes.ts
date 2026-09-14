@@ -16,6 +16,7 @@ export const ROUTES = {
   ASYNC_VALIDATION: "/async-validation",
   MUSIC_PLAYER: "/music",
   DEBOUNCE: "/debounce",
+  RERENDER_LIST: "/rerender-list",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -88,4 +89,10 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     description: "Global Context & iTunes Search API",
   },
   { route: ROUTES.DEBOUNCE, title: "useDebounce", description: "Custom hook" },
+  {
+    route: ROUTES.RERENDER_LIST,
+    title: "Prevent re-rendering list",
+    description:
+      "useCallback x useMemo to prevent the whole list from re-rendering",
+  },
 ];

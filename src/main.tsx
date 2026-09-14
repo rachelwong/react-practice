@@ -22,6 +22,7 @@ import Debounce from "./screens/Debounce.tsx";
 import DogList from "./screens/DogList.tsx";
 import MultiSignupForm from "./screens/MultiSignupForm.tsx";
 import MusicPlayer from "./screens/MusicPlayer.tsx";
+import RerenderList from "./screens/RerenderList.tsx";
 import StarReview from "./screens/StarReview.tsx";
 import Timer from "./screens/Timer.tsx";
 import "./styles.scss";
@@ -62,6 +63,7 @@ createRoot(document.getElementById("root")!).render(
           }
         />
         <Route path={ROUTES.DEBOUNCE} element={<Debounce />} />
+        <Route path={ROUTES.RERENDER_LIST} element={<RerenderList />} />
       </AllRoutes>
     </Router>
   </StrictMode>,
