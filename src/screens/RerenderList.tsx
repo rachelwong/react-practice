@@ -49,6 +49,12 @@ const RerenderList = () => {
               https://www.reactgrind.com/problems/memoize-list
             </a>
           </p>
+          <p>
+            This was helpful{" "}
+            <a href="https://alexsidorenko.com/blog/react-list-rerender">
+              https://alexsidorenko.com/blog/react-list-rerender
+            </a>
+          </p>
         </>
       }
     >
