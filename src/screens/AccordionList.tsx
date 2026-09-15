@@ -20,7 +20,7 @@ const Accordion = () => {
     try {
       setLoading(true);
       setTimeout(async () => {
-        const { data } = await axios.get("../../public/AccordionData.json");
+        const { data } = await axios.get("/AccordionData.json");
         if (!data?.items?.length) {
           console.error("Unable to fetch accordion data");
         }
