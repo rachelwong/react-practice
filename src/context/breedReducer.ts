@@ -42,7 +42,7 @@ export const breedSlice = createSlice({
     clearSearchQuery: (state) => {
       return { ...state, searchQuery: "", searchNumber: "" };
     },
-    resetBreeds: (state) => {
+    resetBreeds: (_) => {
       return initialState;
     },
   },

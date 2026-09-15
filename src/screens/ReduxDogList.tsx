@@ -19,7 +19,11 @@ import {
 } from "@/context/breedReducer";
 import { selectFilteredBreedsByName } from "@/context/breedSelectors";
 import { useDogCeoDispatch, useDogCeoSelector } from "@/context/breedStore";
-import { setSelectedBreed } from "@/context/selectBreedReducer";
+import {
+  setImageNumberByBreed,
+  setSelectedBreed,
+} from "@/context/selectBreedReducer";
+import { calculatedMaxImageNumByBreed } from "@/context/selectBreedSelectors";
 import { useEffect, type ChangeEvent } from "react";
 
 const ReduxDogList = () => {
@@ -27,12 +31,15 @@ const ReduxDogList = () => {
     (state) => state.breeds,
   );
 
-  const { selectedNames } = useDogCeoSelector((state) => state.selection);
+  const { selectedNames, maxImagesByBreed } = useDogCeoSelector(
+    (state) => state.selection,
+  );
 
   const dispatch = useDogCeoDispatch();
 
   // don't use the useSelector here as we're picking up the state from the store
   const filteredBreeds = useDogCeoSelector(selectFilteredBreedsByName);
+  const imageNumByBreed = useDogCeoSelector(calculatedMaxImageNumByBreed);
 
   useEffect(() => {
     dispatch(fetchBreeds());
@@ -64,6 +71,16 @@ const ReduxDogList = () => {
 
   const onHandleCheckboxChange = ({ name }: { name: string }) => {
     dispatch(setSelectedBreed({ name }));
+  };
+
+  const onChangeImageNumber = ({
+    name,
+    e,
+  }: {
+    name: string;
+    e: ChangeEvent<HTMLInputElement>;
+  }) => {
+    dispatch(setImageNumberByBreed({ name, number: e.target.value }));
   };
 
   return (
@@ -140,11 +157,24 @@ const ReduxDogList = () => {
             {!selectedNames.length && (
               <p className="text-neutral-600">No breeds selected</p>
             )}
-            <ul className="list-disc">
+            <ol className="list-decimal">
               {selectedNames.map((x) => {
-                return <li>{x}</li>;
+                return (
+                  <li className="flex flex-row justify-start align-center list-disc">
+                    <span className="w-1/3">{x}</span>
+                    <span className="w-1/3">
+                      Images: {maxImagesByBreed[x] || imageNumByBreed[x]}
+                    </span>
+                    <Input
+                      className="w-1/3"
+                      value={maxImagesByBreed[x]}
+                      onChange={(e) => onChangeImageNumber({ name: x, e })}
+                      placeholder="Number of images"
+                    />
+                  </li>
+                );
               })}
-            </ul>
+            </ol>
           </div>
         </div>
       </Layout>
