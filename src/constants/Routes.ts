@@ -18,6 +18,7 @@ export const ROUTES = {
   DEBOUNCE: "/debounce",
   RERENDER_LIST: "/rerender-list",
   RACES: "/races",
+  PAGINATION: "/pagination",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -99,5 +100,10 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.RACES,
     title: "Race timetable",
     description: "Display rolling race timetable",
+  },
+  {
+    route: ROUTES.PAGINATION,
+    title: "Pagination",
+    description: "Pagination without load more",
   },
 ];

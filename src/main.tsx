@@ -24,6 +24,7 @@ import CustomTextArea from "./screens/CustomTextArea.tsx";
 import Debounce from "./screens/Debounce.tsx";
 import MultiSignupForm from "./screens/MultiSignupForm.tsx";
 import MusicPlayer from "./screens/MusicPlayer.tsx";
+import Pagination from "./screens/Pagination.tsx";
 import Races from "./screens/Races.tsx";
 import ReduxDogList from "./screens/ReduxDogList.tsx";
 import RerenderList from "./screens/RerenderList.tsx";
@@ -83,6 +84,7 @@ createRoot(document.getElementById("root")!).render(
             </RacesContextProvider>
           }
         />
+        <Route path={ROUTES.PAGINATION} element={<Pagination />} />
       </AllRoutes>
     </Router>
   </StrictMode>,
