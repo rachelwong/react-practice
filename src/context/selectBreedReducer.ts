@@ -73,7 +73,7 @@ export const selectedBreedSlice = createSlice({
   // extraReducers: (builder) => {},
 });
 
-export const { setSelectedBreed, setImageNumberByBreed } =
+export const { setSelectedBreed, setImageNumberByBreed, resetSelection } =
   selectedBreedSlice.actions;
 
 export default selectedBreedSlice.reducer;

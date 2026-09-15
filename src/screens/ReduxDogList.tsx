@@ -21,6 +21,7 @@ import {
 import { selectFilteredBreedsByName } from "@/context/breedSelectors";
 import { useDogCeoDispatch, useDogCeoSelector } from "@/context/breedStore";
 import {
+  resetSelection,
   setImageNumberByBreed,
   setSelectedBreed,
 } from "@/context/selectBreedReducer";
@@ -152,8 +153,17 @@ const ReduxDogList = () => {
             )}
           </div>
           <div className="relative block redux-dog-list h-full overflow-y-auto w-1/2 bg-neutral-100 p-6">
-            <h3 className="text-2xl font-extrabold mb-6">
-              Selected breeds & images
+            <h3 className="text-2xl font-extrabold mb-6 flex flex-row justify-between align-center">
+              Selected breeds & images{" "}
+              <Button
+                className=""
+                variant="outline"
+                onClick={() => {
+                  dispatch(resetSelection());
+                }}
+              >
+                Reset selection
+              </Button>
             </h3>
             {!selectedNames.length && (
               <p className="text-neutral-600">No breeds selected</p>
