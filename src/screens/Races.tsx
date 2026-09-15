@@ -23,12 +23,7 @@ const Races = () => {
   const orderedRaces = useMemo(() => {
     return [...races]
       .sort((a, b) => a.advertised_start.seconds - b.advertised_start.seconds)
-      .filter((x) => {
-        if (filter) {
-          return x.category_id === filter;
-        }
-        return x;
-      })
+      .filter((x) => (filter ? x.category_id === filter : x))
       .slice(0, 5);
   }, [races, filter]);
 
