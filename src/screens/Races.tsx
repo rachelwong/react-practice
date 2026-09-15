@@ -38,6 +38,9 @@ const Races = () => {
               here
             </a>
           </p>
+          <p className="text-red-600">
+            CORS policy behind the NEDS api so only runs locally
+          </p>
         </>
       }
     >
