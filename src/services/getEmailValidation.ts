@@ -4,9 +4,7 @@ import type { EmailValidationResponse } from "./types/EmailValidationResponse";
 const getEmailValidation = async (
   emailStr: string,
 ): Promise<EmailValidationResponse> => {
-  // TODO could look at cloning corsAnywhere to deploy
-  // const corsAnywhere = "https://cors-anywhere.herokuapp.com/";
-  const baseURL = `https://rapid-email-verifier.fly.dev/api/validate?email=${emailStr}`;
+  const baseURL = `/email-api/api/validate?email=${emailStr}`;
   try {
     const { data } = await axios.get(baseURL);
     return data;

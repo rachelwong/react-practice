@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/neds-api/:path*",
+      "destination": "https://api.neds.com.au/:path*"
+    },
+    {
+      "source": "/email-api/:path*",
+      "destination": "https://rapid-email-verifier.fly.dev/:path*"
+    },
+    {
+      "source": "/((?!neds-api|email-api).*)",
+      "destination": "/index.html"
+    }
+  ]
+}
