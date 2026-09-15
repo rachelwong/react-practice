@@ -1,12 +1,14 @@
 import { ROUTES } from "@/constants";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { Provider } from "react-redux";
 import {
   Routes as AllRoutes,
   Route,
   BrowserRouter as Router,
 } from "react-router";
 import App from "./App.tsx";
+import { dogCeoStore } from "./context/breedStore.ts";
 import { MultiStepFormProvider } from "./context/MultiStepFormContext.tsx";
 import { MusicPlayerProvider } from "./context/MusicPlayerContext.tsx";
 import "./index.css";
@@ -19,9 +21,9 @@ import CopyToClipboard from "./screens/CopyToClipboard.tsx";
 import Counter from "./screens/Counter.tsx";
 import CustomTextArea from "./screens/CustomTextArea.tsx";
 import Debounce from "./screens/Debounce.tsx";
-import DogList from "./screens/DogList.tsx";
 import MultiSignupForm from "./screens/MultiSignupForm.tsx";
 import MusicPlayer from "./screens/MusicPlayer.tsx";
+import ReduxDogList from "./screens/ReduxDogList.tsx";
 import RerenderList from "./screens/RerenderList.tsx";
 import StarReview from "./screens/StarReview.tsx";
 import Timer from "./screens/Timer.tsx";
@@ -37,7 +39,14 @@ createRoot(document.getElementById("root")!).render(
         <Route path={ROUTES.FORM_VALIDATION} element={<BasicForm />} />
         <Route path={ROUTES.STAR_REVIEW} element={<StarReview />} />
         <Route path={ROUTES.TIMER} element={<Timer />} />
-        <Route path={ROUTES.DOG_LIST} element={<DogList />} />
+        <Route
+          path={ROUTES.DOG_LIST}
+          element={
+            <Provider store={dogCeoStore}>
+              <ReduxDogList />
+            </Provider>
+          }
+        />
         <Route path={ROUTES.CUSTOM_TEXTAREA} element={<CustomTextArea />} />
         <Route
           path={ROUTES.MULTI_SIGN_UP}

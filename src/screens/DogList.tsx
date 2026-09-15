@@ -16,7 +16,6 @@ const DogList = () => {
 
   const [loadingAllBreeds, setLoadingAllBreeds] = useState<boolean>(false);
   const [errorAllBreeds, setErrorAllBreeds] = useState<boolean>(false);
-
   const getBreeds = async () => {
     try {
       setErrorAllBreeds(false);

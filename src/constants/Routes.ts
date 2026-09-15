@@ -49,7 +49,7 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.DOG_LIST,
     title: "Dog Ceo list",
     description:
-      "Display listing and persisting data across browser sessions. In progress to centralise state management.",
+      "Display listing and persisting data across browser sessions with redux.",
     inProgress: true,
   },
   {
