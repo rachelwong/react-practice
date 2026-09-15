@@ -6,7 +6,7 @@ const getRaces = async ({
 }: {
   count?: number;
 }): Promise<NedsRaceResponse | undefined> => {
-  const baseURL = `/neds-api/rest/v1/racing/?method=nextraces&count=${count}`;
+  const baseURL = `https://api.neds.com.au/rest/v1/racing/?method=nextraces&count=${count}`;
   try {
     const { data } = await axios.get(baseURL);
     if (data.status !== 200) {
