@@ -1,31 +1,36 @@
 import Layout from "@/components/Layout";
-import getRaces from "@/services/getRaces";
-import type { RaceSummary } from "@/services/types/NedsRaceResponse";
-import { format, fromUnixTime } from "date-fns";
-import { useEffect, useState } from "react";
+import RaceItem from "@/components/RaceItem";
+import { Button } from "@/components/ui/button";
+import { FILTER, useRacesContext } from "@/context/RacesContext";
+import classNames from "classnames";
+import { useEffect, useMemo } from "react";
 
 const Races = () => {
-  const [data, setData] = useState<RaceSummary[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-
-  const getData = async () => {
-    try {
-      setLoading(true);
-
-      const response = await getRaces({});
-      const raceSummaries = response?.next_to_go_ids.map(
-        (x) => response.race_summaries[x],
-      );
-      setData(raceSummaries ?? []);
-    } catch (err) {
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { races, getData, setFilter, filter } = useRacesContext();
 
   useEffect(() => {
-    getData();
+    getData(10);
   }, []);
+
+  const resetFilter = () => {
+    setFilter(null);
+  };
+
+  const applyFilter = (id: (typeof FILTER)[keyof typeof FILTER]): void => {
+    setFilter(id);
+  };
+
+  const orderedRaces = useMemo(() => {
+    return [...races]
+      .sort((a, b) => a.advertised_start.seconds - b.advertised_start.seconds)
+      .filter((x) => {
+        if (filter) {
+          return x.category_id === filter;
+        }
+        return x;
+      })
+      .slice(0, 5);
+  }, [races, filter]);
 
   return (
     <Layout
@@ -42,30 +47,56 @@ const Races = () => {
       }
     >
       <div className="races-table relative block w-full h-full">
-        {loading && <p>loading ... </p>}
-        {!loading && (
-          <ul className="w-4/5 mx-auto flex flex-col align-start justify-start gap-y-3">
-            {data.map((summary, index) => {
-              const start = fromUnixTime(summary.advertised_start.seconds);
+        <div className="flex flex-col h-full relative w-4/5 mx-auto ">
+          <h3 className="text-2xl font-extrabold">Race Filters</h3>
+          <div className="flex flex-row align-center justify-start gap-x-3 my-4">
+            <Button size="lg" variant="default" onClick={() => resetFilter()}>
+              All
+            </Button>
+            <Button
+              size="lg"
+              variant={filter === FILTER.GREYHOUND ? "default" : "outline"}
+              className={classNames("", {
+                "bg-green-200": filter === FILTER.GREYHOUND,
+              })}
+              onClick={() => applyFilter(FILTER.GREYHOUND)}
+            >
+              Greyhound
+            </Button>
+            <Button
+              size="lg"
+              className={classNames("", {
+                "bg-green-200": filter === FILTER.HORSE,
+              })}
+              variant={filter === FILTER.HORSE ? "default" : "outline"}
+              onClick={() => applyFilter(FILTER.HORSE)}
+            >
+              Horse
+            </Button>{" "}
+            <Button
+              size="lg"
+              className={classNames("", {
+                "bg-green-200": filter === FILTER.HARNESS,
+              })}
+              variant={filter === FILTER.HARNESS ? "default" : "outline"}
+              onClick={() => applyFilter(FILTER.HARNESS)}
+            >
+              Harness
+            </Button>{" "}
+          </div>
+
+          <ul className="flex flex-col align-start justify-start gap-y-3">
+            {orderedRaces.map((summary, index) => {
               return (
-                <li
+                <RaceItem
                   key={summary.race_id}
-                  className="py-3 px-6 flex flex-row justify-between align-center bg-neutral-100"
-                >
-                  <div className="flex flex-row align-center justify-start w-2/3">
-                    <span className="w-1/3">
-                      # {summary.race_number} / {index}
-                    </span>
-                    <span className="w-2/3">{summary.race_name}</span>
-                  </div>
-                  <div className="w-1/3 flex flex-row align-center justify-end">
-                    <span>Start: {format(start, "d MMM yyyy, h:mm a")}</span>
-                  </div>
-                </li>
+                  summary={summary}
+                  index={index}
+                />
               );
             })}
           </ul>
-        )}
+        </div>
       </div>
     </Layout>
   );

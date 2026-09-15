@@ -99,6 +99,5 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.RACES,
     title: "Race timetable",
     description: "Display rolling race timetable",
-    inProgress: true,
   },
 ];

@@ -11,6 +11,7 @@ import App from "./App.tsx";
 import { dogCeoStore } from "./context/breedStore.ts";
 import { MultiStepFormProvider } from "./context/MultiStepFormContext.tsx";
 import { MusicPlayerProvider } from "./context/MusicPlayerContext.tsx";
+import RacesContextProvider from "./context/RacesContext.tsx";
 import "./index.css";
 import AccordionList from "./screens/AccordionList.tsx";
 import AsyncFieldValidation from "./screens/AsyncFieldValidation.tsx";
@@ -74,7 +75,14 @@ createRoot(document.getElementById("root")!).render(
         />
         <Route path={ROUTES.DEBOUNCE} element={<Debounce />} />
         <Route path={ROUTES.RERENDER_LIST} element={<RerenderList />} />
-        <Route path={ROUTES.RACES} element={<Races />} />
+        <Route
+          path={ROUTES.RACES}
+          element={
+            <RacesContextProvider>
+              <Races />
+            </RacesContextProvider>
+          }
+        />
       </AllRoutes>
     </Router>
   </StrictMode>,
