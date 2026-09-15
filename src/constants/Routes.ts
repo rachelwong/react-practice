@@ -50,7 +50,6 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     title: "Dog Ceo list",
     description:
       "Display listing and persisting data across browser sessions with redux.",
-    inProgress: true,
   },
   {
     route: ROUTES.CUSTOM_TEXTAREA,

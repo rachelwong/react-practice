@@ -85,7 +85,7 @@ const ReduxDogList = () => {
   };
 
   return (
-    <div className="block absolute w-full h-dvh border-3 border-slate-900">
+    <div className="block absolute w-full h-dvh">
       <Layout>
         <div className="block relative w-full flex flex-row justify-between align-stretch h-900 ">
           <div className="relative block redux-dog-list h-full overflow-y-auto w-1/2 border-1 border-slate-900 p-6">
@@ -158,28 +158,32 @@ const ReduxDogList = () => {
             {!selectedNames.length && (
               <p className="text-neutral-600">No breeds selected</p>
             )}
-            <ol className="list-decimal">
-              {selectedNames.map((x) => {
-                return (
-                  <li
-                    key={x}
-                    className="flex flex-row justify-start align-center list-disc"
-                  >
-                    <span className="w-1/3">{x}</span>
-                    <span className="w-1/3">
-                      Images: {maxImagesByBreed[x] || imageNumByBreed[x]}
-                    </span>
-                    <Input
-                      className="w-1/3"
-                      value={maxImagesByBreed[x]}
-                      onChange={(e) => onChangeImageNumber({ name: x, e })}
-                      placeholder="Number of images"
-                    />
-                  </li>
-                );
-              })}
-            </ol>
-            <ReduxDogImages />
+            {selectedNames.length > 0 && (
+              <>
+                <ol className="list-decimal">
+                  {selectedNames.map((x) => {
+                    return (
+                      <li
+                        key={x}
+                        className="flex flex-row justify-start align-center list-disc"
+                      >
+                        <span className="w-1/3">{x}</span>
+                        <span className="w-1/3">
+                          Images: {maxImagesByBreed[x] || imageNumByBreed[x]}
+                        </span>
+                        <Input
+                          className="w-1/3"
+                          value={maxImagesByBreed[x]}
+                          onChange={(e) => onChangeImageNumber({ name: x, e })}
+                          placeholder="Number of images"
+                        />
+                      </li>
+                    );
+                  })}
+                </ol>
+                <ReduxDogImages />
+              </>
+            )}
           </div>
         </div>
       </Layout>

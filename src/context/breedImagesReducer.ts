@@ -53,9 +53,7 @@ export const fetchBreedImages = createAsyncThunk(
 export const breedImageSlice = createSlice({
   name: "breedImages",
   initialState,
-  reducers: {
-    removeBreed: (state, action) => {},
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchBreedImages.pending, (state, _) => {
