@@ -1,11 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
+import breedImagesReducer from "./breedImagesReducer";
 import breedReducer from "./breedReducer";
 import selectBreedReducer from "./selectBreedReducer";
 
 export const dogCeoStore = configureStore({
   reducer: {
-    // images: breedImagesReducer,
+    images: breedImagesReducer,
     breeds: breedReducer,
     selection: selectBreedReducer,
   },

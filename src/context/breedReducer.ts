@@ -20,7 +20,7 @@ const initialState: BreedState = {
 export const fetchBreeds = createAsyncThunk("list/fetchBreeds", async () => {
   const data = await getDogBreeds();
   // no data
-  if (!data || !data?.message || !data?.message) {
+  if (!data || !data?.message) {
     return;
   }
 

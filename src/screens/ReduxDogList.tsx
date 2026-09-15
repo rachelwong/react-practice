@@ -1,4 +1,5 @@
 import Layout from "@/components/Layout";
+import ReduxDogImages from "@/components/ReduxDogImages";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
@@ -160,7 +161,10 @@ const ReduxDogList = () => {
             <ol className="list-decimal">
               {selectedNames.map((x) => {
                 return (
-                  <li className="flex flex-row justify-start align-center list-disc">
+                  <li
+                    key={x}
+                    className="flex flex-row justify-start align-center list-disc"
+                  >
                     <span className="w-1/3">{x}</span>
                     <span className="w-1/3">
                       Images: {maxImagesByBreed[x] || imageNumByBreed[x]}
@@ -175,6 +179,7 @@ const ReduxDogList = () => {
                 );
               })}
             </ol>
+            <ReduxDogImages />
           </div>
         </div>
       </Layout>
