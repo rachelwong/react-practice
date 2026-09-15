@@ -1,6 +1,6 @@
 export type DogBreed = {
   name: string;
-  numSubBreeds?: number;
+  numSubBreeds?: number | string;
   maxNumImages?: number; // max 10
   images?: string[];
 };

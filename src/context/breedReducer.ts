@@ -4,14 +4,19 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export interface BreedState {
   list: DogBreed[];
+  searchQuery: string;
+  searchNumber: string;
   status: "idle" | "loading" | "error" | "succeed";
 }
 
 const initialState: BreedState = {
   list: [],
+  searchQuery: "",
+  searchNumber: "",
   status: "idle",
 };
 
+// Api call to get breeds externally
 export const fetchBreeds = createAsyncThunk("list/fetchBreeds", async () => {
   const data = await getDogBreeds();
   // no data
@@ -20,7 +25,7 @@ export const fetchBreeds = createAsyncThunk("list/fetchBreeds", async () => {
   }
 
   return Object.entries(data?.message).map(([name, subbreeds]) => {
-    return { name, numSubBreeds: subbreeds.length };
+    return { name, numSubBreeds: subbreeds.length.toString() };
   });
 });
 
@@ -28,8 +33,14 @@ export const breedSlice = createSlice({
   name: "breeds",
   initialState,
   reducers: {
-    setError: (state, action) => {
-      return { ...state, status: "error" };
+    setSearchQuery: (state, action) => {
+      return { ...state, searchQuery: action.payload };
+    },
+    setSearchNumber: (state, action) => {
+      return { ...state, searchNumber: action.payload };
+    },
+    clearSearchQuery: (state) => {
+      return { ...state, searchQuery: "", searchNumber: "" };
     },
     resetBreeds: (state) => {
       return initialState;
@@ -60,5 +71,8 @@ export const breedSlice = createSlice({
       });
   },
 });
+
+export const { setSearchQuery, clearSearchQuery, setSearchNumber } =
+  breedSlice.actions;
 
 export default breedSlice.reducer;

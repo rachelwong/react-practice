@@ -11,6 +11,7 @@ export const dogCeoStore = configureStore({
 });
 
 export type DogCeoStore = typeof dogCeoStore;
+// getsState returns whatever the combined reducer prodcues (i.e. {breeds: BreedState} from breedReducer)
 export type DogCeoState = ReturnType<DogCeoStore["getState"]>;
 export type DogCeoDispatch = DogCeoStore["dispatch"];
 
