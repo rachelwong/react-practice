@@ -23,6 +23,7 @@ import CustomTextArea from "./screens/CustomTextArea.tsx";
 import Debounce from "./screens/Debounce.tsx";
 import MultiSignupForm from "./screens/MultiSignupForm.tsx";
 import MusicPlayer from "./screens/MusicPlayer.tsx";
+import Races from "./screens/Races.tsx";
 import ReduxDogList from "./screens/ReduxDogList.tsx";
 import RerenderList from "./screens/RerenderList.tsx";
 import StarReview from "./screens/StarReview.tsx";
@@ -73,6 +74,7 @@ createRoot(document.getElementById("root")!).render(
         />
         <Route path={ROUTES.DEBOUNCE} element={<Debounce />} />
         <Route path={ROUTES.RERENDER_LIST} element={<RerenderList />} />
+        <Route path={ROUTES.RACES} element={<Races />} />
       </AllRoutes>
     </Router>
   </StrictMode>,

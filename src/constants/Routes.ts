@@ -17,6 +17,7 @@ export const ROUTES = {
   MUSIC_PLAYER: "/music",
   DEBOUNCE: "/debounce",
   RERENDER_LIST: "/rerender-list",
+  RACES: "/races",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -93,5 +94,11 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     title: "Prevent re-rendering list",
     description:
       "useCallback x useMemo to prevent the whole list from re-rendering",
+  },
+  {
+    route: ROUTES.RACES,
+    title: "Race timetable",
+    description: "Display rolling race timetable",
+    inProgress: true,
   },
 ];
