@@ -14,6 +14,9 @@ const CountrySearch = () => {
     return response.countries;
   };
 
+  // if using lodash, wrap this function in debounce, with a 500 delay
+  // const [debouncedFetch] = useState(() => debounce(fetchSuggestions, 500));
+
   const fetchSuggestions = async (value: string) => {
     try {
       setLoading(true);
@@ -42,7 +45,7 @@ const CountrySearch = () => {
     if (debounceTimer.current) {
       clearTimeout(debounceTimer.current);
     }
-
+    // debounce/wait before calling the api to fetch
     debounceTimer.current = setTimeout(() => fetchSuggestions(value), 500);
   };
 
