@@ -19,6 +19,7 @@ export const ROUTES = {
   RERENDER_LIST: "/rerender-list",
   RACES: "/races",
   PAGINATION: "/pagination",
+  COUNTRY_SEARCH: "/country-search",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -105,5 +106,10 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.PAGINATION,
     title: "Pagination",
     description: "Pagination without load more",
+  },
+  {
+    route: ROUTES.COUNTRY_SEARCH,
+    title: "Country Search",
+    description: "Autocomplete with country suggestions",
   },
 ];

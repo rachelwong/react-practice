@@ -1,0 +1,17 @@
+{
+    "countries": [
+        "Afghanistan", "Albania", "Algeria", "Argentina", "Australia",
+        "Austria", "Bangladesh", "Belgium", "Brazil", "Bulgaria",
+        "Canada", "Chile", "China", "Colombia", "Croatia",
+        "Denmark", "Egypt", "Estonia", "Finland", "France",
+        "Germany", "Greece", "Hungary", "Iceland", "India",
+        "Indonesia", "Ireland", "Israel", "Italy", "Japan",
+        "Kenya", "Malaysia", "Mexico", "Morocco", "Nepal",
+        "Netherlands", "New Zealand", "Nigeria", "Norway", "Pakistan",
+        "Peru", "Philippines", "Poland", "Portugal", "Qatar",
+        "Romania", "Russia", "Singapore", "South Africa", "South Korea",
+        "Spain", "Sri Lanka", "Sweden", "Switzerland", "Thailand",
+        "Turkey", "Ukraine", "United Arab Emirates", "United Kingdom", "United States",
+        "Vietnam"
+    ]
+}

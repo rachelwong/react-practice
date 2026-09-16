@@ -20,6 +20,7 @@ import Carousel from "./screens/Carousel.tsx";
 import Cart from "./screens/Cart.tsx";
 import CopyToClipboard from "./screens/CopyToClipboard.tsx";
 import Counter from "./screens/Counter.tsx";
+import CountrySearch from "./screens/CountrySearch.tsx";
 import CustomTextArea from "./screens/CustomTextArea.tsx";
 import Debounce from "./screens/Debounce.tsx";
 import MultiSignupForm from "./screens/MultiSignupForm.tsx";
@@ -85,6 +86,7 @@ createRoot(document.getElementById("root")!).render(
           }
         />
         <Route path={ROUTES.PAGINATION} element={<Pagination />} />
+        <Route path={ROUTES.COUNTRY_SEARCH} element={<CountrySearch />} />
       </AllRoutes>
     </Router>
   </StrictMode>,
