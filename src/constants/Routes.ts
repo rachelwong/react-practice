@@ -20,6 +20,7 @@ export const ROUTES = {
   RACES: "/races",
   PAGINATION: "/pagination",
   COUNTRY_SEARCH: "/country-search",
+  CALCULATOR: "/calculator",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -111,5 +112,10 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.COUNTRY_SEARCH,
     title: "Country Search",
     description: "Autocomplete with country suggestions",
+  },
+  {
+    route: ROUTES.CALCULATOR,
+    title: "Calculator",
+    description: "Roll your own calculator with ",
   },
 ];

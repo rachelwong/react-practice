@@ -16,6 +16,7 @@ import "./index.css";
 import AccordionList from "./screens/AccordionList.tsx";
 import AsyncFieldValidation from "./screens/AsyncFieldValidation.tsx";
 import BasicForm from "./screens/BasicForm.tsx";
+import Calculator from "./screens/Calculator.tsx";
 import Carousel from "./screens/Carousel.tsx";
 import Cart from "./screens/Cart.tsx";
 import CopyToClipboard from "./screens/CopyToClipboard.tsx";
@@ -87,6 +88,7 @@ createRoot(document.getElementById("root")!).render(
         />
         <Route path={ROUTES.PAGINATION} element={<Pagination />} />
         <Route path={ROUTES.COUNTRY_SEARCH} element={<CountrySearch />} />
+        <Route path={ROUTES.CALCULATOR} element={<Calculator />} />
       </AllRoutes>
     </Router>
   </StrictMode>,
