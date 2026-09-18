@@ -8,7 +8,8 @@ export const CurrencyFormatter = new Intl.NumberFormat("en-AU", {
 
 // small utils to convert any array into label/value objects for dropdown
 export const convertForSelect = (
-  values: string[] | number[],
+  // adding readonly for when consts are converted to literal vars
+  values: string[] | number[] | readonly string[] | readonly number[],
 ): SelectOptionType[] => {
   return values.map((x: string | number) => {
     return {

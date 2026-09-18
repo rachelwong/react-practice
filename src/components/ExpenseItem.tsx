@@ -9,9 +9,10 @@ interface ExpenseItemProps {
   item: Expense;
   index: number;
   onDelete: (id: string) => void;
+  onEdit: (id: string) => void;
 }
 
-const ExpenseItem = ({ item, index, onDelete }: ExpenseItemProps) => {
+const ExpenseItem = ({ item, index, onEdit, onDelete }: ExpenseItemProps) => {
   return (
     <div
       className={classNames(
@@ -28,8 +29,16 @@ const ExpenseItem = ({ item, index, onDelete }: ExpenseItemProps) => {
           </p>
         </div>
       )}
+
       <div className="expense-actions flex flex-row flex-nowrap gap-x-3 w-1/4 justify-end">
-        <Button size="lg" variant="outline" onClick={() => {}}>
+        <Button
+          size="lg"
+          variant="outline"
+          disabled={item.isEdit} // don't edit again if already editing
+          onClick={() => {
+            onEdit(item.id);
+          }}
+        >
           <Pencil />
           <span>Edit</span>
         </Button>

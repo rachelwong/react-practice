@@ -13,9 +13,17 @@ import {
   ComboboxList,
 } from "./ui/combobox";
 
-const ExpenseFilter = () => {
+interface ExpenseFilterProps {
+  onFilterTime: (value: string) => void;
+  onFilterType: (
+    value: (typeof EXPENSE_TIME_FILTER)[keyof typeof EXPENSE_TIME_FILTER],
+  ) => void;
+}
+
+const ExpenseFilter = ({ onFilterTime, onFilterType }: ExpenseFilterProps) => {
   const categories = convertForSelect(EXPENSE_CATEGORIES);
   const timeFilters = Object.values(EXPENSE_TIME_FILTER);
+
   return (
     <div className="w-full h-auto flex flex-col gap-y-2">
       <h3 className="text-lg font-extrabold text-left">Filters</h3>
@@ -23,7 +31,9 @@ const ExpenseFilter = () => {
         <SelectField
           selectOptions={categories}
           value={null}
-          onChange={function (val: string): void {}}
+          onChange={(val: string) => {
+            onFilterTime(val);
+          }}
           label={"Category"}
           classnames="w-1/4"
         />

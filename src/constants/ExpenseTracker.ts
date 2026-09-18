@@ -5,7 +5,7 @@ export const EXPENSE_CATEGORIES = [
   "Bills",
   "Salary",
   "Other",
-];
+] as const;
 
 export const EXPENSE_TYPE = {
   CREDIT: "CREDIT",
