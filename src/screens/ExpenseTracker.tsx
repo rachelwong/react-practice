@@ -9,7 +9,7 @@ import { filteredExpenses } from "@/context/expenseSelector";
 import { useExpenseDispatch, useExpenseSelector } from "@/context/expenseStore";
 import { CurrencyFormatter } from "@/utils";
 import classNames from "classnames";
-import { Gift } from "lucide-react";
+import { Gift, Lightbulb } from "lucide-react";
 
 const ExpenseTracker = () => {
   const dispatch = useExpenseDispatch();
@@ -102,27 +102,29 @@ const ExpenseTracker = () => {
           <p className="text-sm">
             Using the total from the expense tracker above, below section
             calculate <strong>when</strong> an at-home coffee brewing investment
-            will break even using
+            will break even using:
           </p>
           <ul className="list-disc block relative pl-8 text-sm">
-            <li>total expenses amount</li>
+            <li>total expenses amount (your investment)</li>
             <li>
               a provided start date (date when all expenses have been accounted
-              for)
+              for and you will never buy more coffee accessories)
             </li>
             <li>Today's date (end date)</li>
             <li>average market price for a medium coffee in Australia</li>
             <li>average number of coffees per calendar week</li>
           </ul>
-          <p className="text-sm">
-            NOTE: average number of coffees per calendar week will be normalised
-            (rounded-up) for half weeks (i.e. average 5 coffees per week
-            starting mid-week will normalise to the cost of 3 coffees for that
-            week).
-          </p>
-          <strong className="text-sm">
-            Also assumes that the user will not purchase any coffees externally.
-          </strong>
+          <button
+            className="bg-amber-100 p-3 w-full h-full flex flex-row justify-start gap-x-4 align-start"
+            onClick={() => {
+              window.location.href = "/docs/unit-cost-break-even.md";
+            }}
+          >
+            <Lightbulb />
+            <span>
+              Click here for a simple explanation of how the above is computed
+            </span>
+          </button>
         </div>
         <hr className="border-1 border-slate-300 w-full h-0" />
         <UnitCostTracker />

@@ -17,6 +17,7 @@ export const BREAKEVEN_STATUS = {
   TODAY: "TODAY",
   PAST: "PAST",
   FUTURE: "FUTURE",
+  NO_INVESTMENT: "NO_INVESTMENT",
 };
 
 const useUnitCostTracker = () => {
@@ -58,12 +59,27 @@ const useUnitCostTracker = () => {
     }
   };
   const onSubmit = () => {
+    if (
+      filteredTotal === 0 ||
+      Number(numPerWeek) === 0 ||
+      Number(unitPrice) === 0
+    ) {
+      setBreakEvenDate(null);
+      return;
+    }
+
     const numWeeksToBreakEven =
       Number(filteredTotal) / (Number(numPerWeek) * Number(unitPrice));
 
+    // Rounding up to 2 decimal places
+    // integer number of weeks overstates the real length
+    // i.e. you can have 1/2 or 1/3 of a week
+    const roundedUpNumWeeksToBreakEven =
+      Math.ceil(numWeeksToBreakEven * 100) / 100;
+
     const breakEvenDate = addMilliseconds(
       startDate,
-      numWeeksToBreakEven * msPerWeek,
+      roundedUpNumWeeksToBreakEven * msPerWeek,
     );
     setBreakEvenDate(breakEvenDate);
   };
@@ -77,7 +93,7 @@ const useUnitCostTracker = () => {
 
   const getBreakEventStatus = () => {
     if (!breakEvenDate) {
-      return null;
+      return BREAKEVEN_STATUS.NO_INVESTMENT;
     }
     if (isToday(breakEvenDate)) {
       return BREAKEVEN_STATUS.TODAY;
@@ -90,7 +106,13 @@ const useUnitCostTracker = () => {
     }
   };
 
-  const weeksElapsed = Math.ceil(differenceInDays(new Date(), startDate) / 7);
+  // counts number of weeks from startDate to today
+  // Math.max clamps down any possiblity for negative week calculation
+  // (i.e someone choosing a future date as the start date)
+  const weeksElapsed = Math.max(
+    0,
+    Math.ceil(differenceInDays(new Date(), startDate) / 7),
+  );
 
   return {
     filteredTotal,
