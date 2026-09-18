@@ -123,5 +123,6 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.EXPENSE_TRACKER,
     title: "Expense tracker",
     description: "Dynamic table with redux",
+    inProgress: true,
   },
 ];
