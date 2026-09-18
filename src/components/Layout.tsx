@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants";
-import type { PropsWithChildren, ReactNode } from "react";
+import { useEffect, type PropsWithChildren, type ReactNode } from "react";
 import { Link, useNavigate } from "react-router";
 
 interface LayoutProps {
@@ -9,6 +9,10 @@ interface LayoutProps {
 
 const Layout = ({ heading, children }: PropsWithChildren<LayoutProps>) => {
   let navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="layout">
