@@ -1,4 +1,4 @@
-import { EXPENSE_TIME_FILTER } from "@/constants/ExpenseTracker";
+import { EXPENSE_TIME_FILTER, EXPENSE_TYPE } from "@/constants/ExpenseTracker";
 import { createSelector } from "@reduxjs/toolkit";
 import {
   endOfDay,
@@ -67,5 +67,24 @@ export const filteredExpenses = createSelector(
 
       return matchCategory && matchTimeRanges;
     });
+  },
+);
+
+export const filteredTotalExpenses = createSelector(
+  [filteredExpenses],
+  (filteredExpenses: Expense[]) => {
+    const totalCredit = filteredExpenses
+      .filter((x) => x.type === EXPENSE_TYPE.CREDIT)
+      .reduce((acc, cur) => {
+        return (acc += Number(cur.amount));
+      }, 0);
+
+    const totalDebit = filteredExpenses
+      .filter((x) => x.type === EXPENSE_TYPE.DEBIT)
+      .reduce((acc, cur) => {
+        return (acc += Number(cur.amount));
+      }, 0);
+
+    return totalCredit - totalDebit;
   },
 );

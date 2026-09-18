@@ -1,0 +1,149 @@
+import { EXPENSE_TYPE } from "@/constants/ExpenseTracker";
+import { filteredTotalExpenses } from "@/context/expenseSelector";
+import { useExpenseSelector } from "@/context/expenseStore";
+import useUnitCostTracker, {
+  BREAKEVEN_STATUS,
+} from "@/hooks/useUnitCostTracker";
+import { CurrencyFormatter } from "@/utils";
+import { formatDate } from "@/utils/DateTimeUtils";
+import { CircleCheck } from "lucide-react";
+import type { ChangeEvent } from "react";
+import DatePicker from "./DatePicker";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+
+const UnitCostTracker = () => {
+  const {
+    status,
+    startDate,
+    numPerWeek,
+    unitPrice,
+    breakEvenDate,
+    investTotal,
+    onChangeInvestTotal,
+    onNumberOfUnitsPerWeek,
+    onUnitPrice,
+    onStartDate,
+    onSubmit,
+    onReset,
+  } = useUnitCostTracker();
+
+  const total = useExpenseSelector(filteredTotalExpenses);
+
+  return (
+    <div className="w-full h-auto flex flex-row justify-between items-stretch gap-x-6">
+      <div className="flex flex-col items-start justify-start align-start gap-y-4 w-1/2 h-full">
+        <div>
+          <h2 className="text-2xl font-extrabold text-slate-800 my-0">
+            Your starting investment {CurrencyFormatter.format(total)}
+          </h2>
+          <span className="text-xs">
+            Note: You can add more investment by adding expense items about of
+            type {EXPENSE_TYPE.CREDIT}
+          </span>
+        </div>
+        <Input
+          placeholder="Number of coffees"
+          value={numPerWeek}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            onNumberOfUnitsPerWeek(e.target.value);
+          }}
+        />
+        <Input
+          required
+          placeholder="Avg Price of coffee in AUD$"
+          value={unitPrice}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            onUnitPrice(e.target.value);
+          }}
+        />
+        <div className="w-full flex flex-row align-center justify-start">
+          <DatePicker
+            label={"Start date"}
+            onChange={(date: Date) => onStartDate(date)}
+            value={startDate}
+          />
+        </div>
+        <div className="w-full flex flex-row align-center justify-start gap-x-4">
+          <Button size="lg" className="" onClick={() => onSubmit()}>
+            <CircleCheck />
+            Calculate
+          </Button>
+          <Button
+            size="lg"
+            className=""
+            variant="outline"
+            onClick={() => onReset()}
+          >
+            Reset form
+          </Button>
+        </div>
+      </div>
+      <div className="flex flex-col items-start justify-start w-1/2 h-full">
+        {breakEvenDate && (
+          <div className="w-full h-full items-start justify-start flex flex-col gap-y-3">
+            {status === BREAKEVEN_STATUS.TODAY && (
+              <>
+                <h3 className="text-xl font-extrabold text-amber-500 ">
+                  You broken even today!
+                </h3>
+                <p>
+                  Your investment broke even on -{" "}
+                  <strong>{formatDate(breakEvenDate)}</strong>
+                </p>
+              </>
+            )}
+            {status === BREAKEVEN_STATUS.FUTURE && (
+              <>
+                <h3 className="text-xl font-extrabold text-red-500">
+                  You're on your way to recouping your investment!
+                </h3>
+                <p>
+                  Your investment will break even on -{" "}
+                  <strong>{formatDate(breakEvenDate)}</strong>
+                </p>
+              </>
+            )}
+            {status === BREAKEVEN_STATUS.PAST && (
+              <>
+                <h3 className="text-xl font-extrabold text-green-500">
+                  All your at home coffees have already paid off your
+                  investment!
+                </h3>
+                <p>
+                  Your investment broke even on -{" "}
+                  <strong>{formatDate(breakEvenDate)}</strong>
+                </p>
+              </>
+            )}
+            <p>
+              Average price per coffee you made at home came to
+              {CurrencyFormatter.format(
+                total / (Number(numPerWeek) * Number(unitPrice)),
+              )}{" "}
+              which comes from {total} / ({numPerWeek} coffees per week x{" "}
+              {CurrencyFormatter.format(Number(unitPrice))})
+            </p>
+            <p>
+              The total cost if you had bought the coffee from a shop instead
+              since <strong>{formatDate(startDate)}</strong> comes to{" "}
+              <strong>{Number(numPerWeek) * Number(unitPrice)}</strong> which
+              comes from {numPerWeek} coffees x{" "}
+              {CurrencyFormatter.format(Number(unitPrice))} per coffee
+            </p>
+            <div className="bg-amber-100 p-3 w-full h-full">
+              <span>
+                For a simple explanation of how the above is computed, please
+                see{" "}
+                <a href="/docs/unit-cost-break-even.md">this markdown here</a>
+                .{" "}
+              </span>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default UnitCostTracker;

@@ -18,7 +18,7 @@ const DatePicker = ({
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   return (
-    <Field className="mx-auto w-44">
+    <Field className="">
       {label && <FieldLabel htmlFor="date">{label}</FieldLabel>}
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger
