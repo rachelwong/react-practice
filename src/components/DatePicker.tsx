@@ -1,16 +1,24 @@
+import classNames from "classnames";
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { Calendar } from "./ui/calendar";
 import { Field, FieldLabel } from "./ui/field";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
-const DatePicker = ({ label }: { label: string }) => {
-  const [date, setDate] = useState<Date | undefined>(undefined);
+const DatePicker = ({
+  label,
+  onChange,
+  value,
+  isError = false,
+}: {
+  label: string;
+  onChange: (date: Date) => void;
+  value: Date;
+  isError?: boolean;
+}) => {
   const [open, setOpen] = useState<boolean>(false);
   return (
     <Field className="mx-auto w-44">
-      <p>date: {JSON.stringify(date)}</p>
-      <p>date: {JSON.stringify(open)}</p>
       {label && <FieldLabel htmlFor="date">{label}</FieldLabel>}
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger
@@ -20,21 +28,28 @@ const DatePicker = ({ label }: { label: string }) => {
               id="date"
               className="justify-start font-normal"
             >
-              {date ? date.toLocaleDateString() : "Select date"}
+              {value ? value.toLocaleDateString() : "Select date"}
             </Button>
           }
         />
         <PopoverContent className="w-auto overflow-hidden p-0" align="start">
-          <Calendar
-            mode="single"
-            selected={date}
-            defaultMonth={date}
-            captionLayout="dropdown"
-            onSelect={(date) => {
-              setDate(date);
-              setOpen(false);
-            }}
-          />
+          <div
+            className={classNames("calendar", {
+              "border-destructive border-1": isError,
+            })}
+          >
+            <Calendar
+              mode="single"
+              selected={value}
+              captionLayout="dropdown"
+              onSelect={(date) => {
+                if (date) {
+                  onChange(date);
+                }
+                setOpen(false);
+              }}
+            />
+          </div>
         </PopoverContent>
       </Popover>
     </Field>

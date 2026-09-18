@@ -1,13 +1,21 @@
 import { DateTimeFormat } from "@/constants";
 import {
   differenceInYears,
+  format,
   getYear,
   isAfter,
   isMatch,
   parse,
+  startOfDay,
   startOfToday,
   subYears,
 } from "date-fns";
+
+// formats a Date using the browser's local timezone, dd/MM/yyyy by default
+export const formatDate = (
+  date: Date,
+  dateFormat: string = DateTimeFormat.DMY,
+): string => format(date, dateFormat);
 
 // checks the string is a real calendar date in dd/MM/yyyy (rejects 31/02/2020, 29/02/2023, etc.)
 export const isValidDateString = ({
@@ -45,14 +53,17 @@ export const getNumPreviousYears = (howManyYearsAgo: number): number[] => {
 
 // is the date provide in the future
 export const isFutureDate = ({
-  dateStr,
+  date,
   format = DateTimeFormat.DMY,
 }: {
-  dateStr: string;
+  date: string | Date;
   // keyof typeof DateTimeFormat -> "DMY"
   // no as const here
   format?: (typeof DateTimeFormat)[keyof typeof DateTimeFormat];
 }) => {
-  const parsedDate = parse(dateStr, format, new Date());
+  if (typeof date !== "string") {
+    return isAfter(startOfDay(date), startOfDay(new Date()));
+  }
+  const parsedDate = parse(date, format, new Date());
   return isAfter(parsedDate, startOfToday());
 };

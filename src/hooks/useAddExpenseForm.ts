@@ -6,7 +6,7 @@ import {
   type ExpenseFormState,
 } from "@/types/Expenses";
 import { convertForSelect } from "@/utils";
-import { isFutureDate, isValidDateString } from "@/utils/DateTimeUtils";
+import { isFutureDate } from "@/utils/DateTimeUtils";
 import { useReducer } from "react";
 
 function reducer(
@@ -60,7 +60,7 @@ const initialState = {
     description: "",
     amount: "",
     type: EXPENSE_TYPE.CREDIT,
-    date: "",
+    date: new Date(),
     category: "",
   },
   errors: {
@@ -89,18 +89,18 @@ const useAddExpenseForm = () => {
   };
 
   const onChangeDescription = (val: string) => {
-    dispatch({ type: ExpenseAction.UPDATE_DESCRIPTION, payload: val.trim() });
+    dispatch({ type: ExpenseAction.UPDATE_DESCRIPTION, payload: val });
   };
+
   // Must not be in the future from today
-  // dd/mm/yyyy
-  const onChangeDate = (val: string) => {
-    if (isValidDateString({ date: val, dateFormat: DateTimeFormat.DMY })) {
-      dispatch({
-        type: ExpenseAction.SET_AMOUNT_ERROR,
-        payload: "Must be valid date.",
-      });
-    }
-    if (isFutureDate({ dateStr: val, format: DateTimeFormat.DMY })) {
+  // must not be null/empty
+  const onChangeDate = (val: Date) => {
+    dispatch({
+      type: ExpenseAction.SET_DATE_ERROR,
+      payload: null,
+    });
+
+    if (isFutureDate({ date: val, format: DateTimeFormat.DMY })) {
       dispatch({
         type: ExpenseAction.SET_AMOUNT_ERROR,
         payload: "Expense date cannot be in the future.",
@@ -115,6 +115,11 @@ const useAddExpenseForm = () => {
   // must be valid number
   // must not be negative number
   const onChangeAmount = (val: string) => {
+    dispatch({
+      type: ExpenseAction.SET_AMOUNT_ERROR,
+      payload: null,
+    });
+
     if (isNaN(Number(val))) {
       dispatch({
         type: ExpenseAction.SET_AMOUNT_ERROR,
@@ -128,6 +133,10 @@ const useAddExpenseForm = () => {
       });
     }
     dispatch({ type: ExpenseAction.UPDATE_AMOUNT, payload: val });
+  };
+
+  const onClearForm = () => {
+    dispatch({ type: ExpenseAction.CLEAR });
   };
 
   const { errors, formData } = state;
@@ -156,6 +165,7 @@ const useAddExpenseForm = () => {
     isAnyEmpty,
     categoryOptions,
     typeOptions,
+    onClearForm,
     onChangeType,
     onChangeCategory,
     onChangeDescription,

@@ -5,7 +5,7 @@ export interface ExpenseItem {
   description: string;
   amount: string; // cents in integers
   type: (typeof EXPENSE_TYPE)[keyof typeof EXPENSE_TYPE] | null;
-  date: string; // dd-mm-yyyy no timezone
+  date: Date; // Date no timezone
   category: string | null; // null;
 }
 
@@ -19,6 +19,7 @@ export const ExpenseAction = {
   SET_AMOUNT_ERROR: "SET_AMOUNT_ERROR",
   SET_CATEGORY_ERROR: "SET_CATEGORY_ERROR",
   SET_TYPE_ERROR: "SET_TYPE_ERROR",
+  CLEAR: "CLEAR",
 } as const;
 
 export type ExpenseFormActionType =
@@ -28,10 +29,11 @@ export type ExpenseFormActionType =
       type: typeof ExpenseAction.UPDATE_TYPE;
       payload: (typeof EXPENSE_TYPE)[keyof typeof EXPENSE_TYPE] | null;
     }
-  | { type: typeof ExpenseAction.UPDATE_DATE; payload: string }
+  | { type: typeof ExpenseAction.UPDATE_DATE; payload: Date }
   | { type: typeof ExpenseAction.UPDATE_CATEGORY; payload: string | null }
   | { type: typeof ExpenseAction.SET_DATE_ERROR; payload: string | null }
-  | { type: typeof ExpenseAction.SET_AMOUNT_ERROR; payload: string | null };
+  | { type: typeof ExpenseAction.SET_AMOUNT_ERROR; payload: string | null }
+  | { type: typeof ExpenseAction.CLEAR };
 
 type ExpenseFormErrorState = {
   dateError: string | null;

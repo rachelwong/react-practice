@@ -1,3 +1,5 @@
+import { addExpense } from "@/context/expenseReducer";
+import { useExpenseDispatch } from "@/context/expenseStore";
 import useAddExpenseForm from "@/hooks/useAddExpenseForm";
 import classNames from "classnames";
 import { LayersPlus } from "lucide-react";
@@ -13,16 +15,32 @@ const ExpenseTrackerForm = ({ className }: { className?: string }) => {
     categoryOptions,
     typeOptions,
     errorMessage,
-    isError,
-    isAnyEmpty,
     onChangeType,
     onChangeCategory,
     onChangeDescription,
     onChangeDate,
     onChangeAmount,
+    onClearForm,
   } = useAddExpenseForm();
 
   const { description, amount, type, date, category } = formData;
+
+  const dispatch = useExpenseDispatch();
+
+  const onSubmitForm = () => {
+    dispatch(
+      addExpense({
+        id: "",
+        description,
+        amount,
+        type,
+        date,
+        category,
+        isEdit: false,
+      }),
+    );
+    onClearForm();
+  };
 
   return (
     <div
@@ -57,7 +75,7 @@ const ExpenseTrackerForm = ({ className }: { className?: string }) => {
           }}
           label={"Type"}
         />
-        <DatePicker label="Date" />
+        <DatePicker label="Date" value={date} onChange={onChangeDate} />
         <Input
           placeholder="Amount"
           value={amount}
@@ -65,6 +83,16 @@ const ExpenseTrackerForm = ({ className }: { className?: string }) => {
             onChangeAmount(e.target.value);
           }}
         />
+        <Button
+          variant="default"
+          size="lg"
+          onClick={() => {
+            onSubmitForm();
+          }}
+        >
+          <LayersPlus />
+          <span>Create</span>
+        </Button>
       </div>
       {!!errorMessage.length && (
         <ul>
@@ -75,15 +103,6 @@ const ExpenseTrackerForm = ({ className }: { className?: string }) => {
           ))}
         </ul>
       )}
-      <Button
-        disabled={isAnyEmpty || isError}
-        variant="default"
-        size="lg"
-        onClick={() => {}}
-      >
-        <LayersPlus />
-        <span>Create</span>
-      </Button>
     </div>
   );
 };
