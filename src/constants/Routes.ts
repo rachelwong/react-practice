@@ -21,6 +21,7 @@ export const ROUTES = {
   PAGINATION: "/pagination",
   COUNTRY_SEARCH: "/country-search",
   CALCULATOR: "/calculator",
+  EXPENSE_TRACKER: "/expense-tracker",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -116,6 +117,11 @@ export const ROUTE_CONFIG: RouteConfig[] = [
   {
     route: ROUTES.CALCULATOR,
     title: "Calculator",
-    description: "Roll your own calculator with ",
+    description: "Roll your own calculator with in-component state",
+  },
+  {
+    route: ROUTES.EXPENSE_TRACKER,
+    title: "Expense tracker",
+    description: "Dynamic table with redux",
   },
 ];

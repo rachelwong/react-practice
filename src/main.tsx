@@ -9,6 +9,7 @@ import {
 } from "react-router";
 import App from "./App.tsx";
 import { dogCeoStore } from "./context/breedStore.ts";
+import { expenseStore } from "./context/expenseStore.ts";
 import { MultiStepFormProvider } from "./context/MultiStepFormContext.tsx";
 import { MusicPlayerProvider } from "./context/MusicPlayerContext.tsx";
 import RacesContextProvider from "./context/RacesContext.tsx";
@@ -24,6 +25,7 @@ import Counter from "./screens/Counter.tsx";
 import CountrySearch from "./screens/CountrySearch.tsx";
 import CustomTextArea from "./screens/CustomTextArea.tsx";
 import Debounce from "./screens/Debounce.tsx";
+import ExpenseTracker from "./screens/ExpenseTracker.tsx";
 import MultiSignupForm from "./screens/MultiSignupForm.tsx";
 import MusicPlayer from "./screens/MusicPlayer.tsx";
 import Pagination from "./screens/Pagination.tsx";
@@ -89,6 +91,14 @@ createRoot(document.getElementById("root")!).render(
         <Route path={ROUTES.PAGINATION} element={<Pagination />} />
         <Route path={ROUTES.COUNTRY_SEARCH} element={<CountrySearch />} />
         <Route path={ROUTES.CALCULATOR} element={<Calculator />} />
+        <Route
+          path={ROUTES.EXPENSE_TRACKER}
+          element={
+            <Provider store={expenseStore}>
+              <ExpenseTracker />
+            </Provider>
+          }
+        />
       </AllRoutes>
     </Router>
   </StrictMode>,

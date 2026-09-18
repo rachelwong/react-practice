@@ -1,5 +1,13 @@
 import { DateTimeFormat } from "@/constants";
-import { differenceInYears, getYear, isMatch, parse, subYears } from "date-fns";
+import {
+  differenceInYears,
+  getYear,
+  isAfter,
+  isMatch,
+  parse,
+  startOfToday,
+  subYears,
+} from "date-fns";
 
 // checks the string is a real calendar date in dd/MM/yyyy (rejects 31/02/2020, 29/02/2023, etc.)
 export const isValidDateString = ({
@@ -33,4 +41,18 @@ export const getNumPreviousYears = (howManyYearsAgo: number): number[] => {
   return Array.from(Array(howManyYearsAgo).keys()).map((amount) =>
     getYear(subYears(currentDate, amount)),
   );
+};
+
+// is the date provide in the future
+export const isFutureDate = ({
+  dateStr,
+  format = DateTimeFormat.DMY,
+}: {
+  dateStr: string;
+  // keyof typeof DateTimeFormat -> "DMY"
+  // no as const here
+  format?: (typeof DateTimeFormat)[keyof typeof DateTimeFormat];
+}) => {
+  const parsedDate = parse(dateStr, format, new Date());
+  return isAfter(parsedDate, startOfToday());
 };
