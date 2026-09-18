@@ -14,10 +14,11 @@ interface SelectFieldProps {
   selectOptions: SelectOptionType[];
   value: string | null;
   onChange: (val: string) => void;
-  label: string;
+  label?: string;
   // id?: string; // TODO reconsider whether required
   // error?: string;
   classnames?: string;
+  placeholder?: string;
 }
 
 const SelectField = ({
@@ -28,12 +29,15 @@ const SelectField = ({
   // id,
   // error,
   classnames,
+  placeholder,
 }: SelectFieldProps) => {
   return (
     <Field className={classNames("w-full", classnames)}>
-      <FieldLabel className="text-sm" htmlFor={`select-${label}`}>
-        {label}
-      </FieldLabel>
+      {label && (
+        <FieldLabel className="text-sm" htmlFor={`select-${label}`}>
+          {label}
+        </FieldLabel>
+      )}
       <Select
         items={selectOptions}
         value={value}
@@ -44,7 +48,7 @@ const SelectField = ({
         }}
       >
         <SelectTrigger id={`select-${label}`} className="w-full">
-          <SelectValue />
+          <SelectValue placeholder={placeholder ?? ""} />
         </SelectTrigger>
         <SelectContent className="w-full">
           <SelectGroup>

@@ -1,3 +1,4 @@
+import { EXPENSE_TIME_FILTER, EXPENSE_TYPE } from "@/constants/ExpenseTracker";
 import type { ExpenseItem } from "@/types/Expenses";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
@@ -6,14 +7,14 @@ export type Expense = ExpenseItem & { isEdit: boolean };
 
 export interface ExpensesState {
   expenses: Expense[];
-  timeFilter: string | null;
-  typeFilter: string | null;
+  timeFilter: string[];
+  categoryFilter: string | null;
 }
 
 const initialState: ExpensesState = {
   expenses: [],
-  timeFilter: null,
-  typeFilter: null,
+  timeFilter: [], // AND logic to allow for multiple time calculations
+  categoryFilter: null,
 };
 
 export const expensesSlice = createSlice({
@@ -31,6 +32,41 @@ export const expensesSlice = createSlice({
             id: uuid, // write actual id in
           },
         ],
+      };
+    },
+    clearTimeFilter: (state) => {
+      return {
+        ...state,
+        timeFilter: [],
+      };
+    },
+    setTimeFilters: (
+      state,
+      action: PayloadAction<
+        (typeof EXPENSE_TIME_FILTER)[keyof typeof EXPENSE_TIME_FILTER][]
+      >,
+    ) => {
+      return {
+        ...state,
+        timeFilter: [...action.payload],
+      };
+    },
+    setCategoryFilter: (
+      state,
+      action: PayloadAction<
+        (typeof EXPENSE_TYPE)[keyof typeof EXPENSE_TYPE] | null
+      >,
+    ) => {
+      return {
+        ...state,
+        categoryFilter: action.payload,
+      };
+    },
+    clearAllFilters: (state) => {
+      return {
+        ...state,
+        timeFilter: [],
+        categoryFilter: null,
       };
     },
     deleteExpense: (state, action: PayloadAction<string>) => {
@@ -87,8 +123,16 @@ export const expensesSlice = createSlice({
   },
 });
 
-export const { addExpense, deleteExpense, onEditExpense, onUpdateExpense } =
-  expensesSlice.actions;
+export const {
+  addExpense,
+  deleteExpense,
+  onEditExpense,
+  onUpdateExpense,
+  setCategoryFilter,
+  clearTimeFilter,
+  setTimeFilters,
+  clearAllFilters,
+} = expensesSlice.actions;
 
 export const expenses = (state: ExpensesState) => state.expenses;
 

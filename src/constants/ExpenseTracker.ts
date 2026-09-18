@@ -15,7 +15,7 @@ export const EXPENSE_TYPE = {
 // AND logic (multi-select)
 export const EXPENSE_TIME_FILTER = {
   ALL: "All time",
-  TODY: "Today",
+  TODAY: "Today",
   LAST_WEEK: "Last week",
   LAST_MONTH: "Last Month",
 };
