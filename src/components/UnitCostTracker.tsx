@@ -19,8 +19,7 @@ const UnitCostTracker = () => {
     numPerWeek,
     unitPrice,
     breakEvenDate,
-    investTotal,
-    onChangeInvestTotal,
+    weeksElapsed,
     onNumberOfUnitsPerWeek,
     onUnitPrice,
     onStartDate,
@@ -30,6 +29,7 @@ const UnitCostTracker = () => {
 
   const total = useExpenseSelector(filteredTotalExpenses);
 
+  const formattedStartDate = formatDate(startDate);
   return (
     <div className="w-full h-auto flex flex-row justify-between items-stretch gap-x-6">
       <div className="flex flex-col items-start justify-start align-start gap-y-4 w-1/2 h-full">
@@ -38,7 +38,7 @@ const UnitCostTracker = () => {
             Your starting investment {CurrencyFormatter.format(total)}
           </h2>
           <span className="text-xs">
-            Note: You can add more investment by adding expense items about of
+            Note: You can add more investment by adding expense items above of
             type {EXPENSE_TYPE.CREDIT}
           </span>
         </div>
@@ -87,7 +87,7 @@ const UnitCostTracker = () => {
                 <h3 className="text-xl font-extrabold text-amber-500 ">
                   You broken even today!
                 </h3>
-                <p>
+                <p className="text-amber-500">
                   Your investment broke even on -{" "}
                   <strong>{formatDate(breakEvenDate)}</strong>
                 </p>
@@ -98,7 +98,7 @@ const UnitCostTracker = () => {
                 <h3 className="text-xl font-extrabold text-red-500">
                   You're on your way to recouping your investment!
                 </h3>
-                <p>
+                <p className="text-red-500">
                   Your investment will break even on -{" "}
                   <strong>{formatDate(breakEvenDate)}</strong>
                 </p>
@@ -110,26 +110,31 @@ const UnitCostTracker = () => {
                   All your at home coffees have already paid off your
                   investment!
                 </h3>
-                <p>
+                <p className="text-green-500">
                   Your investment broke even on -{" "}
                   <strong>{formatDate(breakEvenDate)}</strong>
                 </p>
               </>
             )}
             <p>
-              Average price per coffee you made at home came to
+              Average price per coffee you made at home since{" "}
+              <strong>{formattedStartDate}</strong> came to{" "}
               {CurrencyFormatter.format(
-                total / (Number(numPerWeek) * Number(unitPrice)),
+                total / (Number(numPerWeek) * Number(unitPrice) * weeksElapsed),
               )}{" "}
-              which comes from {total} / ({numPerWeek} coffees per week x{" "}
-              {CurrencyFormatter.format(Number(unitPrice))})
+              which comes from total investment ${total} / ({numPerWeek} coffees
+              per week x {CurrencyFormatter.format(Number(unitPrice))}) per
+              coffee x {weeksElapsed} weeks elapsed.
             </p>
             <p>
               The total cost if you had bought the coffee from a shop instead
-              since <strong>{formatDate(startDate)}</strong> comes to{" "}
-              <strong>{Number(numPerWeek) * Number(unitPrice)}</strong> which
-              comes from {numPerWeek} coffees x{" "}
-              {CurrencyFormatter.format(Number(unitPrice))} per coffee
+              since <strong>{formattedStartDate}</strong> comes to{" "}
+              <strong>
+                {Number(numPerWeek) * Number(unitPrice) * weeksElapsed}
+              </strong>{" "}
+              which comes from {numPerWeek} coffees x{" "}
+              {CurrencyFormatter.format(Number(unitPrice))} per coffee x{" "}
+              {weeksElapsed} number of weeks since {formattedStartDate}.
             </p>
             <div className="bg-amber-100 p-3 w-full h-full">
               <span>

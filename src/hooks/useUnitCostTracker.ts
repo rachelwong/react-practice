@@ -1,6 +1,12 @@
 import { filteredTotalExpenses } from "@/context/expenseSelector";
 import { useExpenseSelector } from "@/context/expenseStore";
-import { addMilliseconds, isFuture, isPast, isToday } from "date-fns";
+import {
+  addMilliseconds,
+  differenceInDays,
+  isFuture,
+  isPast,
+  isToday,
+} from "date-fns";
 import { useState } from "react";
 
 const msPerWeek = 1000 * 60 * 60 * 24 * 7; // milliseconds per week
@@ -15,9 +21,6 @@ export const BREAKEVEN_STATUS = {
 
 const useUnitCostTracker = () => {
   const filteredTotal = useExpenseSelector(filteredTotalExpenses);
-  const [investTotal, setInvestTotal] = useState<string>(
-    filteredTotal.toString(),
-  );
   const [numPerWeek, setNumPerWeek] = useState<string>("");
   const [unitPrice, setUnitPrice] = useState<string>("");
   const [startDate, setStartDate] = useState<Date>(new Date());
@@ -53,11 +56,10 @@ const useUnitCostTracker = () => {
     if (isNaN(Number(e))) {
       return;
     }
-    setInvestTotal(e);
   };
   const onSubmit = () => {
     const numWeeksToBreakEven =
-      Number(investTotal) / (Number(numPerWeek) * Number(unitPrice));
+      Number(filteredTotal) / (Number(numPerWeek) * Number(unitPrice));
 
     const breakEvenDate = addMilliseconds(
       startDate,
@@ -88,12 +90,15 @@ const useUnitCostTracker = () => {
     }
   };
 
+  const weeksElapsed = Math.ceil(differenceInDays(new Date(), startDate) / 7);
+
   return {
-    investTotal,
+    filteredTotal,
     numPerWeek,
     unitPrice,
     startDate,
     breakEvenDate,
+    weeksElapsed,
     status: getBreakEventStatus(),
     onChangeInvestTotal,
     onNumberOfUnitsPerWeek,

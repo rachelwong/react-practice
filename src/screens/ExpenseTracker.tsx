@@ -124,6 +124,7 @@ const ExpenseTracker = () => {
             Also assumes that the user will not purchase any coffees externally.
           </strong>
         </div>
+        <hr className="border-1 border-slate-300 w-full h-0" />
         <UnitCostTracker />
       </div>
     </Layout>
