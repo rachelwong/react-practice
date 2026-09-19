@@ -4,6 +4,7 @@ import {
   ExpenseAction,
   type DisplayExpense,
   type ExpenseFormActionType,
+  type ExpenseFormErrorState,
   type ExpenseFormState,
 } from "@/types/Expenses";
 import { convertForSelect } from "@/utils";
@@ -40,15 +41,10 @@ function reducer(
         ...state,
         formData: { ...state.formData, category: action.payload },
       };
-    case ExpenseAction.SET_DATE_ERROR:
+    case ExpenseAction.SET_FORM_ERRORS:
       return {
         ...state,
-        errors: { ...state.errors, dateError: action.payload },
-      };
-    case ExpenseAction.SET_AMOUNT_ERROR:
-      return {
-        ...state,
-        errors: { ...state.errors, amountError: action.payload },
+        errors: { ...state.errors, ...action.payload },
       };
     case ExpenseAction.CLEAR:
       return initialState;
@@ -70,6 +66,8 @@ const initialState = {
   errors: {
     dateError: null,
     amountError: null,
+    categoryError: null,
+    descriptionError: null,
   },
 };
 
@@ -96,12 +94,26 @@ const useAddExpenseForm = ({
 
   const onChangeCategory = (val: string | null) => {
     dispatch({
+      type: ExpenseAction.SET_FORM_ERRORS,
+      payload: {
+        ...state.errors,
+        categoryError: null,
+      },
+    });
+    dispatch({
       type: ExpenseAction.UPDATE_CATEGORY,
       payload: val,
     });
   };
 
   const onChangeDescription = (val: string) => {
+    dispatch({
+      type: ExpenseAction.SET_FORM_ERRORS,
+      payload: {
+        ...state.errors,
+        descriptionError: null,
+      },
+    });
     dispatch({ type: ExpenseAction.UPDATE_DESCRIPTION, payload: val });
   };
 
@@ -109,42 +121,45 @@ const useAddExpenseForm = ({
   // must not be null/empty
   const onChangeDate = (val: Date) => {
     dispatch({
-      type: ExpenseAction.SET_DATE_ERROR,
-      payload: null,
+      type: ExpenseAction.SET_FORM_ERRORS,
+      payload: {
+        ...state.errors,
+        dateError: null,
+      },
     });
 
-    if (isFutureDate({ date: val, format: DateTimeFormat.DMY })) {
-      dispatch({
-        type: ExpenseAction.SET_AMOUNT_ERROR,
-        payload: "Expense date cannot be in the future.",
-      });
-    }
     dispatch({
       type: ExpenseAction.UPDATE_DATE,
       payload: val,
     });
+
+    if (
+      isFutureDate({
+        date: val,
+        format: DateTimeFormat.DMY,
+      })
+    ) {
+      dispatch({
+        type: ExpenseAction.SET_FORM_ERRORS,
+        payload: {
+          ...state.errors,
+          dateError: "Date cannot be in the future",
+        },
+      });
+    }
   };
 
   // must be valid number
   // must not be negative number
   const onChangeAmount = (val: string) => {
     dispatch({
-      type: ExpenseAction.SET_AMOUNT_ERROR,
-      payload: null,
+      type: ExpenseAction.SET_FORM_ERRORS,
+      payload: {
+        ...state.errors,
+        amountError: null,
+      },
     });
 
-    if (isNaN(Number(val))) {
-      dispatch({
-        type: ExpenseAction.SET_AMOUNT_ERROR,
-        payload: "Must be valid monetary amount",
-      });
-    }
-    if (Number(val) < 0) {
-      dispatch({
-        type: ExpenseAction.SET_AMOUNT_ERROR,
-        payload: "Cannot be negative amount",
-      });
-    }
     dispatch({ type: ExpenseAction.UPDATE_AMOUNT, payload: val });
   };
 
@@ -153,29 +168,57 @@ const useAddExpenseForm = ({
   };
 
   const { errors, formData } = state;
-  const categoryEmpty = !state.formData.category
-    ? "Category is required"
-    : null;
-  const typeEmpty = !state.formData.type ? "Type is required" : null;
-
-  const errorMessage = [
-    ...Object.values(errors),
-    typeEmpty,
-    categoryEmpty,
-  ].filter((x): x is string => !!x);
-
-  const isError = !!errorMessage.length;
-
-  const isAnyEmpty = Object.values(formData).some((x) => !x);
 
   const categoryOptions = convertForSelect(EXPENSE_CATEGORIES);
   const typeOptions = convertForSelect(Object.values(EXPENSE_TYPE));
 
+  const validateForm = (): ExpenseFormErrorState => {
+    let errorState: ExpenseFormErrorState = {
+      dateError: null,
+      categoryError: null,
+      descriptionError: null,
+      amountError: null,
+    };
+
+    // DATE: no invalid date scenario
+    if (
+      isFutureDate({ date: state.formData.date, format: DateTimeFormat.DMY })
+    ) {
+      errorState.dateError = "Expense Date cannot be in the future";
+    }
+
+    // CATEGORY: no category
+    if (!state.formData.category) {
+      errorState.categoryError = "Category is required";
+    }
+
+    // DESCRIPTION: no description
+    if (!state.formData.description.trim()) {
+      errorState.descriptionError = "Description is required";
+    }
+
+    // AMOUNT: not a number, negative number, 0 number, empty
+    if (
+      isNaN(Number(state.formData.amount.trim())) ||
+      Number(state.formData.amount) <= 0 ||
+      !state.formData.amount
+    ) {
+      errorState.amountError = "Invalid amount";
+    }
+
+    dispatch({
+      type: ExpenseAction.SET_FORM_ERRORS,
+      payload: {
+        ...state.errors,
+        ...errorState,
+      },
+    });
+    return errorState;
+  };
+
   return {
     formData,
-    errorMessage,
-    isError,
-    isAnyEmpty,
+    errors,
     categoryOptions,
     typeOptions,
     onClearForm,
@@ -184,6 +227,7 @@ const useAddExpenseForm = ({
     onChangeDescription,
     onChangeDate,
     onChangeAmount,
+    validateForm,
   };
 };
 

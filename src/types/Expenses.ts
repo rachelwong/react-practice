@@ -15,10 +15,7 @@ export const ExpenseAction = {
   UPDATE_TYPE: "UPDATE_TYPE",
   UPDATE_DATE: "UPDATE_DATE",
   UPDATE_CATEGORY: "UPDATE_CATEGORY",
-  SET_DATE_ERROR: "SET_DATE_ERROR",
-  SET_AMOUNT_ERROR: "SET_AMOUNT_ERROR",
-  SET_CATEGORY_ERROR: "SET_CATEGORY_ERROR",
-  SET_TYPE_ERROR: "SET_TYPE_ERROR",
+  SET_FORM_ERRORS: "SET_FORM_ERRORS",
   CLEAR: "CLEAR",
 } as const;
 
@@ -31,13 +28,17 @@ export type ExpenseFormActionType =
     }
   | { type: typeof ExpenseAction.UPDATE_DATE; payload: Date }
   | { type: typeof ExpenseAction.UPDATE_CATEGORY; payload: string | null }
-  | { type: typeof ExpenseAction.SET_DATE_ERROR; payload: string | null }
-  | { type: typeof ExpenseAction.SET_AMOUNT_ERROR; payload: string | null }
+  | {
+      type: typeof ExpenseAction.SET_FORM_ERRORS;
+      payload: ExpenseFormErrorState;
+    }
   | { type: typeof ExpenseAction.CLEAR };
 
-type ExpenseFormErrorState = {
+export type ExpenseFormErrorState = {
   dateError: string | null;
   amountError: string | null;
+  categoryError: string | null;
+  descriptionError: string | null;
 };
 
 export type ExpenseFormState = {

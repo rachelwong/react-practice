@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { Calendar } from "./ui/calendar";
-import { Field, FieldLabel } from "./ui/field";
+import { Field, FieldError, FieldLabel } from "./ui/field";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
 const DatePicker = ({
@@ -10,15 +10,20 @@ const DatePicker = ({
   onChange,
   value,
   isError = false,
+  errorMessage,
 }: {
   label: string;
   onChange: (date: Date) => void;
   value: Date;
   isError?: boolean;
+  errorMessage?: string;
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   return (
-    <Field className="">
+    <Field
+      className="flex flex-col gap-y-1 items-start justify-start"
+      data-invalid={isError || undefined}
+    >
       {label && <FieldLabel htmlFor="date">{label}</FieldLabel>}
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger
@@ -52,6 +57,11 @@ const DatePicker = ({
           </div>
         </PopoverContent>
       </Popover>
+      {isError && errorMessage && (
+        <FieldError className="text-xs text-red-500 text-left">
+          {errorMessage}
+        </FieldError>
+      )}
     </Field>
   );
 };

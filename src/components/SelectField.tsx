@@ -1,6 +1,6 @@
 import type { SelectOptionType } from "@/types/Select";
 import classNames from "classnames";
-import { Field, FieldLabel } from "./ui/field";
+import { Field, FieldError, FieldLabel } from "./ui/field";
 import {
   Select,
   SelectContent,
@@ -19,6 +19,8 @@ interface SelectFieldProps {
   // error?: string;
   classnames?: string;
   placeholder?: string;
+  isError?: boolean;
+  errorMessage?: string;
 }
 
 const SelectField = ({
@@ -30,9 +32,17 @@ const SelectField = ({
   // error,
   classnames,
   placeholder,
+  isError = false,
+  errorMessage,
 }: SelectFieldProps) => {
   return (
-    <Field className={classNames("w-full", classnames)}>
+    <Field
+      className={classNames(
+        "w-full flex flex-col items-start justify-start gap-y-1",
+        classnames,
+      )}
+      data-invalid={isError || undefined}
+    >
       {label && (
         <FieldLabel className="text-sm" htmlFor={`select-${label}`}>
           {label}
@@ -60,6 +70,11 @@ const SelectField = ({
           </SelectGroup>
         </SelectContent>
       </Select>
+      {isError && errorMessage && (
+        <FieldError className="text-red-500 text-left text-xs">
+          {errorMessage}
+        </FieldError>
+      )}
     </Field>
   );
 };
