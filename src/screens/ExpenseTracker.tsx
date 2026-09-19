@@ -75,6 +75,15 @@ const ExpenseTracker = () => {
         )}
         {!!expensesList.length && (
           <div className="flex flex-col justify-end items-start w-full h-auto gap-y-3">
+            <div className="w-full h-auto flex flex-row justify-between items-center gap-x-4 p-3">
+              <ul className="flex flex-row justify-start align-center w-2/3">
+                <li className="w-1/4">Description</li>
+                <li className="w-1/4">Date</li>
+                <li className="w-1/4">Category</li>
+                <li className="w-1/4">Amount</li>
+              </ul>
+              <div className="expense-actions flex flex-row flex-nowrap w-1/4 gap-x-3 justify-end items-end"></div>
+            </div>
             <ul className="flex flex-col justify-start items-start w-full h-auto p-2 border-1 border-neutral-900">
               {expensesList.map((expense, index) => (
                 <li className="w-full h-auto" key={`${expense.id}`}>
