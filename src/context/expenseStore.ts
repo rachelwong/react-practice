@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { persistReducer, persistStore } from "redux-persist";
 import expenseReducer from "./expenseReducer";
 
+// creating a custom storage due to react + vite + redux-persist
 const customLocalStorage = {
   getItem: (key: string) => Promise.resolve(localStorage.getItem(key)),
   setItem: (key: string, value: string) =>
@@ -22,6 +23,7 @@ export const expenseStore = configureStore({
     expenses: persistedExpenseReducer,
   },
   middleware: (getDefaultMiddleware) =>
+    // to resolve warning about persistence due to redux + redux-persist
     getDefaultMiddleware({
       serializableCheck: false,
     }),
