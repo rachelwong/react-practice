@@ -17,7 +17,3 @@ No UI polish. Core dependencies:
 - Date-fns for date conversion heavy lifting
 
 ### No AI-generated code here.
-
-There is a known bundling size issue which I'm ignoring for now.
-
-!['Build errors'](./public/build_errors.png)
