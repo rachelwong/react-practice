@@ -1,5 +1,5 @@
 import { ROUTES } from "@/constants";
-import { lazy, StrictMode } from "react";
+import { lazy, StrictMode, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import {
@@ -8,6 +8,8 @@ import {
   BrowserRouter as Router,
 } from "react-router";
 import { PersistGate } from "redux-persist/integration/react";
+import Layout from "./components/Layout.tsx";
+import { Spinner } from "./components/ui/spinner.tsx";
 import { dogCeoStore } from "./context/breedStore.ts";
 import { expensePersistor, expenseStore } from "./context/expenseStore.ts";
 import { MultiStepFormProvider } from "./context/MultiStepFormContext.tsx";
@@ -47,72 +49,85 @@ const ExpenseTrackerScreen = lazy(() => import("./screens/ExpenseTracker.tsx"));
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Router>
-      <AllRoutes>
-        <Route path={ROUTES.HOME} element={<HomeScreen />} />
-        <Route path={ROUTES.COUNTER} element={<CounterScreen />} />
-        <Route path={ROUTES.CART} element={<CartScreen />} />
-        <Route path={ROUTES.FORM_VALIDATION} element={<BasicFormScreen />} />
-        <Route path={ROUTES.STAR_REVIEW} element={<StarReviewScreen />} />
-        <Route path={ROUTES.TIMER} element={<TimerScreen />} />
-        <Route
-          path={ROUTES.DOG_LIST}
-          element={
-            <Provider store={dogCeoStore}>
-              <ReduxDogListScreen />
-            </Provider>
-          }
-        />
-        <Route
-          path={ROUTES.CUSTOM_TEXTAREA}
-          element={<CustomTextAreaScreen />}
-        />
-        <Route
-          path={ROUTES.MULTI_SIGN_UP}
-          element={
-            <MultiStepFormProvider>
-              <MultiSignupFormScreen />
-            </MultiStepFormProvider>
-          }
-        />
-        <Route path={ROUTES.CAROUSEL} element={<CarouselScreen />} />
-        <Route path={ROUTES.ACCORDION} element={<AccordionListScreen />} />
-        <Route path={ROUTES.COPY} element={<CopyToClipboardScreen />} />
-        <Route
-          path={ROUTES.ASYNC_VALIDATION}
-          element={<AsyncFieldValidationScreen />}
-        />
-        <Route
-          path={ROUTES.MUSIC_PLAYER}
-          element={
-            <MusicPlayerProvider>
-              <MusicPlayerScreen />
-            </MusicPlayerProvider>
-          }
-        />
-        <Route path={ROUTES.DEBOUNCE} element={<DebounceScreen />} />
-        <Route path={ROUTES.RERENDER_LIST} element={<RerenderListScreen />} />
-        <Route
-          path={ROUTES.RACES}
-          element={
-            <RacesContextProvider>
-              <RacesScreen />
-            </RacesContextProvider>
-          }
-        />
-        <Route path={ROUTES.PAGINATION} element={<PaginationScreen />} />
-        <Route path={ROUTES.COUNTRY_SEARCH} element={<CountrySearchScreen />} />
-        <Route path={ROUTES.CALCULATOR} element={<CalculatorScreen />} />
-        <Route
-          path={ROUTES.EXPENSE_TRACKER}
-          element={
-            <Provider store={expenseStore}>
-              <PersistGate loading={null} persistor={expensePersistor}>
-                <ExpenseTrackerScreen />
-              </PersistGate>
-            </Provider>
-          }
-        />
-      </AllRoutes>
+      <Suspense
+        fallback={
+          <Layout>
+            <div className="w-full h-dvh flex flex-col items-center justify-center">
+              <Spinner className="size-50 mx-auto my-0" />
+            </div>
+          </Layout>
+        }
+      >
+        <AllRoutes>
+          <Route path={ROUTES.HOME} element={<HomeScreen />} />
+          <Route path={ROUTES.COUNTER} element={<CounterScreen />} />
+          <Route path={ROUTES.CART} element={<CartScreen />} />
+          <Route path={ROUTES.FORM_VALIDATION} element={<BasicFormScreen />} />
+          <Route path={ROUTES.STAR_REVIEW} element={<StarReviewScreen />} />
+          <Route path={ROUTES.TIMER} element={<TimerScreen />} />
+          <Route
+            path={ROUTES.DOG_LIST}
+            element={
+              <Provider store={dogCeoStore}>
+                <ReduxDogListScreen />
+              </Provider>
+            }
+          />
+          <Route
+            path={ROUTES.CUSTOM_TEXTAREA}
+            element={<CustomTextAreaScreen />}
+          />
+          <Route
+            path={ROUTES.MULTI_SIGN_UP}
+            element={
+              <MultiStepFormProvider>
+                <MultiSignupFormScreen />
+              </MultiStepFormProvider>
+            }
+          />
+          <Route path={ROUTES.CAROUSEL} element={<CarouselScreen />} />
+          <Route path={ROUTES.ACCORDION} element={<AccordionListScreen />} />
+          <Route path={ROUTES.COPY} element={<CopyToClipboardScreen />} />
+          <Route
+            path={ROUTES.ASYNC_VALIDATION}
+            element={<AsyncFieldValidationScreen />}
+          />
+          <Route
+            path={ROUTES.MUSIC_PLAYER}
+            element={
+              <MusicPlayerProvider>
+                <MusicPlayerScreen />
+              </MusicPlayerProvider>
+            }
+          />
+          <Route path={ROUTES.DEBOUNCE} element={<DebounceScreen />} />
+          <Route path={ROUTES.RERENDER_LIST} element={<RerenderListScreen />} />
+          <Route
+            path={ROUTES.RACES}
+            element={
+              <RacesContextProvider>
+                <RacesScreen />
+              </RacesContextProvider>
+            }
+          />
+          <Route path={ROUTES.PAGINATION} element={<PaginationScreen />} />
+          <Route
+            path={ROUTES.COUNTRY_SEARCH}
+            element={<CountrySearchScreen />}
+          />
+          <Route path={ROUTES.CALCULATOR} element={<CalculatorScreen />} />
+          <Route
+            path={ROUTES.EXPENSE_TRACKER}
+            element={
+              <Provider store={expenseStore}>
+                <PersistGate loading={null} persistor={expensePersistor}>
+                  <ExpenseTrackerScreen />
+                </PersistGate>
+              </Provider>
+            }
+          />
+        </AllRoutes>
+      </Suspense>
     </Router>
   </StrictMode>,
 );
