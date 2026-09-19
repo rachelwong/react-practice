@@ -107,9 +107,6 @@ export const expensesSlice = createSlice({
         payload: { ...payload, date: payload.date.toISOString() },
       }),
       reducer: (state, action: PayloadAction<Expense>) => {
-        if (!action.payload.isEdit) {
-          return state;
-        }
         const selectedExpense = state.expenses.find(
           (x) => x.id === action.payload.id,
         );

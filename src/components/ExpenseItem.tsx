@@ -102,7 +102,7 @@ const ExpenseItem = ({ item, index, onEdit, onDelete }: ExpenseItemProps) => {
 
       {item.isEdit && (
         <>
-          <p>edit {description}</p>
+          {/* <p>edit {description}</p> */}
           <div className="flex flex-row justify-between items-end w-2/3 gap-x-4">
             <Input
               value={description}
