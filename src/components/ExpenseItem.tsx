@@ -144,37 +144,42 @@ const ExpenseItem = ({ item, index, onEdit, onDelete }: ExpenseItemProps) => {
         </>
       )}
 
-      <div className="expense-actions flex flex-row flex-nowrap gap-x-3 w-1/4 justify-end">
-        <Button
-          size="lg"
-          variant="outline"
-          disabled={item.isEdit} // don't edit again if already editing
-          onClick={() => {
-            onEdit(item.id);
-          }}
-        >
-          {item.isEdit ? (
-            <div className="flex flex-row gap-x-2 justify-start items-center">
+      <div className="expense-actions flex flex-row flex-nowrap w-1/4 gap-x-3 justify-end items-end">
+        {item.isEdit ? (
+          <div className="flex flex-row flex-nowrap gap-x-3 w-full h-full items-end">
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => {
+                onEdit(item.id);
+              }}
+            >
               <Ban />
               <span>Cancel</span>
-            </div>
-          ) : (
-            <div className="flex flex-row gap-x-2 justify-start items-center">
-              <Pencil />
-              <span>Edit</span>
-            </div>
-          )}
-        </Button>
-        {item.isEdit && (
+            </Button>
+            <Button
+              variant="secondary"
+              size="lg"
+              onClick={() => {
+                onSubmitEdit();
+              }}
+            >
+              <SaveCheck />
+              Save
+            </Button>
+          </div>
+        ) : (
           <Button
-            variant="secondary"
             size="lg"
+            variant="outline"
+            className="mx-4"
+            disabled={item.isEdit} // don't edit again if already editing
             onClick={() => {
-              onSubmitEdit();
+              onEdit(item.id);
             }}
           >
-            <SaveCheck />
-            Save Changes
+            <Pencil />
+            <span>Edit</span>
           </Button>
         )}
         <Button

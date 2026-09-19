@@ -7,9 +7,10 @@ import {
   Route,
   BrowserRouter as Router,
 } from "react-router";
+import { PersistGate } from "redux-persist/integration/react";
 import App from "./App.tsx";
 import { dogCeoStore } from "./context/breedStore.ts";
-import { expenseStore } from "./context/expenseStore.ts";
+import { expensePersistor, expenseStore } from "./context/expenseStore.ts";
 import { MultiStepFormProvider } from "./context/MultiStepFormContext.tsx";
 import { MusicPlayerProvider } from "./context/MusicPlayerContext.tsx";
 import RacesContextProvider from "./context/RacesContext.tsx";
@@ -95,7 +96,9 @@ createRoot(document.getElementById("root")!).render(
           path={ROUTES.EXPENSE_TRACKER}
           element={
             <Provider store={expenseStore}>
-              <ExpenseTracker />
+              <PersistGate loading={null} persistor={expensePersistor}>
+                <ExpenseTracker />
+              </PersistGate>
             </Provider>
           }
         />
