@@ -19,6 +19,9 @@ export const expensesSlice = createSlice({
   name: "expenses",
   initialState,
   reducers: {
+    clearAllExpenses: () => {
+      return initialState;
+    },
     addExpense: {
       // helper to run code before action.payload is handled by a reducer
       // transform the payload before it is persisted in the store
@@ -140,6 +143,7 @@ export const {
   clearTimeFilter,
   setTimeFilters,
   clearAllFilters,
+  clearAllExpenses,
 } = expensesSlice.actions;
 
 export const expenses = (state: ExpensesState) => state.expenses;

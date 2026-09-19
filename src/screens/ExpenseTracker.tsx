@@ -2,14 +2,19 @@ import ExpenseFilter from "@/components/ExpenseFilter";
 import ExpenseItem from "@/components/ExpenseItem";
 import ExpenseTrackerForm from "@/components/ExpenseTrackerForm";
 import Layout from "@/components/Layout";
+import { Button } from "@/components/ui/button";
 import UnitCostTracker from "@/components/UnitCostTracker";
 import { EXPENSE_TYPE } from "@/constants/ExpenseTracker";
-import { deleteExpense, onEditExpense } from "@/context/expenseReducer";
+import {
+  clearAllExpenses,
+  deleteExpense,
+  onEditExpense,
+} from "@/context/expenseReducer";
 import { filteredExpenses } from "@/context/expenseSelector";
 import { useExpenseDispatch, useExpenseSelector } from "@/context/expenseStore";
 import { CurrencyFormatter } from "@/utils";
 import classNames from "classnames";
-import { Gift, Lightbulb } from "lucide-react";
+import { Gift, Lightbulb, Trash } from "lucide-react";
 
 const ExpenseTracker = () => {
   const dispatch = useExpenseDispatch();
@@ -82,16 +87,26 @@ const ExpenseTracker = () => {
                 </li>
               ))}
             </ul>
-            <p
-              className={classNames("font-extrabold text-lg", {
-                "text-red-500": total < 0,
-                "text-green-500": total > 0,
-                "text-neutral-500": total === 0,
-              })}
-            >
-              {filtered ? "Subtotal" : "Total"}:{" "}
-              <span>{CurrencyFormatter.format(total)}</span>
-            </p>
+            <div className="flex flex-row items-center justify-start gap-x-4">
+              <p
+                className={classNames("font-extrabold text-lg", {
+                  "text-red-500": total < 0,
+                  "text-green-500": total > 0,
+                  "text-neutral-500": total === 0,
+                })}
+              >
+                {filtered ? "Subtotal" : "Total"}:{" "}
+                <span>{CurrencyFormatter.format(total)}</span>
+              </p>
+              <Button
+                size="lg"
+                variant="secondary"
+                onClick={() => dispatch(clearAllExpenses())}
+              >
+                <Trash />
+                Clear all
+              </Button>
+            </div>
           </div>
         )}
       </div>
