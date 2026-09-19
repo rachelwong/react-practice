@@ -21,7 +21,7 @@ const ExpenseTrackerForm = ({ className }: { className?: string }) => {
     onChangeDate,
     onChangeAmount,
     onClearForm,
-  } = useAddExpenseForm();
+  } = useAddExpenseForm({});
 
   const { description, amount, type, date, category } = formData;
 
@@ -75,7 +75,12 @@ const ExpenseTrackerForm = ({ className }: { className?: string }) => {
           }}
           label={"Type"}
         />
-        <DatePicker label="Date" value={date} onChange={onChangeDate} />
+        <DatePicker
+          label="Date"
+          // TODO check this data-binding
+          value={date}
+          onChange={onChangeDate}
+        />
         <Input
           placeholder="Amount"
           value={amount}

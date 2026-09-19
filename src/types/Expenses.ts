@@ -5,7 +5,7 @@ export interface ExpenseItem {
   description: string;
   amount: string; // cents in integers
   type: (typeof EXPENSE_TYPE)[keyof typeof EXPENSE_TYPE] | null;
-  date: Date; // Date no timezone
+  date: string; // ISO8601 string
   category: string | null; // null;
 }
 
@@ -41,6 +41,12 @@ type ExpenseFormErrorState = {
 };
 
 export type ExpenseFormState = {
-  formData: ExpenseItem;
+  formData: DisplayExpense;
   errors: ExpenseFormErrorState;
 };
+
+// Data persistence type
+export type Expense = ExpenseItem & { isEdit: boolean };
+
+// Display-only type (used in selectors)
+export type DisplayExpense = Omit<Expense, "date"> & { date: Date };

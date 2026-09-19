@@ -1,9 +1,7 @@
 import { EXPENSE_TIME_FILTER, EXPENSE_TYPE } from "@/constants/ExpenseTracker";
-import type { ExpenseItem } from "@/types/Expenses";
+import type { DisplayExpense, Expense } from "@/types/Expenses";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
-
-export type Expense = ExpenseItem & { isEdit: boolean };
 
 export interface ExpensesState {
   expenses: Expense[];
@@ -21,18 +19,26 @@ export const expensesSlice = createSlice({
   name: "expenses",
   initialState,
   reducers: {
-    addExpense: (state, action: PayloadAction<Expense>) => {
-      const uuid = uuidv4();
-      return {
-        ...state,
-        expenses: [
-          ...state.expenses,
-          {
-            ...action.payload,
-            id: uuid, // write actual id in
-          },
-        ],
-      };
+    addExpense: {
+      // helper to run code before action.payload is handled by a reducer
+      // transform the payload before it is persisted in the store
+      prepare: (payload: DisplayExpense) => ({
+        payload: { ...payload, date: payload.date.toISOString() },
+      }),
+      reducer: (state, action: PayloadAction<Expense>) => {
+        const uuid = uuidv4();
+        return {
+          ...state,
+          expenses: [
+            ...state.expenses,
+            {
+              ...action.payload,
+              date: action.payload.date,
+              id: uuid, // write actual id in
+            },
+          ],
+        };
+      },
     },
     clearTimeFilter: (state) => {
       return {
@@ -91,34 +97,39 @@ export const expensesSlice = createSlice({
           ...others,
           {
             ...selectedExpense,
-            isEdit: true,
+            isEdit: !selectedExpense.isEdit,
           },
         ],
       };
     },
-    onUpdateExpense: (state, action: PayloadAction<Expense>) => {
-      if (!action.payload.isEdit) {
-        return state;
-      }
-      const selectedExpense = state.expenses.find(
-        (x) => x.id === action.payload.id,
-      );
+    onUpdateExpense: {
+      prepare: (payload: DisplayExpense) => ({
+        payload: { ...payload, date: payload.date.toISOString() },
+      }),
+      reducer: (state, action: PayloadAction<Expense>) => {
+        if (!action.payload.isEdit) {
+          return state;
+        }
+        const selectedExpense = state.expenses.find(
+          (x) => x.id === action.payload.id,
+        );
 
-      const others = state.expenses.filter((x) => x.id !== action.payload.id);
+        const others = state.expenses.filter((x) => x.id !== action.payload.id);
 
-      if (!selectedExpense) {
-        return state;
-      }
-      return {
-        ...state,
-        expenses: [
-          ...others,
-          {
-            ...action.payload,
-            isEdit: false,
-          },
-        ],
-      };
+        if (!selectedExpense) {
+          return state;
+        }
+        return {
+          ...state,
+          expenses: [
+            ...others,
+            {
+              ...action.payload,
+              isEdit: false,
+            },
+          ],
+        };
+      },
     },
   },
 });

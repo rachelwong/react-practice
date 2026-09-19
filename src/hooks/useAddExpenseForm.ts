@@ -2,6 +2,7 @@ import { DateTimeFormat } from "@/constants";
 import { EXPENSE_CATEGORIES, EXPENSE_TYPE } from "@/constants/ExpenseTracker";
 import {
   ExpenseAction,
+  type DisplayExpense,
   type ExpenseFormActionType,
   type ExpenseFormState,
 } from "@/types/Expenses";
@@ -49,6 +50,8 @@ function reducer(
         ...state,
         errors: { ...state.errors, amountError: action.payload },
       };
+    case ExpenseAction.CLEAR:
+      return initialState;
     default:
       return initialState;
   }
@@ -62,6 +65,7 @@ const initialState = {
     type: EXPENSE_TYPE.CREDIT,
     date: new Date(),
     category: "",
+    isEdit: false,
   },
   errors: {
     dateError: null,
@@ -69,8 +73,17 @@ const initialState = {
   },
 };
 
-const useAddExpenseForm = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+const useAddExpenseForm = ({
+  existingFormData,
+}: {
+  existingFormData?: DisplayExpense;
+}) => {
+  const startingData = {
+    ...initialState,
+    ...(existingFormData && { formData: existingFormData }),
+  };
+
+  const [state, dispatch] = useReducer(reducer, startingData);
 
   const onChangeType = (
     val: (typeof EXPENSE_TYPE)[keyof typeof EXPENSE_TYPE] | null,

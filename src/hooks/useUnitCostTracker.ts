@@ -21,7 +21,10 @@ export const BREAKEVEN_STATUS = {
 };
 
 const useUnitCostTracker = () => {
-  const filteredTotal = useExpenseSelector(filteredTotalExpenses);
+  // filteredTotalExpenses is (totalCredit - totalDebit); investment spend is tracked
+  // as DEBIT, so flip the sign to get a positive investment amount
+  const rawFilteredTotal = useExpenseSelector(filteredTotalExpenses);
+  const filteredTotal = rawFilteredTotal === 0 ? 0 : -rawFilteredTotal;
   const [numPerWeek, setNumPerWeek] = useState<string>("");
   const [unitPrice, setUnitPrice] = useState<string>("");
   const [startDate, setStartDate] = useState<Date>(new Date());

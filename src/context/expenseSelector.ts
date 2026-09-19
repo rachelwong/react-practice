@@ -1,4 +1,5 @@
 import { EXPENSE_TIME_FILTER, EXPENSE_TYPE } from "@/constants/ExpenseTracker";
+import type { DisplayExpense, Expense } from "@/types/Expenses";
 import { createSelector } from "@reduxjs/toolkit";
 import {
   endOfDay,
@@ -8,7 +9,6 @@ import {
   subMonths,
   subWeeks,
 } from "date-fns";
-import type { Expense } from "./expenseReducer";
 import type { ExpensesStoreState } from "./expenseStore";
 
 const allExpenses = (state: ExpensesStoreState) => state.expenses.expenses;
@@ -51,28 +51,35 @@ export const filteredExpenses = createSelector(
     expenses: Expense[],
     timeFilters: string[],
     categoryFilter: string | null,
-  ) => {
-    return expenses.filter((expense) => {
-      // no type specified, so return expense; otherwise return only the matching expense
-      const matchCategory = !categoryFilter
-        ? true
-        : expense.category?.toLowerCase() === categoryFilter.toLowerCase();
+  ): DisplayExpense[] => {
+    return expenses
+      .map((expense) => {
+        return {
+          ...expense,
+          date: new Date(expense.date),
+        };
+      })
+      .filter((expense) => {
+        // no type specified, so return expense; otherwise return only the matching expense
+        const matchCategory = !categoryFilter
+          ? true
+          : expense.category?.toLowerCase() === categoryFilter.toLowerCase();
 
-      // no time range specified, so return expense; otherwise match any selected range
-      const matchTimeRanges = !timeFilters.length
-        ? true
-        : timeFilters.some((timeRange) =>
-            isDateWithinTimeRange({ date: expense.date, timeRange }),
-          );
+        // no time range specified, so return expense; otherwise match any selected range
+        const matchTimeRanges = !timeFilters.length
+          ? true
+          : timeFilters.some((timeRange) =>
+              isDateWithinTimeRange({ date: expense.date, timeRange }),
+            );
 
-      return matchCategory && matchTimeRanges;
-    });
+        return matchCategory && matchTimeRanges;
+      });
   },
 );
 
 export const filteredTotalExpenses = createSelector(
   [filteredExpenses],
-  (filteredExpenses: Expense[]) => {
+  (filteredExpenses: DisplayExpense[]) => {
     const totalCredit = filteredExpenses
       .filter((x) => x.type === EXPENSE_TYPE.CREDIT)
       .reduce((acc, cur) => {

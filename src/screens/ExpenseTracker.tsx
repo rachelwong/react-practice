@@ -48,6 +48,10 @@ const ExpenseTracker = () => {
               https://www.reactgrind.com/problems/expense-tracker-react
             </a>
           </p>
+          <ul>
+            <li>Debit = removing money</li>
+            <li>Credit = adding money</li>
+          </ul>
         </>
       }
     >
@@ -115,7 +119,7 @@ const ExpenseTracker = () => {
             <li>average number of coffees per calendar week</li>
           </ul>
           <button
-            className="bg-amber-100 p-3 w-full h-full flex flex-row justify-start gap-x-4 align-start"
+            className="hover:cursor-pointer bg-amber-100 p-3 w-full h-full flex flex-row justify-start gap-x-4 align-start"
             onClick={() => {
               window.location.href = "/docs/unit-cost-break-even.md";
             }}

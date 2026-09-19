@@ -1,6 +1,4 @@
 import { EXPENSE_TYPE } from "@/constants/ExpenseTracker";
-import { filteredTotalExpenses } from "@/context/expenseSelector";
-import { useExpenseSelector } from "@/context/expenseStore";
 import useUnitCostTracker from "@/hooks/useUnitCostTracker";
 import UnitCostResult from "@/UnitCostResult";
 import { CurrencyFormatter } from "@/utils";
@@ -19,6 +17,7 @@ const UnitCostTracker = () => {
     unitPrice,
     breakEvenDate,
     weeksElapsed,
+    filteredTotal: total,
     onNumberOfUnitsPerWeek,
     onUnitPrice,
     onStartDate,
@@ -26,9 +25,8 @@ const UnitCostTracker = () => {
     onReset,
   } = useUnitCostTracker();
 
-  const total = useExpenseSelector(filteredTotalExpenses);
-
   const formattedStartDate = formatDate(startDate);
+
   return (
     <div className="w-full h-auto flex flex-row justify-between items-stretch gap-x-6">
       <div className="flex flex-col items-start justify-start align-start gap-y-4 w-1/2 h-full">
@@ -39,7 +37,7 @@ const UnitCostTracker = () => {
           {!total && (
             <span className="text-xs">
               Note: You can add more investment by adding expense items above of
-              type {EXPENSE_TYPE.CREDIT}
+              type {EXPENSE_TYPE.DEBIT}
             </span>
           )}
         </div>

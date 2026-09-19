@@ -121,7 +121,7 @@ export const ROUTE_CONFIG: RouteConfig[] = [
   },
   {
     route: ROUTES.EXPENSE_TRACKER,
-    title: "Expense tracker x Coffee Break-even Calculator",
+    title: "Expense tracker x At-home coffee investment break-even Calculator",
     description: "Dynamic table with redux & useReducer",
     inProgress: true,
   },

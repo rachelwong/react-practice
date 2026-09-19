@@ -1,14 +1,20 @@
 import { EXPENSE_TYPE } from "@/constants/ExpenseTracker";
-import type { Expense } from "@/context/expenseReducer";
+import { onUpdateExpense } from "@/context/expenseReducer";
+import { useExpenseDispatch } from "@/context/expenseStore";
+import useAddExpenseForm from "@/hooks/useAddExpenseForm";
+import type { DisplayExpense } from "@/types/Expenses";
 import { CurrencyFormatter } from "@/utils";
 import { formatDate } from "@/utils/DateTimeUtils";
 import classNames from "classnames";
-import { BadgeX, Pencil } from "lucide-react";
+import { BadgeX, Ban, Pencil, SaveCheck } from "lucide-react";
+import DatePicker from "./DatePicker";
+import SelectField from "./SelectField";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
+import { Input } from "./ui/input";
 
 interface ExpenseItemProps {
-  item: Expense;
+  item: DisplayExpense;
   index: number;
   onDelete: (id: string) => void;
   onEdit: (id: string) => void;
@@ -33,6 +39,36 @@ const getBadgeStyle = (category: string): string => {
 };
 
 const ExpenseItem = ({ item, index, onEdit, onDelete }: ExpenseItemProps) => {
+  const {
+    formData,
+    categoryOptions,
+    typeOptions,
+    // errorMessage,
+    onChangeType,
+    onChangeCategory,
+    onChangeDescription,
+    onChangeDate,
+    onChangeAmount,
+    onClearForm,
+  } = useAddExpenseForm({ existingFormData: { ...item } });
+
+  const dispatch = useExpenseDispatch();
+  const { id, description, amount, type, date, category } = formData;
+
+  const onSubmitEdit = () => {
+    dispatch(
+      onUpdateExpense({
+        id,
+        description,
+        amount,
+        type,
+        date,
+        category,
+        isEdit: false,
+      }),
+    );
+    onClearForm();
+  };
   return (
     <div
       className={classNames(
@@ -43,7 +79,8 @@ const ExpenseItem = ({ item, index, onEdit, onDelete }: ExpenseItemProps) => {
       {!item.isEdit && (
         <div className="flex flex-row justify-start align-center w-2/3">
           <span className="w-1/4">{item.description}</span>
-          <p className="w-1/4">{formatDate(item.date)}</p>
+          {/* Date coming back as ISOstring requires reformatting */}
+          <p className="w-1/4">{formatDate(new Date(item.date))}</p>
           <div className="w-1/4 block relative">
             <Badge
               className={`${!!item.category ? getBadgeStyle(item.category) : ""}`}
@@ -57,9 +94,54 @@ const ExpenseItem = ({ item, index, onEdit, onDelete }: ExpenseItemProps) => {
               "text-red-500": item.type === EXPENSE_TYPE.DEBIT,
             })}
           >
+            {item.type === EXPENSE_TYPE.DEBIT ? "-" : ""}
             {CurrencyFormatter.format(Number(item.amount))}
           </p>
         </div>
+      )}
+
+      {item.isEdit && (
+        <>
+          <p>edit {description}</p>
+          <div className="flex flex-row justify-between items-end w-2/3 gap-x-4">
+            <Input
+              value={description}
+              placeholder="Description"
+              onChange={(e) => {
+                onChangeDescription(e.target.value);
+              }}
+            />
+            <SelectField
+              selectOptions={categoryOptions}
+              value={category}
+              onChange={(e) => {
+                onChangeCategory(e);
+              }}
+              label={"Category"}
+            />
+            <SelectField
+              selectOptions={typeOptions}
+              value={type}
+              onChange={(e) => {
+                onChangeType(e);
+              }}
+              label={"Type"}
+            />
+            <DatePicker
+              label="Date"
+              // TODO check this data-binding
+              value={date}
+              onChange={onChangeDate}
+            />
+            <Input
+              value={amount}
+              placeholder="amount"
+              onChange={(e) => {
+                onChangeAmount(e.target.value);
+              }}
+            />
+          </div>
+        </>
       )}
 
       <div className="expense-actions flex flex-row flex-nowrap gap-x-3 w-1/4 justify-end">
@@ -71,9 +153,30 @@ const ExpenseItem = ({ item, index, onEdit, onDelete }: ExpenseItemProps) => {
             onEdit(item.id);
           }}
         >
-          <Pencil />
-          <span>Edit</span>
+          {item.isEdit ? (
+            <div className="flex flex-row gap-x-2 justify-start items-center">
+              <Ban />
+              <span>Cancel</span>
+            </div>
+          ) : (
+            <div className="flex flex-row gap-x-2 justify-start items-center">
+              <Pencil />
+              <span>Edit</span>
+            </div>
+          )}
         </Button>
+        {item.isEdit && (
+          <Button
+            variant="secondary"
+            size="lg"
+            onClick={() => {
+              onSubmitEdit();
+            }}
+          >
+            <SaveCheck />
+            Save Changes
+          </Button>
+        )}
         <Button
           size="lg"
           variant="destructive"
