@@ -85,24 +85,17 @@ export const expensesSlice = createSlice({
       };
     },
     onEditExpense: (state, action: PayloadAction<string>) => {
-      const selectedExpense = state.expenses.find(
-        (x) => x.id === action.payload,
-      );
-
-      const others = state.expenses.filter((x) => x.id !== action.payload);
-
-      if (!selectedExpense) {
-        return state;
-      }
       return {
         ...state,
-        expenses: [
-          ...others,
-          {
-            ...selectedExpense,
-            isEdit: !selectedExpense.isEdit,
-          },
-        ],
+        expenses: state.expenses.map((expense) => {
+          if (expense.id === action.payload) {
+            return {
+              ...expense,
+              isEdit: !expense.isEdit,
+            };
+          }
+          return expense;
+        }),
       };
     },
     onUpdateExpense: {
@@ -110,24 +103,21 @@ export const expensesSlice = createSlice({
         payload: { ...payload, date: payload.date.toISOString() },
       }),
       reducer: (state, action: PayloadAction<Expense>) => {
-        const selectedExpense = state.expenses.find(
-          (x) => x.id === action.payload.id,
-        );
-
-        const others = state.expenses.filter((x) => x.id !== action.payload.id);
-
-        if (!selectedExpense) {
-          return state;
-        }
         return {
           ...state,
-          expenses: [
-            ...others,
-            {
-              ...action.payload,
-              isEdit: false,
-            },
-          ],
+          // need to mutate on top of the array so that it keeps
+          // rest of the array in place
+          // destructuring and spreading will result in always
+          // updating the last item of the array
+          expenses: state.expenses.map((expense) => {
+            if (expense.id === action.payload.id) {
+              return {
+                ...action.payload,
+                isEdit: false,
+              };
+            }
+            return expense;
+          }),
         };
       },
     },

@@ -41,21 +41,30 @@ const getBadgeStyle = (category: string): string => {
 const ExpenseItem = ({ item, index, onEdit, onDelete }: ExpenseItemProps) => {
   const {
     formData,
+    errors,
     categoryOptions,
     typeOptions,
-    // errorMessage,
     onChangeType,
     onChangeCategory,
     onChangeDescription,
     onChangeDate,
     onChangeAmount,
     onClearForm,
+    validateForm,
   } = useAddExpenseForm({ existingFormData: { ...item } });
 
   const dispatch = useExpenseDispatch();
+
   const { id, description, amount, type, date, category } = formData;
 
+  const { dateError, amountError, categoryError, descriptionError } = errors;
+
   const onSubmitEdit = () => {
+    const validationResult = validateForm();
+    // do not progress to submission if there are any errors
+    if (Object.values(validationResult).some((x) => !!x)) {
+      return;
+    }
     dispatch(
       onUpdateExpense({
         id,
@@ -102,44 +111,64 @@ const ExpenseItem = ({ item, index, onEdit, onDelete }: ExpenseItemProps) => {
 
       {item.isEdit && (
         <>
-          {/* <p>edit {description}</p> */}
           <div className="flex flex-row justify-between items-end w-2/3 gap-x-4">
-            <Input
-              value={description}
-              placeholder="Description"
-              onChange={(e) => {
-                onChangeDescription(e.target.value);
-              }}
-            />
+            <div className="flex flex-col items-start justify-start w-200 gap-y-1">
+              <Input
+                value={description}
+                placeholder="Description"
+                aria-invalid={!!descriptionError || undefined}
+                onChange={(e) => {
+                  onChangeDescription(e.target.value);
+                }}
+              />
+              {!!descriptionError && (
+                <p className="text-xs text-red-500 text-left">
+                  {descriptionError}
+                </p>
+              )}
+            </div>
             <SelectField
+              placeholder="Select one"
               selectOptions={categoryOptions}
               value={category}
               onChange={(e) => {
                 onChangeCategory(e);
               }}
               label={"Category"}
+              isError={!!categoryError}
+              errorMessage={categoryError || undefined}
             />
             <SelectField
               selectOptions={typeOptions}
               value={type}
               onChange={(e) => {
+                if (!e) {
+                  return;
+                }
                 onChangeType(e);
               }}
               label={"Type"}
             />
             <DatePicker
               label="Date"
-              // TODO check this data-binding
               value={date}
               onChange={onChangeDate}
+              isError={!!dateError}
+              errorMessage={dateError || undefined}
             />
-            <Input
-              value={amount}
-              placeholder="amount"
-              onChange={(e) => {
-                onChangeAmount(e.target.value);
-              }}
-            />
+            <div className="relative flex flex-col items-start justify-start w-200 gap-y-1">
+              <Input
+                value={amount}
+                placeholder="amount"
+                aria-invalid={!!amountError || undefined}
+                onChange={(e) => {
+                  onChangeAmount(e.target.value);
+                }}
+              />
+              {!!amountError && (
+                <p className="text-red-500 text-xs text-left">{amountError}</p>
+              )}
+            </div>
           </div>
         </>
       )}
@@ -169,27 +198,29 @@ const ExpenseItem = ({ item, index, onEdit, onDelete }: ExpenseItemProps) => {
             </Button>
           </div>
         ) : (
-          <Button
-            size="lg"
-            variant="outline"
-            className="mx-4"
-            disabled={item.isEdit} // don't edit again if already editing
-            onClick={() => {
-              onEdit(item.id);
-            }}
-          >
-            <Pencil />
-            <span>Edit</span>
-          </Button>
+          <div className="flex flex-row flex-nowrap gap-x-3 w-full h-full items-end">
+            <Button
+              size="lg"
+              variant="outline"
+              className="mx-4"
+              disabled={item.isEdit} // don't edit again if already editing
+              onClick={() => {
+                onEdit(item.id);
+              }}
+            >
+              <Pencil />
+              <span>Edit</span>
+            </Button>
+            <Button
+              size="lg"
+              variant="destructive"
+              onClick={() => onDelete(item.id)}
+            >
+              <BadgeX />
+              <span>Delete</span>
+            </Button>
+          </div>
         )}
-        <Button
-          size="lg"
-          variant="destructive"
-          onClick={() => onDelete(item.id)}
-        >
-          <BadgeX />
-          <span>Delete</span>
-        </Button>
       </div>
     </div>
   );
