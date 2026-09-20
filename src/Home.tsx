@@ -13,10 +13,11 @@ import {
 } from "./components/ui/card";
 
 function App() {
+  const list = ROUTE_CONFIG.toReversed();
   return (
     <Layout>
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-3 grid-flow-row">
-        {ROUTE_CONFIG.map((config) => {
+        {list.map((config) => {
           return (
             <Link key={`${config.title}${config.route}`} to={config.route}>
               <Card
