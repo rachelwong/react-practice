@@ -1,54 +1,20 @@
-.flip-card {
-    background-color: transparent;
-    // width: 300px;
-    // height: 200px;
-    perspective: 1000px;
-    /* Crucial for the 3D depth effect */
+.card {
+    perspective: 800px;
 }
 
-/* This inner wrapper holds both sides and handles the rotation */
-.flip-card-inner {
-    // position: relative;
-    // width: 100%;
-    // height: 100%;
-    // text-align: center;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+.card__content {
     transform-style: preserve-3d;
-    /* Required to let child elements exist in 3D space */
 }
 
-/* Triggers the 180-degree flip on hover */
-.flip-card.active .flip-card-inner {
-    transform: rotateY(180deg);
+.card__content.active {
+    transform: rotateY(.5turn);
 }
 
-/* Common properties for both the front and back faces */
-.flip-card-front,
-.flip-card-back {
-    // position: absolute;
-    // width: 100%;
-    // height: 100%;
-    -webkit-backface-visibility: hidden;
-    /* Safari compatibility */
+.card__front,
+.card__back {
     backface-visibility: hidden;
-    /* Hides the reverse side when turned away */
-    // display: flex;
-    // flex-direction: column;
-    // justify-content: center;
-    // align-items: center;
-    // border-radius: 10px;
-    // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Front face styling */
-.flip-card-front {
-    // background-color: #f3f4f6;
-    // color: #1f2937;
-}
-
-/* Back face styling - pre-rotated so it faces the correct way when flipped */
-.flip-card-back {
-    // background-color: #3b82f6;
-    // color: white;
-    transform: rotateY(180deg);
+.card__back {
+    transform: rotateY(.5turn);
 }

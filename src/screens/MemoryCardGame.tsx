@@ -22,7 +22,6 @@ import {
   type Attributes,
   type ReactNode,
 } from "react";
-import "../styles/MemoryCard.scss";
 
 const NUM_TO_MATCH = 2;
 
@@ -124,6 +123,7 @@ const MemoryCardGame = () => {
           {shuffledCards.map((card, index) => {
             return (
               <MemoryCard
+                key={`${card.id}-${index}`}
                 isSelected={selectedIndex.includes(index)}
                 isDisabled={currentSelected.length === NUM_TO_MATCH}
                 hasWon={wins.includes(card.id)}
