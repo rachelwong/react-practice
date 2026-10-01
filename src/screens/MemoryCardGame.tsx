@@ -107,8 +107,12 @@ const MemoryCardGame = () => {
         </>
       }
     >
-      <div className="flex flex-col items-center justify-start mx-auto">
-        {gameWon && <h2 className="font-extrabold text-3xl">You've won!</h2>}
+      <div className="flex flex-col items-center justify-start mx-auto gap-y-3">
+        <h2 className="font-extrabold text-3xl">
+          {gameWon
+            ? "You've won!"
+            : `You have matched ${wins.length} out of ${shuffledCards.length / 2} pairs`}
+        </h2>
         <Button
           size="lg"
           onClick={() => {

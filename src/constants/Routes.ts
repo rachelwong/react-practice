@@ -131,6 +131,5 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     title: "Memory Card game",
     description:
       "Dynamic table with redux, useReducer, localStorage persistence",
-    inProgress: true,
   },
 ];
