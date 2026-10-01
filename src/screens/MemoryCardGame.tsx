@@ -1,0 +1,142 @@
+import Layout from "@/components/Layout";
+import MemoryCard from "@/components/MemoryCard";
+import { Button } from "@/components/ui/button";
+import { randomShuffleArray } from "@/utils";
+import {
+  Bridge,
+  Carrot,
+  Ham,
+  Hop,
+  Lighthouse,
+  RadioTower,
+  Rose,
+  RotateCcw,
+  Skull,
+} from "lucide-react";
+import {
+  cloneElement,
+  isValidElement,
+  useEffect,
+  useMemo,
+  useState,
+  type Attributes,
+  type ReactNode,
+} from "react";
+import "../styles/MemoryCard.scss";
+
+const NUM_TO_MATCH = 2;
+
+const symbols = [
+  { symbol: <RadioTower />, id: "radio" },
+  { symbol: <Skull />, id: "skull" },
+  { symbol: <Rose />, id: "rose" },
+  { symbol: <Carrot />, id: "carrot" },
+  { symbol: <Ham />, id: "ham" },
+  { symbol: <Hop />, id: "hop" },
+  { symbol: <Lighthouse />, id: "lighthouse" },
+  { symbol: <Bridge />, id: "bridge" },
+];
+
+const cards: { symbol: ReactNode; id: string }[] = symbols
+  .flatMap((item) => [item, item]) // duplicate
+  .map((x) => {
+    if (isValidElement(x.symbol)) {
+      return {
+        ...x,
+        symbol: cloneElement(x.symbol, {
+          className: "size-30",
+        } as Attributes),
+      };
+    }
+    return x;
+  }); // enlarge symbol
+
+const MemoryCardGame = () => {
+  const [wins, setWins] = useState<string[]>([]); // max 16
+  const [currentSelected, setCurrentSelected] = useState<string[]>([]); // max 2
+  const [selectedIndex, setSelectedIndex] = useState<number[]>([]);
+
+  const gameWon = wins.length === symbols.length;
+
+  const shuffledCards = useMemo(() => {
+    return randomShuffleArray({ items: cards });
+  }, []); // empty dependencies means cache only on first load
+
+  const validateSelection = async () => {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    let numUniqueCards = [...new Set(currentSelected)].length;
+    if (numUniqueCards !== NUM_TO_MATCH) {
+      let newWin = [...new Set(currentSelected)][0];
+      setWins((prev) => [...prev, newWin]);
+    }
+    setCurrentSelected([]);
+    setSelectedIndex([]);
+  };
+
+  const onSelectCard = async ({ id, index }: { id: string; index: number }) => {
+    // only update selection when there are less than 2 cards selected
+    if (currentSelected.length < NUM_TO_MATCH + 1) {
+      setCurrentSelected((prev) => [...prev, id]);
+      setSelectedIndex((prev) => [...prev, index]);
+    }
+  };
+
+  const resetGame = () => {
+    setCurrentSelected([]);
+    setSelectedIndex([]);
+    setWins([]);
+  };
+
+  useEffect(() => {
+    // only validate when there are two cards
+    if (currentSelected.length === NUM_TO_MATCH) {
+      validateSelection();
+    }
+  }, [currentSelected.length]);
+
+  return (
+    <Layout
+      heading={
+        <>
+          <h3>Memory Card game</h3>
+          <p>
+            Original brief from{" "}
+            <a href="https://www.reactchallenges.com/challenges/memory-card-game">
+              https://www.reactchallenges.com/challenges/memory-card-game
+            </a>
+          </p>
+        </>
+      }
+    >
+      <div className="flex flex-col items-center justify-start mx-auto">
+        {gameWon && <h2 className="font-extrabold text-3xl">You've won!</h2>}
+        <Button
+          size="lg"
+          onClick={() => {
+            resetGame();
+          }}
+        >
+          <RotateCcw />
+          Reset
+        </Button>
+        <div className="grid grid-cols-4 grid-rows-4 gap-4 max-w-3xl mx-auto my-6">
+          {shuffledCards.map((card, index) => {
+            return (
+              <MemoryCard
+                isSelected={selectedIndex.includes(index)}
+                isDisabled={currentSelected.length === NUM_TO_MATCH}
+                hasWon={wins.includes(card.id)}
+                index={index}
+                onSelect={onSelectCard}
+                card={card}
+              />
+            );
+          })}
+        </div>
+      </div>
+    </Layout>
+  );
+};
+
+export default MemoryCardGame;

@@ -45,6 +45,7 @@ const PaginationScreen = lazy(() => import("./screens/Pagination.tsx"));
 const CountrySearchScreen = lazy(() => import("./screens/CountrySearch.tsx"));
 const CalculatorScreen = lazy(() => import("./screens/Calculator.tsx"));
 const ExpenseTrackerScreen = lazy(() => import("./screens/ExpenseTracker.tsx"));
+const MemoryGameScreen = lazy(() => import("./screens/MemoryCardGame.tsx"));
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -126,6 +127,7 @@ createRoot(document.getElementById("root")!).render(
               </Provider>
             }
           />
+          <Route path={ROUTES.MEMORY} element={<MemoryGameScreen />} />
         </AllRoutes>
       </Suspense>
     </Router>

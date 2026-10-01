@@ -22,6 +22,7 @@ export const ROUTES = {
   COUNTRY_SEARCH: "/country-search",
   CALCULATOR: "/calculator",
   EXPENSE_TRACKER: "/expense-tracker",
+  MEMORY: "/memory",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -124,5 +125,12 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     title: "Expense tracker x At-home coffee investment break-even Calculator",
     description:
       "Dynamic table with redux, useReducer, localStorage persistence",
+  },
+  {
+    route: ROUTES.MEMORY,
+    title: "Memory Card game",
+    description:
+      "Dynamic table with redux, useReducer, localStorage persistence",
+    inProgress: true,
   },
 ];
