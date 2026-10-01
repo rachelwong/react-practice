@@ -55,9 +55,9 @@ const StarReview = () => {
 
   return (
     <Layout
-      heading={
+      title="Star Reviews component"
+      description={
         <>
-          <h3 className="text-xl">Star Reviews component</h3>
           <p>Dynamic star review component with hover and click </p>
           <p>Star rating value grow from right to left</p>
         </>

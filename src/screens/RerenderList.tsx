@@ -37,18 +37,10 @@ const RerenderList = () => {
 
   return (
     <Layout
-      heading={
+      title="Prevent re-rendering list"
+      brief={{ href: "https://www.reactgrind.com/problems/memoize-list" }}
+      description={
         <>
-          <h3>Prevent re-rendering list</h3>
-          <p>
-            Original brief from{" "}
-            <a
-              href="https://www.reactgrind.com/problems/memoize-list"
-              target="_blank"
-            >
-              https://www.reactgrind.com/problems/memoize-list
-            </a>
-          </p>
           <p>
             This was helpful{" "}
             <a href="https://alexsidorenko.com/blog/react-list-rerender">

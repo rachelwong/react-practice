@@ -4,10 +4,20 @@ import { useEffect, type PropsWithChildren, type ReactNode } from "react";
 import { Link, useNavigate } from "react-router";
 
 interface LayoutProps {
-  heading?: ReactNode;
+  title?: string;
+  brief?: {
+    href: string;
+    label?: string;
+  };
+  description?: ReactNode;
 }
 
-const Layout = ({ heading, children }: PropsWithChildren<LayoutProps>) => {
+const Layout = ({
+  title,
+  brief,
+  description,
+  children,
+}: PropsWithChildren<LayoutProps>) => {
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -34,8 +44,19 @@ const Layout = ({ heading, children }: PropsWithChildren<LayoutProps>) => {
           </Button>
         </div>
       </div>
-      {heading && (
-        <div className="heading mx-auto my-6 max-w-7xl">{heading}</div>
+      {title && (
+        <div className="heading mx-auto my-6 max-w-7xl">
+          <h3>{title}</h3>
+          {brief && (
+            <p>
+              Original brief from{" "}
+              <a href={brief.href} target="_blank" rel="noreferrer">
+                {brief.label ?? brief.href}
+              </a>
+            </p>
+          )}
+          <div className="heading__description">{description}</div>
+        </div>
       )}
       <div className="mx-auto my-0 max-w-7xl">{children}</div>
     </div>

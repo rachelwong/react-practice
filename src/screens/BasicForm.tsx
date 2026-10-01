@@ -17,13 +17,6 @@ import { threeYearRange } from "@/constants";
 import useBasicForm from "@/hooks/useBasicForm";
 
 const BasicForm = () => {
-  const formHeading = (
-    <>
-      <h3>Basic form</h3>
-      <p>Handling form validation with useReducer pattern with no API calls</p>
-    </>
-  );
-
   const {
     state,
     onChangeName,
@@ -41,7 +34,16 @@ const BasicForm = () => {
   } = useBasicForm();
 
   return (
-    <Layout heading={formHeading}>
+    <Layout
+      title="Basic form"
+      description={
+        <>
+          <p>
+            Handling form validation with useReducer pattern with no API calls
+          </p>
+        </>
+      }
+    >
       <form>
         <FieldGroup>
           <FieldSet>

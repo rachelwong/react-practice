@@ -13,20 +13,8 @@ const Debounce = () => {
 
   return (
     <Layout
-      heading={
-        <>
-          <h3>useDebounce</h3>
-          <p>
-            Brief from{" "}
-            <a
-              href="https://www.reactgrind.com/problems/use-debounce"
-              target="_blank"
-            >
-              https://www.reactgrind.com/problems/use-debounce
-            </a>
-          </p>
-        </>
-      }
+      title="useDebounce"
+      brief={{ href: "https://www.reactgrind.com/problems/use-debounce" }}
     >
       <div className="w-full flex flex-col align-start">
         <p>Raw: {raw}</p>

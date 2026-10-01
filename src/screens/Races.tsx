@@ -29,15 +29,13 @@ const Races = () => {
 
   return (
     <Layout
-      heading={
+      title="Rolling race timetable"
+      brief={{
+        href: "/Entain_Technical_Task_-__Front-End_Developer__Vue_..pdf",
+        label: "here",
+      }}
+      description={
         <>
-          <h3>Rolling race timetable</h3>
-          <p>
-            Original brief{" "}
-            <a href="/Entain_Technical_Task_-__Front-End_Developer__Vue_..pdf">
-              here
-            </a>
-          </p>
           <p className="text-red-600">
             CORS policy behind the NEDS api so only runs locally
           </p>

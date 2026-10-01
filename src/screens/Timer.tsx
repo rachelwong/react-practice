@@ -39,9 +39,9 @@ const Timer = () => {
 
   return (
     <Layout
-      heading={
+      title="Timer"
+      description={
         <>
-          <h3>Timer</h3>
           <p>
             Start/Stop timer in minutes and seconds only and will not exceed 59
             minutes: 59 seconds

@@ -95,17 +95,10 @@ const MemoryCardGame = () => {
 
   return (
     <Layout
-      heading={
-        <>
-          <h3>Memory Card game</h3>
-          <p>
-            Original brief from{" "}
-            <a href="https://www.reactchallenges.com/challenges/memory-card-game">
-              https://www.reactchallenges.com/challenges/memory-card-game
-            </a>
-          </p>
-        </>
-      }
+      title="Memory Card game"
+      brief={{
+        href: "https://www.reactchallenges.com/challenges/memory-card-game",
+      }}
     >
       <div className="flex flex-col items-center justify-start mx-auto gap-y-3">
         <h2 className="font-extrabold text-3xl">

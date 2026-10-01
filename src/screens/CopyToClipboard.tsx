@@ -15,15 +15,10 @@ const CopyToClipboard = () => {
 
   return (
     <Layout
-      heading={
+      title="Copy to clipboard"
+      brief={{ href: "https://www.reactgrind.com/problems/copy-to-clipboard" }}
+      description={
         <>
-          <h3>Copy to clipboard</h3>
-          <p>
-            Brief from{" "}
-            <a href="https://www.reactgrind.com/problems/copy-to-clipboard">
-              https://www.reactgrind.com/problems/copy-to-clipboard
-            </a>
-          </p>
           <p>With code review from Claude Code</p>
         </>
       }

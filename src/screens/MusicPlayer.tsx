@@ -6,7 +6,6 @@ import MusicSearchList from "@/components/MusicSearchList";
 import { Spinner } from "@/components/ui/spinner";
 import { useMusicPlayerContext } from "@/context/MusicPlayerContext";
 import useScreenSize from "@/hooks/useScreenSize";
-import { Link } from "react-router";
 
 const MusicPlayer = () => {
   const { activeTrack, loadingSearch } = useMusicPlayerContext();
@@ -14,15 +13,10 @@ const MusicPlayer = () => {
 
   return (
     <Layout
-      heading={
+      title="Music player"
+      brief={{ href: "/flip_code_challenge_fe.pdf", label: "Open file here" }}
+      description={
         <>
-          <h3>Music player</h3>
-          <p>
-            Original brief from{" "}
-            <Link to="/flip_code_challenge_fe.pdf" target="_blank">
-              Open file here
-            </Link>
-          </p>
           <p>
             Uses open source API{" "}
             <a

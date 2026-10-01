@@ -43,19 +43,11 @@ const Carousel = () => {
 
   return (
     <Layout
-      heading={
+      title="Carousel"
+      brief={{ href: "https://www.reactgrind.com/problems/react-carousel" }}
+      description={
         <>
-          <h3 className="font-extrabold text-lg">Carousel</h3>
           <p>Custom carousels without packages dependencies</p>
-          <p>
-            Original brief from{" "}
-            <a
-              href="https://www.reactgrind.com/problems/react-carousel"
-              target="_blank"
-            >
-              https://www.reactgrind.com/problems/react-carousel
-            </a>
-          </p>
         </>
       }
     >

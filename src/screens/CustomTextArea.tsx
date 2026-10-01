@@ -16,19 +16,11 @@ const CustomTextArea = () => {
   const error = text?.length === MAX_LENGTH;
   return (
     <Layout
-      heading={
+      title="Custom text area"
+      brief={{ href: "https://www.reactgrind.com/problems/text-area-react" }}
+      description={
         <>
-          <h3>Custom text area</h3>
           <p>Max length for text is {MAX_LENGTH} characters</p>
-          <p>
-            Original brief{" "}
-            <a
-              href="https://www.reactgrind.com/problems/text-area-react"
-              target="_blank"
-            >
-              https://www.reactgrind.com/problems/text-area-react
-            </a>
-          </p>
           <p>
             The idea is to not use the native maxLength component to manage
             string paste events.

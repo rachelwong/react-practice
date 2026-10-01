@@ -44,20 +44,8 @@ const Pagination = () => {
 
   return (
     <Layout
-      heading={
-        <>
-          <h3>Pagination without load more</h3>
-          <p>
-            Original brief here{" "}
-            <a
-              href="https://www.reactgrind.com/problems/react-pagination"
-              target="_blank"
-            >
-              https://www.reactgrind.com/problems/react-pagination
-            </a>
-          </p>
-        </>
-      }
+      title="Pagination without load more"
+      brief={{ href: "https://www.reactgrind.com/problems/react-pagination" }}
     >
       <div className="w-full h-full relative block">
         {loading && <p>Loading ...</p>}

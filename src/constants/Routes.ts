@@ -23,6 +23,7 @@ export const ROUTES = {
   CALCULATOR: "/calculator",
   EXPENSE_TRACKER: "/expense-tracker",
   MEMORY: "/memory",
+  WORDLE: "/wordle",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -131,5 +132,10 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     title: "Memory Card game",
     description:
       "Dynamic table with redux, useReducer, localStorage persistence",
+  },
+  {
+    route: ROUTES.WORDLE,
+    title: "Wordle",
+    description: "Simplified version",
   },
 ];

@@ -17,9 +17,9 @@ const Counter = () => {
 
   return (
     <Layout
-      heading={
+      title="Counter"
+      description={
         <>
-          <h3>Counter</h3>
           <p>Limits: whole positive integers with optional maximum limit</p>
           <p>
             Prevents rapid double click of buttons with a {secondsWait} second

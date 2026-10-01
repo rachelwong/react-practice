@@ -41,18 +41,12 @@ const ExpenseTracker = () => {
 
   return (
     <Layout
-      heading={
+      title="Expense tracker"
+      brief={{
+        href: "https://www.reactgrind.com/problems/expense-tracker-react",
+      }}
+      description={
         <>
-          <h3>Expense tracker</h3>
-          <p>
-            Original brief from{" "}
-            <a
-              href="https://www.reactgrind.com/problems/expense-tracker-react"
-              target="_blank"
-            >
-              https://www.reactgrind.com/problems/expense-tracker-react
-            </a>
-          </p>
           <ul>
             <li>Debit = removing money</li>
             <li>Credit = adding money</li>

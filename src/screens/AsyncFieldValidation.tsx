@@ -61,18 +61,12 @@ const AsyncFieldValidation = () => {
 
   return (
     <Layout
-      heading={
+      title="Email field with Async validation"
+      brief={{
+        href: "https://www.reactgrind.com/problems/async-form-validation",
+      }}
+      description={
         <>
-          <h3>Email field with Async validation</h3>
-          <p>
-            Brief from{" "}
-            <a
-              href="https://www.reactgrind.com/problems/async-form-validation"
-              target="_blank"
-            >
-              https://www.reactgrind.com/problems/async-form-validation
-            </a>
-          </p>
           <p>
             Also using open source validation service{" "}
             <a

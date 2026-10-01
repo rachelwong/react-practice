@@ -24,21 +24,6 @@ const Cart = () => {
     clearCart,
   } = useCart();
 
-  const cartHeading = (
-    <>
-      <h3>Shopping Cart</h3>
-      <p>
-        Instructions from{" "}
-        <a
-          href="https://www.reactgrind.com/problems/shopping-cart-usereducer"
-          target="_blank"
-        >
-          https://www.reactgrind.com/problems/shopping-cart-usereducer
-        </a>
-      </p>
-    </>
-  );
-
   // display cart items grouped by matching id
   const formattedCartItems = cartItems.reduce<CartItemDisplay[]>((acc, cur) => {
     // find by id
@@ -63,7 +48,12 @@ const Cart = () => {
   }, []);
 
   return (
-    <Layout heading={cartHeading}>
+    <Layout
+      title="Shopping Cart"
+      brief={{
+        href: "https://www.reactgrind.com/problems/shopping-cart-usereducer",
+      }}
+    >
       <div className="cart">
         <div className="cart-actions flex items-center justify-start gap-x6">
           {allAvailableProducts.map((product) => {
