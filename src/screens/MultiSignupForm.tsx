@@ -19,9 +19,7 @@ const MultiSignupForm = () => {
   return (
     <Layout
       title="Multi Sign up form"
-      brief={{
-        href: "https://www.reactgrind.com/problems/wizard-state-machine",
-      }}
+      brief="https://www.reactgrind.com/problems/wizard-state-machine"
     >
       <Card className="w-full p-6">
         <h3 className="text-lg font-extrabold text-slate-900">

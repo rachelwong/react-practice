@@ -30,10 +30,7 @@ const Races = () => {
   return (
     <Layout
       title="Rolling race timetable"
-      brief={{
-        href: "/Entain_Technical_Task_-__Front-End_Developer__Vue_..pdf",
-        label: "here",
-      }}
+      brief="/Entain_Technical_Task_-__Front-End_Developer__Vue_..pdf"
       description={
         <>
           <p className="text-red-600">

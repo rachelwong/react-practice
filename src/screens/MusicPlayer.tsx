@@ -14,7 +14,7 @@ const MusicPlayer = () => {
   return (
     <Layout
       title="Music player"
-      brief={{ href: "/flip_code_challenge_fe.pdf", label: "Open file here" }}
+      brief="/flip_code_challenge_fe.pdf"
       description={
         <>
           <p>

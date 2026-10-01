@@ -52,7 +52,7 @@ const CountrySearch = () => {
   return (
     <Layout
       title="Country search with autocomplete"
-      brief={{ href: "https://www.reactgrind.com/problems/react-autocomplete" }}
+      brief="https://www.reactgrind.com/problems/react-autocomplete"
       description={
         <>
           <p>Countries are from a raw json file stored locally</p>

@@ -137,5 +137,6 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.WORDLE,
     title: "Wordle",
     description: "Simplified version",
+    inProgress: true,
   },
 ];

@@ -96,9 +96,7 @@ const MemoryCardGame = () => {
   return (
     <Layout
       title="Memory Card game"
-      brief={{
-        href: "https://www.reactchallenges.com/challenges/memory-card-game",
-      }}
+      brief="https://www.reactchallenges.com/challenges/memory-card-game"
     >
       <div className="flex flex-col items-center justify-start mx-auto gap-y-3">
         <h2 className="font-extrabold text-3xl">

@@ -5,10 +5,7 @@ import { Link, useNavigate } from "react-router";
 
 interface LayoutProps {
   title?: string;
-  brief?: {
-    href: string;
-    label?: string;
-  };
+  brief?: string;
   description?: ReactNode;
 }
 
@@ -45,13 +42,17 @@ const Layout = ({
         </div>
       </div>
       {title && (
-        <div className="heading mx-auto my-6 max-w-7xl">
-          <h3>{title}</h3>
+        <div className="heading mx-auto my-6 max-w-7xl flex flex-col items-start justify-start gap-y-2">
+          <h3 className="text-neutral-800 font-extrabold text-xl">{title}</h3>
           {brief && (
-            <p>
-              Original brief from{" "}
-              <a href={brief.href} target="_blank" rel="noreferrer">
-                {brief.label ?? brief.href}
+            <p className="flex flex-row">
+              <a
+                href={brief}
+                target="_blank"
+                rel="noreferrer"
+                className="text-indigo-600 underline decoration-indigo-400 decoration-2 underline-offset-4 hover:text-indigo-900 hover:decoration-indigo-700"
+              >
+                Original brief here
               </a>
             </p>
           )}

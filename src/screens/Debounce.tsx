@@ -14,7 +14,7 @@ const Debounce = () => {
   return (
     <Layout
       title="useDebounce"
-      brief={{ href: "https://www.reactgrind.com/problems/use-debounce" }}
+      brief="https://www.reactgrind.com/problems/use-debounce"
     >
       <div className="w-full flex flex-col align-start">
         <p>Raw: {raw}</p>

@@ -48,9 +48,7 @@ const Accordion = () => {
   return (
     <Layout
       title="Accordion"
-      brief={{
-        href: "https://www.reactgrind.com/problems/accordion-single-expand",
-      }}
+      brief="https://www.reactgrind.com/problems/accordion-single-expand"
     >
       {!loading && !!data && data.length && (
         <div className="accordion-list w-200 mx-auto">

@@ -50,9 +50,7 @@ const Cart = () => {
   return (
     <Layout
       title="Shopping Cart"
-      brief={{
-        href: "https://www.reactgrind.com/problems/shopping-cart-usereducer",
-      }}
+      brief="https://www.reactgrind.com/problems/shopping-cart-usereducer"
     >
       <div className="cart">
         <div className="cart-actions flex items-center justify-start gap-x6">

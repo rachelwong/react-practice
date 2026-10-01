@@ -90,7 +90,7 @@ const Calculator = () => {
   return (
     <Layout
       title="Calculator"
-      brief={{ href: "https://www.reactgrind.com/problems/react-calculator" }}
+      brief="https://www.reactgrind.com/problems/react-calculator"
     >
       <div className="relative flex flex-col w-full h-full">
         <div className="w-md relative flex flex-col">

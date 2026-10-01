@@ -17,7 +17,7 @@ const CustomTextArea = () => {
   return (
     <Layout
       title="Custom text area"
-      brief={{ href: "https://www.reactgrind.com/problems/text-area-react" }}
+      brief="https://www.reactgrind.com/problems/text-area-react"
       description={
         <>
           <p>Max length for text is {MAX_LENGTH} characters</p>

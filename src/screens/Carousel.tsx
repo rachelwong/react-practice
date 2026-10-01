@@ -44,7 +44,7 @@ const Carousel = () => {
   return (
     <Layout
       title="Carousel"
-      brief={{ href: "https://www.reactgrind.com/problems/react-carousel" }}
+      brief="https://www.reactgrind.com/problems/react-carousel"
       description={
         <>
           <p>Custom carousels without packages dependencies</p>

@@ -62,9 +62,7 @@ const AsyncFieldValidation = () => {
   return (
     <Layout
       title="Email field with Async validation"
-      brief={{
-        href: "https://www.reactgrind.com/problems/async-form-validation",
-      }}
+      brief="https://www.reactgrind.com/problems/async-form-validation"
       description={
         <>
           <p>

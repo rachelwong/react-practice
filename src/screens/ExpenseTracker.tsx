@@ -42,9 +42,7 @@ const ExpenseTracker = () => {
   return (
     <Layout
       title="Expense tracker"
-      brief={{
-        href: "https://www.reactgrind.com/problems/expense-tracker-react",
-      }}
+      brief="https://www.reactgrind.com/problems/expense-tracker-react"
       description={
         <>
           <ul>
