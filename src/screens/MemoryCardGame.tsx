@@ -17,7 +17,6 @@ import {
   cloneElement,
   isValidElement,
   useEffect,
-  useMemo,
   useState,
   type Attributes,
   type ReactNode,
@@ -54,12 +53,11 @@ const MemoryCardGame = () => {
   const [wins, setWins] = useState<string[]>([]); // max 16
   const [currentSelected, setCurrentSelected] = useState<string[]>([]); // max 2
   const [selectedIndex, setSelectedIndex] = useState<number[]>([]);
+  const [shuffledCards, setShuffledCards] = useState(() =>
+    randomShuffleArray({ items: cards }),
+  );
 
   const gameWon = wins.length === symbols.length;
-
-  const shuffledCards = useMemo(() => {
-    return randomShuffleArray({ items: cards });
-  }, []); // empty dependencies means cache only on first load
 
   const validateSelection = async () => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -85,6 +83,7 @@ const MemoryCardGame = () => {
     setCurrentSelected([]);
     setSelectedIndex([]);
     setWins([]);
+    setShuffledCards(randomShuffleArray({ items: cards }));
   };
 
   useEffect(() => {
