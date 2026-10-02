@@ -24,6 +24,7 @@ export const ROUTES = {
   EXPENSE_TRACKER: "/expense-tracker",
   MEMORY: "/memory",
   WORDLE: "/wordle",
+  STRONG_PASSWORD: "/password",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -137,5 +138,10 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.WORDLE,
     title: "Wordle",
     description: "Just wordle on a hook",
+  },
+  {
+    route: ROUTES.STRONG_PASSWORD,
+    title: "Strong password checker",
+    description: "Password field validation",
   },
 ];

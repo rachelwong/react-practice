@@ -47,6 +47,7 @@ const CalculatorScreen = lazy(() => import("./screens/Calculator.tsx"));
 const ExpenseTrackerScreen = lazy(() => import("./screens/ExpenseTracker.tsx"));
 const MemoryGameScreen = lazy(() => import("./screens/MemoryCardGame.tsx"));
 const SimpleWordleScreen = lazy(() => import("./screens/SimpleWordle.tsx"));
+const StrongPasswordScreen = lazy(() => import("./screens/StrongPassword.tsx"));
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -130,6 +131,10 @@ createRoot(document.getElementById("root")!).render(
           />
           <Route path={ROUTES.MEMORY} element={<MemoryGameScreen />} />
           <Route path={ROUTES.WORDLE} element={<SimpleWordleScreen />} />
+          <Route
+            path={ROUTES.STRONG_PASSWORD}
+            element={<StrongPasswordScreen />}
+          />
         </AllRoutes>
       </Suspense>
     </Router>
