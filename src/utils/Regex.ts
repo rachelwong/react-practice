@@ -10,3 +10,5 @@ export const validPassword =
 
 // not full validator but rejects malformed strings while allowing real-world addresses
 export const validEmail = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+
+export const alphabetOnly = /^[a-zA-Z]$/;
