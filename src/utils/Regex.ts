@@ -13,7 +13,7 @@ export const validEmail = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
 export const alphabetOnly = /^[a-zA-Z]$/;
 
-export const anySpecialChars = /[^a-zA-Z0-9 ]/g;
+export const anySpecialChars = /[^a-zA-Z0-9 ]/;
 
 export const anyNumbers = /\d/;
 
