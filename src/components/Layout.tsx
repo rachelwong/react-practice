@@ -46,12 +46,7 @@ const Layout = ({
           <h3 className="text-neutral-800 font-extrabold text-xl">{title}</h3>
           {brief && (
             <p className="flex flex-row">
-              <a
-                href={brief}
-                target="_blank"
-                rel="noreferrer"
-                className="text-indigo-600 underline decoration-indigo-400 decoration-2 underline-offset-4 hover:text-indigo-900 hover:decoration-indigo-700"
-              >
+              <a href={brief} target="_blank" rel="noreferrer" className="link">
                 Original brief here
               </a>
             </p>

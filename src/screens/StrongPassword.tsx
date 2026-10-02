@@ -189,7 +189,7 @@ const StrongPassword = () => {
           Rolling validation and avoid input type='password' to obscure the
           password. Refer to the{" "}
           <a
-            className="text-indigo-600 underline decoration-indigo-400 decoration-2 underline-offset-4 hover:text-indigo-900 hover:decoration-indigo-700"
+            className="link"
             href="/docs/strong-password/README.md"
             target="_blank"
           >
@@ -247,7 +247,7 @@ const StrongPassword = () => {
                   "text-red-500": rule?.valid === false,
                 })}
               >
-                {rule.id} = {JSON.stringify(rule.valid)}
+                {rule.id}
               </p>
             );
           })}

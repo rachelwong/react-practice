@@ -25,6 +25,7 @@ export const ROUTES = {
   MEMORY: "/memory",
   WORDLE: "/wordle",
   STRONG_PASSWORD: "/password",
+  PHONE_FIELD: "/phone-field",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -143,5 +144,11 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.STRONG_PASSWORD,
     title: "Strong password checker",
     description: "Password field validation",
+  },
+  {
+    route: ROUTES.PHONE_FIELD,
+    title: "Custom phone field",
+    description: "Phone field validation",
+    inProgress: true,
   },
 ];

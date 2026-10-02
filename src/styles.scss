@@ -1,2 +1,6 @@
 @use "tailwindcss"; 
 @import "./typeset.css";
+
+.link {
+    @apply text-indigo-600 underline decoration-indigo-400 decoration-2 underline-offset-4 hover:text-indigo-900 hover:decoration-indigo-700;
+}

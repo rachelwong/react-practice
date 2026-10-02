@@ -20,3 +20,5 @@ export const anyNumbers = /\d/;
 export const atLeastOneUppercase = /[A-Z]/;
 
 export const atLeastOneLowerCase = /[a-z]/;
+
+export const numberSpaceLeadingPlusOnly = /^\+?[\d ]+$/;
