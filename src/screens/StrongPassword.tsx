@@ -14,7 +14,7 @@ import classNames from "classnames";
 import { Eye, EyeOff } from "lucide-react";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
-const PasswordValidation = {
+const ValidationRule = {
   MIN_1_UPPERCASE: "There must be minimum 1 uppercase char",
   MIN_1_LOWERCASE: "There must be minimum 1 lowercase char",
   MIN_8_LENGTH: "Must be minimum 8 chars",
@@ -22,22 +22,20 @@ const PasswordValidation = {
   MIN_1_SPECIAL: "Must have at least 1 special char",
 } as const;
 
-type PasswordValidationType =
-  (typeof PasswordValidation)[keyof typeof PasswordValidation];
-// passing PasswordValidation as const as a type gives it the whole object
-// this type looks at one of the values inside that object
-
 interface ValidationRuleType {
-  id: PasswordValidationType;
+  id: (typeof ValidationRule)[keyof typeof ValidationRule];
+  // passing ValidationRule as const as a type gives it the whole object
+  // this type looks at one of the values inside that object
+
   valid: boolean;
 }
 
 const validationRules: ValidationRuleType[] = [
-  { id: PasswordValidation.MIN_1_UPPERCASE, valid: false },
-  { id: PasswordValidation.MIN_1_LOWERCASE, valid: false },
-  { id: PasswordValidation.MIN_8_LENGTH, valid: false },
-  { id: PasswordValidation.MIN_1_NUMBER, valid: false },
-  { id: PasswordValidation.MIN_1_SPECIAL, valid: false },
+  { id: ValidationRule.MIN_1_UPPERCASE, valid: false },
+  { id: ValidationRule.MIN_1_LOWERCASE, valid: false },
+  { id: ValidationRule.MIN_8_LENGTH, valid: false },
+  { id: ValidationRule.MIN_1_NUMBER, valid: false },
+  { id: ValidationRule.MIN_1_SPECIAL, valid: false },
 ];
 
 const StrongPassword = () => {
@@ -52,31 +50,31 @@ const StrongPassword = () => {
 
   const errorState = useMemo(() => {
     return validationRules.map((rule) => {
-      if (rule.id === PasswordValidation.MIN_1_UPPERCASE) {
+      if (rule.id === ValidationRule.MIN_1_UPPERCASE) {
         return {
           ...rule,
           valid: atLeastOneUppercase.test(password),
         };
       }
-      if (rule.id === PasswordValidation.MIN_1_LOWERCASE) {
+      if (rule.id === ValidationRule.MIN_1_LOWERCASE) {
         return {
           ...rule,
           valid: atLeastOneLowerCase.test(password),
         };
       }
-      if (rule.id === PasswordValidation.MIN_1_NUMBER) {
+      if (rule.id === ValidationRule.MIN_1_NUMBER) {
         return {
           ...rule,
           valid: anyNumbers.test(password),
         };
       }
-      if (rule.id === PasswordValidation.MIN_1_SPECIAL) {
+      if (rule.id === ValidationRule.MIN_1_SPECIAL) {
         return {
           ...rule,
           valid: anySpecialChars.test(password),
         };
       }
-      if (rule.id === PasswordValidation.MIN_8_LENGTH) {
+      if (rule.id === ValidationRule.MIN_8_LENGTH) {
         return {
           ...rule,
           valid: password.length >= 8,

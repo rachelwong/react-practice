@@ -23,6 +23,8 @@ const SimpleWordle = () => {
     getMysteryWord();
   }, []);
 
+  const gameEnded = haveWon || haveLost;
+
   return (
     <Layout
       title="Wordle"
@@ -36,17 +38,16 @@ const SimpleWordle = () => {
           {inProgress &&
             `You have ${state.maxNumberOfAttempts - state.attempts.length} tries remaining.`}
         </h1>
-        {haveWon ||
-          (haveLost && (
-            <Button
-              size="lg"
-              className="bg-green-400"
-              onClick={() => resetGame()}
-            >
-              <CirclePlus />
-              New game
-            </Button>
-          ))}
+        {gameEnded && (
+          <Button
+            size="lg"
+            className="bg-green-400"
+            onClick={() => resetGame()}
+          >
+            <CirclePlus />
+            New game
+          </Button>
+        )}
         <div className="flex flex-col gap-y-4">
           {!!state.attempts.length &&
             state.attempts.map((attempt, attemptIndex) => {
@@ -83,11 +84,13 @@ const SimpleWordle = () => {
                 </div>
               );
             })}
-          <div className="border-1 border-neutral-700 p-7 text-center text-4xl font-extrabold text-neutral-800">
-            {state.currentTry || (
-              <span className="text-neutral-200">Your current word</span>
-            )}
-          </div>
+          {!gameEnded && (
+            <div className="border-1 border-neutral-700 p-7 text-center text-4xl font-extrabold text-neutral-800">
+              {state.currentTry || (
+                <span className="text-neutral-200">Your current word</span>
+              )}
+            </div>
+          )}
           <p className="text-md text-neutral-400 text-center">
             You may type on your physical keyboard or use below virtual
             keyboard.
@@ -100,7 +103,7 @@ const SimpleWordle = () => {
               >
                 {row.map((keyboardBtn) => (
                   <Button
-                    disabled={haveWon || haveLost}
+                    disabled={gameEnded}
                     key={keyboardBtn}
                     variant="secondary"
                     size="lg"
@@ -115,7 +118,7 @@ const SimpleWordle = () => {
                 {rowIndex + 1 === keyboardRows.length && (
                   <div className="flex flex-row gap-x-2">
                     <Button
-                      disabled={haveWon || haveLost}
+                      disabled={gameEnded}
                       size="lg"
                       variant="secondary"
                       className="px-6 py-5 border-1 rounded border-neutral-900"
@@ -127,7 +130,7 @@ const SimpleWordle = () => {
                     </Button>
                     <Button
                       size="lg"
-                      disabled={haveWon || haveLost}
+                      disabled={gameEnded}
                       variant="secondary"
                       className="px-6 py-5 border-1 rounded border-neutral-900"
                       onClick={() => {
