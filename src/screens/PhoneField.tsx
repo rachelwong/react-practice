@@ -89,26 +89,26 @@ const FIELD_MODE = {
 //   return countries.find((c) => digits.startsWith(c.value)) ?? null;
 // };
 
-const parsePhone = (normalized: string) => {
+const parsePhone = (rawStr: string) => {
   // remove everything that isn't a digit
-  const digits = normalized.replace(/\D/g, "");
+  const digits = rawStr.replace(/\D/g, "");
 
   const country = digits
     ? (countries.find((c) => digits.startsWith(c.value)) ?? null)
     : null;
 
   if (!country) {
-    return { country, phoneNumber: "", isValid: false, formatted: normalized };
+    return { country, phoneNumber: "", isValid: false, formatted: rawStr };
   }
 
   const phoneNumber = digits.slice(country.value.length);
 
-  const lengthsByCode = countryCodes
+  const validPhoneLenByCode = countryCodes
     .filter("countryCallingCode", country.value)
     .flatMap((x) => x.nationalNumberLengths);
 
-  const isValid = lengthsByCode.length
-    ? lengthsByCode.some((len) => len === digits.length)
+  const isValid = validPhoneLenByCode.length
+    ? validPhoneLenByCode.some((len) => len === phoneNumber.length)
     : phoneNumber.length >= 4 && phoneNumber.length <= 15; // base requirements
 
   const formatted = `+${country.value} ${phoneNumber.replace(/^(\d{4})(\d+)$/, "$1 $2")}`;
@@ -121,17 +121,20 @@ const PhoneField = () => {
   >(FIELD_MODE.INPUT);
   const [phone, setPhone] = useState<string>("");
   const [error, setError] = useState<boolean>(false);
-  const { country: selectedCountry } = parsePhone(phone);
+  const { country: selectedCountry, isValid } = parsePhone(phone);
 
-  const handlPhoneInput = (e: string) => {
-    const parsed = parsePhone(e);
-
+  const handlePhoneInput = (val: string) => {
+    const parsed = parsePhone(val);
     if (parsed.isValid) {
       setError(false);
+      // sets phone to the formatted version
       setPhone(parsed.formatted);
     } else {
-      setError(true);
-      setPhone(parsed.phoneNumber);
+      // do not set error here, do it onBlur
+      // setError(true);
+      // sets the phone to whatever the user inputs including any invalid characters
+      // no formatting applied
+      setPhone(val);
     }
   };
 
@@ -200,6 +203,7 @@ const PhoneField = () => {
               selectOptions={countries}
               value={selectedCountry?.value || null}
               onChange={(code) => {
+                setError(false);
                 setPhone("+" + code);
               }}
             />
@@ -209,17 +213,14 @@ const PhoneField = () => {
               value={phone}
               placeholder="Telephone"
               type="text"
-              aria-invalid={phone.length > 1 && error}
+              aria-invalid={error}
               onChange={(e) => {
-                handlPhoneInput(e.target.value);
+                handlePhoneInput(e.target.value);
               }}
+              onBlur={() => setError(phone.length > 0 && !isValid)}
             />
-            {phone.replace(/\D/g, "").length > 1 && error && (
-              <p className="text-red-500">Invalid Phone number</p>
-            )}
-            {phone.replace(/\D/g, "").length > 1 && !error && (
-              <p className="text-green-600">Valid Phone</p>
-            )}
+            {error && <p className="text-red-500">Invalid Phone number</p>}
+            {isValid && <p className="text-green-600">Valid Phone</p>}
           </Field>
         </div>
       </div>
