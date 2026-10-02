@@ -21,4 +21,5 @@ export const atLeastOneUppercase = /[A-Z]/;
 
 export const atLeastOneLowerCase = /[a-z]/;
 
-export const numberSpaceLeadingPlusOnly = /^\+?[\d ]+$/;
+// removes anything that isn't a + at the start, isn't a digit, space anywhere
+export const notDigitSpacePlus = /(?!^)\+|[^\d\s+]/g;
