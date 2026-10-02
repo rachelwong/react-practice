@@ -132,8 +132,7 @@ export const ROUTE_CONFIG: RouteConfig[] = [
   {
     route: ROUTES.MEMORY,
     title: "Memory Card game",
-    description:
-      "Dynamic table with redux, useReducer, localStorage persistence",
+    description: "Tracking component state & CSS",
   },
   {
     route: ROUTES.WORDLE,
@@ -149,6 +148,5 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.PHONE_FIELD,
     title: "Custom phone field",
     description: "Phone field validation",
-    inProgress: true,
   },
 ];
