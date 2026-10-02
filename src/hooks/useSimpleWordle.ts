@@ -27,7 +27,10 @@ export const initialWordleState = {
 function wordleReducer(state: WordleGameType, action: WordleGameActionType) {
   switch (action.type) {
     case WordleAction.ADD_CURRENT_CHAR:
-      if (state.currentTry.length >= state.maxLengthOfWord) {
+      if (
+        state.currentTry.length >= state.maxLengthOfWord ||
+        state.attempts.length >= state.maxNumberOfAttempts
+      ) {
         return state;
       }
       return {
@@ -35,7 +38,10 @@ function wordleReducer(state: WordleGameType, action: WordleGameActionType) {
         currentTry: state.currentTry.concat(action.payload),
       };
     case WordleAction.REMOVE_LAST_CHAR:
-      if (!state.currentTry.length) {
+      if (
+        !state.currentTry.length ||
+        state.attempts.length >= state.maxNumberOfAttempts
+      ) {
         return state;
       }
       return {
@@ -45,6 +51,7 @@ function wordleReducer(state: WordleGameType, action: WordleGameActionType) {
     case WordleAction.ADD_ATTEMPT:
       if (
         !state.currentTry.length ||
+        state.currentTry.length !== state.maxLengthOfWord ||
         state.attempts.length >= state.maxNumberOfAttempts
       ) {
         return state;
@@ -80,6 +87,14 @@ const useSimpleWordle = ({
     maxNumberOfAttempts,
     maxLengthOfWord,
   });
+
+  const haveWon = state.attempts.includes(state.mysteryWord);
+
+  const haveLost =
+    !haveWon && state.maxNumberOfAttempts === state.attempts.length;
+
+  const inProgress =
+    !haveWon && state.maxNumberOfAttempts !== state.attempts.length;
 
   const resetError = () => {
     dispatch({
@@ -162,6 +177,9 @@ const useSimpleWordle = ({
   return {
     state,
     keyboardRows,
+    haveWon,
+    haveLost,
+    inProgress,
     getMysteryWord,
     onKeyClick,
     onRemoveLastChar,

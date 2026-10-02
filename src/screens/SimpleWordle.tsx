@@ -9,6 +9,9 @@ const SimpleWordle = () => {
   const {
     state,
     keyboardRows,
+    haveWon,
+    haveLost,
+    inProgress,
     getMysteryWord,
     onKeyClick,
     onRemoveLastChar,
@@ -19,14 +22,6 @@ const SimpleWordle = () => {
   useEffect(() => {
     getMysteryWord();
   }, []);
-
-  const haveWon = state.attempts.includes(state.mysteryWord);
-
-  const haveLost =
-    !haveWon && state.maxNumberOfAttempts === state.attempts.length;
-
-  const inProgress =
-    !haveWon && state.maxNumberOfAttempts !== state.attempts.length;
 
   return (
     <Layout
@@ -132,6 +127,7 @@ const SimpleWordle = () => {
                     </Button>
                     <Button
                       size="lg"
+                      disabled={haveWon || haveLost}
                       variant="secondary"
                       className="px-6 py-5 border-1 rounded border-neutral-900"
                       onClick={() => {
