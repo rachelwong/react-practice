@@ -3,7 +3,6 @@ import SelectField from "@/components/SelectField";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { notDigitSpacePlus } from "@/utils";
 import * as countryCodes from "country-codes-list";
 import { useState } from "react";
 
@@ -20,97 +19,121 @@ const FIELD_MODE = {
   COUNTRY: "COUNTRY",
 } as const;
 
+// // sanitise the input string so that anything that isn't
+// // space, numbers, + are all removed
+// const normalizePhoneInput = (rawStr: string) => {
+//   // remove anything not number, spaces, +
+//   const sanitised = rawStr.replace(notDigitSpacePlus, "");
+
+//   const isPlus = sanitised.includes("+");
+
+//   // remove +
+//   const numbersOnly = sanitised.replace(/\+/g, "");
+
+//   // if nothing left, then return nothing
+//   if (!numbersOnly.trim().length && !isPlus) {
+//     return "";
+//   }
+
+//   return "+" + numbersOnly;
+// };
+
+// const formatPhone = (val: string): string => {
+//   const country = findCountryByAreaCode(val);
+//   if (!country) {
+//     return val;
+//   }
+//   const digits = val.replace(/\D/g, "");
+//   const national = digits.slice(country.value.length);
+
+//   // simple grouping: first 4 digits, then the rest  ->  "7555 555555"
+//   const grouped = national.replace(/^(\d{4})(\d+)$/, "$1 $2");
+
+//   return `+${country.value} ${grouped}`;
+// };
+// const isValid = (val: string): boolean => {
+//   const country = findCountryByAreaCode(val);
+
+//   if (country == null) {
+//     return false;
+//   }
+
+//   const validNumberLengths = countryCodes
+//     .filter("countryCallingCode", country.value)
+//     .flatMap((x) => x.nationalNumberLengths);
+
+//   // get only the digits
+//   const digits = val.replace(/\D/g, "");
+//   const phoneNumber = digits.slice(country.value.length);
+
+//   // base length requirement
+//   if (!validNumberLengths.length) {
+//     return phoneNumber.length >= 4 && phoneNumber.length <= 15;
+//   }
+
+//   // is the phone number length matching any of the
+//   return validNumberLengths.some((len) => len === phoneNumber.length);
+// };
+
+// const findCountryByAreaCode = (
+//   phone: string,
+// ): { label: string; value: string } | null => {
+//   // replace anything that isn't a number
+//   const digits = phone.replace(/\D/g, "");
+
+//   if (!digits) {
+//     return null;
+//   }
+
+//   // return the country with an area code starting with these numbers
+//   return countries.find((c) => digits.startsWith(c.value)) ?? null;
+// };
+
+const parsePhone = (normalized: string) => {
+  // remove everything that isn't a digit
+  const digits = normalized.replace(/\D/g, "");
+
+  const country = digits
+    ? (countries.find((c) => digits.startsWith(c.value)) ?? null)
+    : null;
+
+  if (!country) {
+    return { country, phoneNumber: "", isValid: false, formatted: normalized };
+  }
+
+  const phoneNumber = digits.slice(country.value.length);
+
+  const lengthsByCode = countryCodes
+    .filter("countryCallingCode", country.value)
+    .flatMap((x) => x.nationalNumberLengths);
+
+  const isValid = lengthsByCode.length
+    ? lengthsByCode.some((len) => len === digits.length)
+    : phoneNumber.length >= 4 && phoneNumber.length <= 15; // base requirements
+
+  const formatted = `+${country.value} ${phoneNumber.replace(/^(\d{4})(\d+)$/, "$1 $2")}`;
+  return { country, phoneNumber, isValid, formatted };
+};
+
 const PhoneField = () => {
   const [mode, setMode] = useState<
     (typeof FIELD_MODE)[keyof typeof FIELD_MODE]
   >(FIELD_MODE.INPUT);
   const [phone, setPhone] = useState<string>("");
-
-  // sanitise the input string so that anything that isn't
-  // space, numbers, + are all removed
-  const normalizePhoneInput = (rawStr: string) => {
-    // remove anything not number, spaces, +
-    const sanitised = rawStr.replace(notDigitSpacePlus, "");
-
-    const isPlus = sanitised.includes("+");
-
-    // remove +
-    const numbersOnly = sanitised.replace(/\+/g, "");
-
-    // if nothing left, then return nothing
-    if (!numbersOnly.trim().length && !isPlus) {
-      return "";
-    }
-
-    return "+" + numbersOnly;
-  };
+  const [error, setError] = useState<boolean>(false);
+  const { country: selectedCountry } = parsePhone(phone);
 
   const handlPhoneInput = (e: string) => {
-    const normalizedPhone = normalizePhoneInput(e);
+    const parsed = parsePhone(e);
 
-    if (isValid(normalizedPhone)) {
-      const formatted = formatPhone(normalizedPhone);
-      setPhone(formatted);
+    if (parsed.isValid) {
+      setError(false);
+      setPhone(parsed.formatted);
     } else {
-      setPhone(normalizedPhone);
+      setError(true);
+      setPhone(parsed.phoneNumber);
     }
   };
-
-  const findCountryByAreaCode = (
-    phone: string,
-  ): { label: string; value: string } | null => {
-    // replace anything that isn't a number
-    const digits = phone.replace(/\D/g, "");
-
-    if (!digits) {
-      return null;
-    }
-
-    // return the country with an area code starting with these numbers
-    return countries.find((c) => digits.startsWith(c.value)) ?? null;
-  };
-
-  const formatPhone = (val: string): string => {
-    const country = findCountryByAreaCode(val);
-    if (!country) {
-      return val;
-    }
-    const digits = val.replace(/\D/g, "");
-    const national = digits.slice(country.value.length);
-
-    // simple grouping: first 4 digits, then the rest  ->  "7555 555555"
-    const grouped = national.replace(/^(\d{4})(\d+)$/, "$1 $2");
-
-    return `+${country.value} ${grouped}`;
-  };
-
-  const selectedCountry = findCountryByAreaCode(phone);
-
-  const isValid = (val: string): boolean => {
-    const country = findCountryByAreaCode(val);
-
-    if (country == null) {
-      return false;
-    }
-
-    const validNumberLengths = countryCodes
-      .filter("countryCallingCode", country.value)
-      .flatMap((x) => x.nationalNumberLengths);
-
-    // get only the digits
-    const digits = val.replace(/\D/g, "");
-    const phoneNumber = digits.slice(country.value.length);
-
-    // base length requirement
-    if (!validNumberLengths.length) {
-      return phoneNumber.length >= 4 && phoneNumber.length <= 15;
-    }
-
-    // is the phone number length matching any of the
-    return validNumberLengths.some((len) => len === phoneNumber.length);
-  };
-
-  const validPhoneNumber = isValid(phone);
 
   return (
     <Layout
@@ -144,6 +167,11 @@ const PhoneField = () => {
             .
           </p>
           <p>Claude Code assisted</p>
+          <p>
+            There is a known iterable key issue with the Select field given that
+            multiple countries can use the same calling code. Leave it as it is
+            as out of scope of question.{" "}
+          </p>
         </>
       }
     >
@@ -181,15 +209,15 @@ const PhoneField = () => {
               value={phone}
               placeholder="Telephone"
               type="text"
-              aria-invalid={phone.length > 1 && !validPhoneNumber}
+              aria-invalid={phone.length > 1 && error}
               onChange={(e) => {
                 handlPhoneInput(e.target.value);
               }}
             />
-            {phone.replace(/\D/g, "").length > 1 && !validPhoneNumber && (
+            {phone.replace(/\D/g, "").length > 1 && error && (
               <p className="text-red-500">Invalid Phone number</p>
             )}
-            {phone.replace(/\D/g, "").length > 1 && validPhoneNumber && (
+            {phone.replace(/\D/g, "").length > 1 && !error && (
               <p className="text-green-600">Valid Phone</p>
             )}
           </Field>
