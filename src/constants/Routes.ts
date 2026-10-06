@@ -26,6 +26,7 @@ export const ROUTES = {
   WORDLE: "/wordle",
   STRONG_PASSWORD: "/password",
   PHONE_FIELD: "/phone-field",
+  TRAFFIC_LIGHTS: "/traffic-lights",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -148,5 +149,10 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.PHONE_FIELD,
     title: "Custom phone field",
     description: "Phone field validation",
+  },
+  {
+    route: ROUTES.TRAFFIC_LIGHTS,
+    title: "Traffic lights",
+    description: "Intervals",
   },
 ];

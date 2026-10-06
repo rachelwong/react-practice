@@ -49,6 +49,7 @@ const MemoryGameScreen = lazy(() => import("./screens/MemoryCardGame.tsx"));
 const SimpleWordleScreen = lazy(() => import("./screens/SimpleWordle.tsx"));
 const StrongPasswordScreen = lazy(() => import("./screens/StrongPassword.tsx"));
 const PhoneFieldScreen = lazy(() => import("./screens/PhoneField.tsx"));
+const TrafficLightsScreen = lazy(() => import("./screens/TrafficLights.tsx"));
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -137,6 +138,10 @@ createRoot(document.getElementById("root")!).render(
             element={<StrongPasswordScreen />}
           />
           <Route path={ROUTES.PHONE_FIELD} element={<PhoneFieldScreen />} />
+          <Route
+            path={ROUTES.TRAFFIC_LIGHTS}
+            element={<TrafficLightsScreen />}
+          />
         </AllRoutes>
       </Suspense>
     </Router>
