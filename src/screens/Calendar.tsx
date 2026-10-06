@@ -169,28 +169,19 @@ const Calendar = () => {
             className="week grid grid-cols-7 gap-x-4 w-full h-10"
           >
             {week.map((day: CalendarDayType) => {
-              if (day.isVisible) {
-                return (
-                  <button
-                    onClick={() => {
-                      if (day.date) {
-                        setSelectedDay(day.date!);
-                      }
-                    }}
-                    key={day.dayOfMonth}
-                    className="hover:cursor-pointer w-full h-full border-1 border-neutral-800 rounded-10 text-center flex flex-row items-center justify-center"
-                  >
-                    {day.dayOfMonth}
-                  </button>
-                );
-              }
               return (
-                <div
-                  key={day.weekdayIndex}
-                  className="invisible-days w-full h-full bg-white rounded-10 text-center flex flex-row items-center justify-cente text-neutral-100"
+                <button
+                  disabled={!day.isVisible}
+                  onClick={() => {
+                    if (day.date) {
+                      setSelectedDay(day.date!);
+                    }
+                  }}
+                  key={day.dayOfMonth}
+                  className={`${day.isVisible ? "hover:cursor-pointer text-slate-800 border-1 border-neutral-800" : "text-neutral-200"} w-full h-full rounded-10 text-center flex flex-row items-center justify-center`}
                 >
                   {day.dayOfMonth}
-                </div>
+                </button>
               );
             })}
           </div>
