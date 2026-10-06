@@ -2,12 +2,14 @@ import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { DateTimeFormat } from "@/constants";
 import {
+  addDays,
   addMonths,
   eachDayOfInterval,
   endOfMonth,
   format,
   getDay,
   startOfMonth,
+  subDays,
   subMonths,
 } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
@@ -18,7 +20,7 @@ const daysOfWeek = ["Mo", "Tu", "Wed", "Thu", "Fri", "Sat", "Sun"];
 type CalendarDayType = {
   date?: Date;
   dayOfMonth?: string;
-  weekdayIndex: number;
+  weekdayIndex?: number;
   isVisible: boolean;
 };
 
@@ -40,23 +42,49 @@ const Calendar = () => {
       isVisible: true,
     }));
 
-    const leading = daysOfMonth[0].weekdayIndex;
-    const trailing = daysOfMonth.at(-1)?.weekdayIndex ?? 0;
+    const leading = daysOfMonth[0].weekdayIndex; // prevMonth
+    const trailing = daysOfMonth.at(-1)?.weekdayIndex ?? 0; // nextMonth
 
-    const startingDaysToRender = Array.from({ length: leading }, (_, i) => ({
-      isVisible: false,
-      weekdayIndex: -(i + 1),
-    }));
+    // last `leading` days of the previous month
+    const prevMonthEndingDays =
+      leading > 0
+        ? eachDayOfInterval({
+            start: subDays(endOfMonth(currentMonth), leading),
+            end: subDays(endOfMonth(currentMonth), 1),
+          }).map((x) => {
+            return {
+              ...x,
+              date: x,
+              dayOfMonth: format(x, "d"),
+              weekdayIndex: (getDay(x) + 6) % numWeekDays,
+              isVisible: false,
+            };
+          })
+        : [];
 
-    const endingDaysToRender = Array.from({ length: trailing }, (_, i) => ({
-      isVisible: false,
-      weekdayIndex: i + 1,
-    }));
+    const nextMonth = addMonths(currentMonth, 1);
+    // first `6 - trailing` days of the next month (day 1 onwards)
+    const nextMonthStart = startOfMonth(nextMonth);
+
+    const nextMonthStartingDays =
+      6 - trailing > 0
+        ? eachDayOfInterval({
+            start: nextMonthStart,
+            end: addDays(nextMonthStart, 6 - trailing - 1),
+          }).map((x) => {
+            return {
+              date: x,
+              dayOfMonth: format(x, "d"),
+              weekdayIndex: (getDay(x) + 6) % numWeekDays,
+              isVisible: false,
+            };
+          })
+        : [];
 
     const totalDaysToRender = [
-      ...startingDaysToRender,
+      ...prevMonthEndingDays,
       ...daysOfMonth,
-      ...endingDaysToRender,
+      ...nextMonthStartingDays,
     ];
 
     return Array.from(
@@ -159,9 +187,9 @@ const Calendar = () => {
               return (
                 <div
                   key={day.weekdayIndex}
-                  className="invisible-days w-full h-full bg-white rounded-10 text-center flex flex-row items-center justify-cente text-white"
+                  className="invisible-days w-full h-full bg-white rounded-10 text-center flex flex-row items-center justify-cente text-neutral-100"
                 >
-                  {day.weekdayIndex}
+                  {day.dayOfMonth}
                 </div>
               );
             })}
