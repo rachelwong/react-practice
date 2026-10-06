@@ -28,6 +28,7 @@ export const ROUTES = {
   PHONE_FIELD: "/phone-field",
   TRAFFIC_LIGHTS: "/traffic-lights",
   CALENDAR: "/calendar",
+  CART_REDUX: "/redux-cart",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -160,5 +161,11 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.CALENDAR,
     title: "Calendar",
     description: "Roll your own calendar",
+  },
+  {
+    route: ROUTES.CART_REDUX,
+    title: "Cart in Redux",
+    description: "Shopping cart in redux x asyncThunk",
+    inProgress: true,
   },
 ];

@@ -51,6 +51,7 @@ const StrongPasswordScreen = lazy(() => import("./screens/StrongPassword.tsx"));
 const PhoneFieldScreen = lazy(() => import("./screens/PhoneField.tsx"));
 const TrafficLightsScreen = lazy(() => import("./screens/TrafficLights.tsx"));
 const CalendarScreen = lazy(() => import("./screens/Calendar.tsx"));
+const ReduxCartScreen = lazy(() => import("./screens/ReduxCart.tsx"));
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -144,6 +145,7 @@ createRoot(document.getElementById("root")!).render(
             element={<TrafficLightsScreen />}
           />
           <Route path={ROUTES.CALENDAR} element={<CalendarScreen />} />
+          <Route path={ROUTES.CART_REDUX} element={<ReduxCartScreen />} />
         </AllRoutes>
       </Suspense>
     </Router>
