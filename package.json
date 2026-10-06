@@ -21,6 +21,7 @@
     "cn": "^0.2.6",
     "country-codes-list": "^3.2.0",
     "date-fns": "^4.4.0",
+    "date-fns-tz": "^3.2.0",
     "lucide-react": "^1.41.0",
     "react": "^19.2.8",
     "react-day-picker": "^10.0.1",
