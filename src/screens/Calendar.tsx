@@ -11,7 +11,7 @@ import {
   subMonths,
 } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 const daysOfWeek = ["Mo", "Tu", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -28,8 +28,8 @@ const Calendar = () => {
 
   const numWeekDays = daysOfWeek.length;
 
-  const getDaysOfMonth = (): CalendarDayType[] =>
-    eachDayOfInterval({
+  const monthRender = useMemo(() => {
+    const daysOfMonth = eachDayOfInterval({
       start: startOfMonth(currentMonth),
       end: endOfMonth(currentMonth),
     }).map((day) => ({
@@ -40,44 +40,34 @@ const Calendar = () => {
       isVisible: true,
     }));
 
-  const startingWeekDayIndex = getDaysOfMonth()[0].weekdayIndex;
-  const endingWeekDayIndex = getDaysOfMonth().at(-1)?.weekdayIndex;
+    const leading = daysOfMonth[0].weekdayIndex;
+    const trailing = daysOfMonth.at(-1)?.weekdayIndex ?? 0;
 
-  const startingDaysToRender =
-    startingWeekDayIndex !== undefined || startingWeekDayIndex !== 0
-      ? Array.from(Array(startingWeekDayIndex!).keys()).map((x) => {
-          return {
-            isVisible: false,
-            weekdayIndex: (x + 1) * -1,
-          };
-        })
-      : [];
+    const startingDaysToRender = Array.from({ length: leading }, (_, i) => ({
+      isVisible: false,
+      weekdayIndex: -(i + 1),
+    }));
 
-  const endingDaysToRender =
-    (endingWeekDayIndex !== undefined || endingWeekDayIndex !== 0) &&
-    endingWeekDayIndex !== 6
-      ? Array.from(Array(6 - endingWeekDayIndex!).keys()).map((x) => {
-          return {
-            isVisible: false,
-            weekdayIndex: x + 1,
-          };
-        })
-      : [];
+    const endingDaysToRender = Array.from({ length: trailing }, (_, i) => ({
+      isVisible: false,
+      weekdayIndex: i + 1,
+    }));
 
-  const totalDaysToRender = [
-    ...startingDaysToRender,
-    ...getDaysOfMonth(),
-    ...endingDaysToRender,
-  ];
+    const totalDaysToRender = [
+      ...startingDaysToRender,
+      ...daysOfMonth,
+      ...endingDaysToRender,
+    ];
 
-  const formattedDayRows = Array.from(
-    { length: Math.ceil(totalDaysToRender.length / numWeekDays) },
-    (_, index) =>
-      totalDaysToRender.slice(
-        index * numWeekDays,
-        index * numWeekDays + numWeekDays,
-      ),
-  );
+    return Array.from(
+      { length: Math.ceil(totalDaysToRender.length / numWeekDays) },
+      (_, index) =>
+        totalDaysToRender.slice(
+          index * numWeekDays,
+          index * numWeekDays + numWeekDays,
+        ),
+    );
+  }, [currentMonth]);
 
   const decrementMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1));
@@ -145,7 +135,7 @@ const Calendar = () => {
             );
           })}
         </div>
-        {formattedDayRows.map((week) => (
+        {monthRender.map((week) => (
           <div
             key={JSON.stringify(week)}
             className="week grid grid-cols-7 gap-x-4 w-full h-10"
