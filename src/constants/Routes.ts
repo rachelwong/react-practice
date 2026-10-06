@@ -27,6 +27,7 @@ export const ROUTES = {
   STRONG_PASSWORD: "/password",
   PHONE_FIELD: "/phone-field",
   TRAFFIC_LIGHTS: "/traffic-lights",
+  CALENDAR: "/calendar",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -154,5 +155,10 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.TRAFFIC_LIGHTS,
     title: "Traffic lights",
     description: "Intervals",
+  },
+  {
+    route: ROUTES.CALENDAR,
+    title: "Calendar",
+    description: "Roll your own calendar",
   },
 ];

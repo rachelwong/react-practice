@@ -50,6 +50,7 @@ const SimpleWordleScreen = lazy(() => import("./screens/SimpleWordle.tsx"));
 const StrongPasswordScreen = lazy(() => import("./screens/StrongPassword.tsx"));
 const PhoneFieldScreen = lazy(() => import("./screens/PhoneField.tsx"));
 const TrafficLightsScreen = lazy(() => import("./screens/TrafficLights.tsx"));
+const CalendarScreen = lazy(() => import("./screens/Calendar.tsx"));
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -142,6 +143,7 @@ createRoot(document.getElementById("root")!).render(
             path={ROUTES.TRAFFIC_LIGHTS}
             element={<TrafficLightsScreen />}
           />
+          <Route path={ROUTES.CALENDAR} element={<CalendarScreen />} />
         </AllRoutes>
       </Suspense>
     </Router>
