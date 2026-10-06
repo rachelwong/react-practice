@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
+import { DateTimeFormat } from "@/constants";
 import {
   addMonths,
   eachDayOfInterval,
@@ -9,6 +10,7 @@ import {
   startOfMonth,
   subMonths,
 } from "date-fns";
+import { formatInTimeZone } from "date-fns-tz";
 import { useState } from "react";
 
 const daysOfWeek = ["Mo", "Tu", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -22,6 +24,9 @@ type CalendarDayType = {
 
 const Calendar = () => {
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
+  const [selectedDay, setSelectedDay] = useState<Date | null>(null);
+
+  const numWeekDays = daysOfWeek.length;
 
   const getDaysOfMonth = (): CalendarDayType[] =>
     eachDayOfInterval({
@@ -31,7 +36,7 @@ const Calendar = () => {
       date: day,
       dayOfMonth: format(day, "d"),
       // getDay: 0 = Sunday ... 6 = Saturday; shift so 0 = Monday to match daysOfWeek
-      weekdayIndex: (getDay(day) + 6) % 7,
+      weekdayIndex: (getDay(day) + 6) % numWeekDays,
       isVisible: true,
     }));
 
@@ -66,17 +71,31 @@ const Calendar = () => {
   ];
 
   const formattedDayRows = Array.from(
-    { length: Math.ceil(totalDaysToRender.length / 7) },
-    (_, index) => totalDaysToRender.slice(index * 7, index * 7 + 7),
+    { length: Math.ceil(totalDaysToRender.length / numWeekDays) },
+    (_, index) =>
+      totalDaysToRender.slice(
+        index * numWeekDays,
+        index * numWeekDays + numWeekDays,
+      ),
   );
 
   const decrementMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1));
+    setSelectedDay(null);
   };
 
   const incrementMonth = () => {
     setCurrentMonth(addMonths(currentMonth, 1));
+    setSelectedDay(null);
   };
+
+  const formattedSelectedDay = selectedDay
+    ? formatInTimeZone(
+        selectedDay,
+        Intl.DateTimeFormat().resolvedOptions().timeZone,
+        DateTimeFormat.DMY,
+      )
+    : null;
 
   return (
     <Layout
@@ -85,6 +104,11 @@ const Calendar = () => {
       description="No limits"
     >
       <div className="max-w-xl mx-auto w-full h-auto flex flex-col items-start justify-start gap-y-3">
+        {!!formattedSelectedDay && (
+          <h3 className="text-2xl text-slate-700 mx-auto text-center">
+            Selected: {formattedSelectedDay}
+          </h3>
+        )}
         <div className="flex flex-row justify-center items-center gap-x-4 text-center mx-auto w-full">
           <Button
             variant="secondary"
@@ -129,12 +153,17 @@ const Calendar = () => {
             {week.map((day: CalendarDayType) => {
               if (day.isVisible) {
                 return (
-                  <div
+                  <button
+                    onClick={() => {
+                      if (day.date) {
+                        setSelectedDay(day.date!);
+                      }
+                    }}
                     key={day.dayOfMonth}
-                    className="w-full h-full border-1 border-neutral-800 rounded-10 text-center flex flex-row items-center justify-center"
+                    className="hover:cursor-pointer w-full h-full border-1 border-neutral-800 rounded-10 text-center flex flex-row items-center justify-center"
                   >
                     {day.dayOfMonth}
-                  </div>
+                  </button>
                 );
               }
               return (
