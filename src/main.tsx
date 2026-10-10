@@ -11,6 +11,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import Layout from "./components/Layout.tsx";
 import { Spinner } from "./components/ui/spinner.tsx";
 import { dogCeoStore } from "./context/breedStore.ts";
+import { cartStore } from "./context/cartStore.ts";
 import { expensePersistor, expenseStore } from "./context/expenseStore.ts";
 import { MultiStepFormProvider } from "./context/MultiStepFormContext.tsx";
 import { MusicPlayerProvider } from "./context/MusicPlayerContext.tsx";
@@ -145,7 +146,14 @@ createRoot(document.getElementById("root")!).render(
             element={<TrafficLightsScreen />}
           />
           <Route path={ROUTES.CALENDAR} element={<CalendarScreen />} />
-          <Route path={ROUTES.CART_REDUX} element={<ReduxCartScreen />} />
+          <Route
+            path={ROUTES.CART_REDUX}
+            element={
+              <Provider store={cartStore}>
+                <ReduxCartScreen />
+              </Provider>
+            }
+          />
         </AllRoutes>
       </Suspense>
     </Router>
