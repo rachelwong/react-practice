@@ -1,5 +1,8 @@
-import { useCartSelector } from "@/context/cartStore";
-import { CirclePlus, CornerDownLeft, ShoppingCart, Trash } from "lucide-react";
+import { toggleDrawer } from "@/context/cartReducer";
+import { cartProducts, invoiceTotal } from "@/context/cartSelectors";
+import { useCartDispatch, useCartSelector } from "@/context/cartStore";
+import { CornerDownLeft, ShoppingCart } from "lucide-react";
+import ReduxCartDrawerItem from "./ReduxCartDrawerItem";
 import { Button } from "./ui/button";
 import {
   Drawer,
@@ -11,18 +14,25 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "./ui/drawer";
-import { Field, FieldLabel } from "./ui/field";
-import { Input } from "./ui/input";
 
 const ReduxCartDrawer = () => {
-  const cartProducts = useCartSelector((state) =>
-    state.availableProducts.filter((x) =>
-      state.selectedProducts.some((y) => y.id.toString() === x.id.toString()),
-    ),
-  );
+  const selectedProducts = useCartSelector(cartProducts);
+  const drawerStatus = useCartSelector((state) => state.drawerStatus);
+  const dispatch = useCartDispatch();
+
+  const total = useCartSelector(invoiceTotal);
+
+  // rounded up to nearest 2 decimals
+  const formattedTotal = Math.ceil(total * 100) / 100;
 
   return (
-    <Drawer swipeDirection="right">
+    <Drawer
+      open={drawerStatus}
+      swipeDirection="right"
+      onOpenChange={() => {
+        dispatch(toggleDrawer());
+      }}
+    >
       <DrawerTrigger render={<Button variant="outline" />}>
         <ShoppingCart />
         See Cart
@@ -32,24 +42,25 @@ const ReduxCartDrawer = () => {
           <DrawerTitle>Your items</DrawerTitle>
           <DrawerDescription>Your cart items</DrawerDescription>
         </DrawerHeader>
-        <div className="flex flex-col gap-y-3">
-          {cartProducts.map((product) => (
-            <div className="flex flex-row justify-between items-end p-3 gap-x-3">
-              <Field>
-                <FieldLabel>{product.title}</FieldLabel>
-                <Input onChange={() => {}} placeholder="Qty" />
-              </Field>
-              <Button variant="secondary" size="lg" onClick={() => {}}>
-                <CirclePlus />
-              </Button>
-              <Button variant="destructive" size="lg" onClick={() => {}}>
-                <Trash />
-              </Button>
-            </div>
+        <div className="flex flex-col gap-y-3 p-3">
+          {selectedProducts.map((product) => (
+            <ReduxCartDrawerItem key={product.id} product={product} />
           ))}
+          <h3 className="font-extrabold text-3xl text-slate-800">
+            Total: ${formattedTotal}
+          </h3>
         </div>
         <DrawerFooter>
-          <DrawerClose render={<Button variant="outline" />}>
+          <DrawerClose
+            render={
+              <Button
+                variant="outline"
+                onClick={() => {
+                  dispatch(toggleDrawer());
+                }}
+              />
+            }
+          >
             <CornerDownLeft />
             Cancel
           </DrawerClose>

@@ -16,6 +16,7 @@ export interface CartState {
   error: string | null;
   availableProducts: Product[];
   selectedProducts: CartItem[];
+  drawerStatus: boolean;
 }
 
 const initialCartState: CartState = {
@@ -23,6 +24,7 @@ const initialCartState: CartState = {
   error: null,
   availableProducts: [],
   selectedProducts: [],
+  drawerStatus: false,
 };
 
 export const fetchProducts = createAsyncThunk("products/fetchAll", async () => {
@@ -34,9 +36,30 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState: initialCartState,
   reducers: {
+    removeItemEntirely: (state, action: PayloadAction<string>) => {
+      const existing = state.selectedProducts.some(
+        (x) => x.id === action.payload,
+      );
+
+      if (!existing) {
+        return state;
+      }
+      return {
+        ...state,
+        selectedProducts: [
+          ...state.selectedProducts.filter((x) => x.id !== action.payload),
+        ],
+      };
+    },
+    toggleDrawer: (state) => {
+      return {
+        ...state,
+        drawerStatus: !state.drawerStatus,
+      };
+    },
     updateQty: (state, action: PayloadAction<{ id: string; qty: number }>) => {
       const existing = state.selectedProducts.some(
-        (x) => x.id.toString() === action.payload.id.toString(),
+        (x) => x.id === action.payload.id,
       );
       if (!existing) {
         return state;
@@ -149,8 +172,14 @@ export const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, removeFromCart, resetCartSelection, updateQty } =
-  cartSlice.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  resetCartSelection,
+  updateQty,
+  removeItemEntirely,
+  toggleDrawer,
+} = cartSlice.actions;
 
 // // Other code such as selectors can use the imported `RootState` type
 // export const selectCount = (state: RootState) => state.counter.value;

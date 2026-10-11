@@ -22,6 +22,7 @@ import { useEffect } from "react";
 const ReduxCart = () => {
   const products = useCartSelector((state) => state.availableProducts);
   const status = useCartSelector((state) => state.status);
+  const selectedProducts = useCartSelector((state) => state.selectedProducts);
 
   const dispatch = useCartDispatch();
 
@@ -36,6 +37,7 @@ const ReduxCart = () => {
     >
       <div className="products max-w-4xl mx-auto h-full flex flex-col gap-y-4">
         {status === "loading" && <Spinner width={20} height={20} />}
+        <p>selectedProducts {JSON.stringify(selectedProducts)}</p>
         <ReduxCartDrawer />
         {status === "succeeded" && (
           <>
