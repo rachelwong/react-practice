@@ -29,6 +29,7 @@ export const ROUTES = {
   TRAFFIC_LIGHTS: "/traffic-lights",
   CALENDAR: "/calendar",
   CART_REDUX: "/redux-cart",
+  UNDO_REDO: "/undo-redo",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -166,5 +167,10 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.CART_REDUX,
     title: "Cart in Redux",
     description: "Shopping cart in redux x asyncThunk",
+  },
+  {
+    route: ROUTES.UNDO_REDO,
+    title: "Undo-redo",
+    description: "useReducer to track future, present, history",
   },
 ];
