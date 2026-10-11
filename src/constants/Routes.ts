@@ -166,6 +166,5 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.CART_REDUX,
     title: "Cart in Redux",
     description: "Shopping cart in redux x asyncThunk",
-    inProgress: true,
   },
 ];

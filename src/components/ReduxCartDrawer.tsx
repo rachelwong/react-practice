@@ -2,11 +2,11 @@ import { toggleDrawer } from "@/context/cartReducer";
 import { cartProducts, invoiceTotal } from "@/context/cartSelectors";
 import { useCartDispatch, useCartSelector } from "@/context/cartStore";
 import { CornerDownLeft, ShoppingCart } from "lucide-react";
+import { useEffect } from "react";
 import ReduxCartDrawerItem from "./ReduxCartDrawerItem";
 import { Button } from "./ui/button";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
@@ -25,12 +25,19 @@ const ReduxCartDrawer = () => {
   // rounded up to nearest 2 decimals
   const formattedTotal = Math.ceil(total * 100) / 100;
 
+  // close drawer if no products remaining
+  useEffect(() => {
+    if (selectedProducts.length === 0) {
+      dispatch(toggleDrawer(false));
+    }
+  }, [selectedProducts.length]);
+
   return (
     <Drawer
       open={drawerStatus}
       swipeDirection="right"
       onOpenChange={() => {
-        dispatch(toggleDrawer());
+        dispatch(toggleDrawer(true));
       }}
     >
       <DrawerTrigger render={<Button variant="outline" />}>
@@ -51,19 +58,15 @@ const ReduxCartDrawer = () => {
           </h3>
         </div>
         <DrawerFooter>
-          <DrawerClose
-            render={
-              <Button
-                variant="outline"
-                onClick={() => {
-                  dispatch(toggleDrawer());
-                }}
-              />
-            }
+          <Button
+            variant="outline"
+            onClick={() => {
+              dispatch(toggleDrawer(false));
+            }}
           >
             <CornerDownLeft />
             Cancel
-          </DrawerClose>
+          </Button>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>

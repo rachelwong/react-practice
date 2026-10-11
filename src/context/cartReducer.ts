@@ -51,10 +51,16 @@ export const cartSlice = createSlice({
         ],
       };
     },
-    toggleDrawer: (state) => {
+    toggleDrawer: (state, action: PayloadAction<boolean | undefined>) => {
+      if (action.payload === undefined) {
+        return {
+          ...state,
+          drawerStatus: !state.drawerStatus,
+        };
+      }
       return {
         ...state,
-        drawerStatus: !state.drawerStatus,
+        drawerStatus: action.payload,
       };
     },
     updateQty: (state, action: PayloadAction<{ id: string; qty: number }>) => {
