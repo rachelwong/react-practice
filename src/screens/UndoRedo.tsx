@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import UndoRedoField from "@/components/UndoRedoField";
 import useTrackHistory from "@/hooks/useTrackHistory";
 import { RotateCcw, RotateCw } from "lucide-react";
 import { useState } from "react";
@@ -18,6 +19,8 @@ const UndoRedo = () => {
     addItem,
     deleteItem,
     toggleStatus,
+    toggleEditStatus,
+    updateItemValue,
     undoCount,
     redoCount,
     redo,
@@ -76,7 +79,15 @@ const UndoRedo = () => {
             return (
               <Card>
                 <CardContent className="flex flex-row items-center justify-between">
-                  <CardDescription>{item.value}</CardDescription>
+                  <CardDescription
+                    className={item.status ? "line-through" : ""}
+                  >
+                    <UndoRedoField
+                      item={item}
+                      onToggleEdit={toggleEditStatus}
+                      onUpdate={updateItemValue}
+                    />
+                  </CardDescription>
                   <CardAction className="flex flex-row items-center justify-end gap-x-6">
                     <Checkbox
                       className="h-6 w-6"
