@@ -20,6 +20,7 @@ export interface Item {
   id: string;
   value: string;
   status: boolean;
+  isEdit: boolean;
 }
 
 export interface UndoRedoState {
@@ -33,6 +34,7 @@ export const ListAction = {
   DELETE_ITEM: "DELETE_ITEM",
   TOGGLE_STATUS: "TOGGLE_STATUS",
   UPDATE_ITEM_VALUE: "UPDATE_ITEM_VALUE",
+  TOGGLE_EDIT_STATUS: "TOGGLE_EDIT_STATUS",
   REDO: "REDO",
   UNDO: "UNDO",
   RESET: "RESET",
@@ -49,6 +51,10 @@ export type UndoRedoActionsTypes =
     }
   | {
       type: typeof ListAction.DELETE_ITEM;
+      payload: string; // id
+    }
+  | {
+      type: typeof ListAction.TOGGLE_EDIT_STATUS;
       payload: string; // id
     }
   | {
@@ -76,13 +82,29 @@ function reducer(state: UndoRedoState, action: UndoRedoActionsTypes) {
       const updatedPast = [currentPresentSnapshot, ...state.past];
       const updatedPresent = [
         ...currentPresentSnapshot,
-        { id: uuidv4(), value: action.payload, status: false },
+        { id: uuidv4(), value: action.payload, status: false, isEdit: false },
       ];
       return {
         ...state,
         present: updatedPresent,
         past: updatedPast,
         future: [],
+      };
+    }
+    case ListAction.TOGGLE_EDIT_STATUS: {
+      return {
+        ...state,
+        present: [
+          ...state.present.map((presentItem) => {
+            if (presentItem.id === action.payload) {
+              return {
+                ...presentItem,
+                isEdit: !presentItem.isEdit,
+              };
+            }
+            return presentItem;
+          }),
+        ],
       };
     }
     case ListAction.DELETE_ITEM: {
@@ -181,8 +203,8 @@ function reducer(state: UndoRedoState, action: UndoRedoActionsTypes) {
 
 const initialState: UndoRedoState = {
   present: [
-    { id: uuidv4(), value: "Buy groceries", status: false },
-    { id: uuidv4(), value: "Walk the dog", status: true },
+    { id: uuidv4(), value: "Buy groceries", status: false, isEdit: false },
+    { id: uuidv4(), value: "Walk the dog", status: true, isEdit: false },
   ],
   past: [], // stacks of snapshots
   future: [], // stacks of snapshots
@@ -240,6 +262,16 @@ const useTrackHistory = () => {
     });
   };
 
+  const toggleEditStatus = (id: string) => {
+    if (!state.present.find((x) => x.id === id)) {
+      return;
+    }
+    dispatch({
+      type: ListAction.TOGGLE_EDIT_STATUS,
+      payload: id,
+    });
+  };
+
   return {
     state,
     undoCount,
@@ -248,6 +280,7 @@ const useTrackHistory = () => {
     redo,
     toggleStatus,
     updateItemValue,
+    toggleEditStatus,
     deleteItem,
     addItem,
   };
