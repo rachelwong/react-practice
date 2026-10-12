@@ -184,6 +184,5 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.TABLE_PAGINATE,
     title: "Table paginate",
     description: "Pagination with next, prev, start, end",
-    inProgress: true,
   },
 ];
