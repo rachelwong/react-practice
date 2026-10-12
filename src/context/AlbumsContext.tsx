@@ -29,7 +29,7 @@ const initialState = {
 const AlbumContext = createContext<AlbumsContextType>(initialState);
 
 async function fakeFetchPage() {
-  await new Promise((resolve) => setTimeout(resolve, 500));
+  await new Promise((resolve) => setTimeout(resolve, 2000));
   if (Math.random() < 1 / 3) {
     throw new Error("500 Internal Server Error");
   }
@@ -72,7 +72,7 @@ export interface UseAlbumsType {
   prevPage: () => void;
   endPage: () => void;
   startPage: () => void;
-  goToPage: (target: number) => void;
+  goToPage: (target: number) => Promise<void>;
   loadingPage: boolean;
   errorPage: boolean;
   headers: string[];
@@ -105,11 +105,11 @@ export function useAlbums(pageSize: number = 10): UseAlbumsType {
     goToPage(0);
   };
 
-  const goToPage = (targetIndex: number): void => {
+  const goToPage = async (targetIndex: number) => {
     try {
       setErrorPage(false);
       setLoadingPage(true);
-      fakeFetchPage();
+      await fakeFetchPage();
       setCurrIndex(targetIndex);
     } catch (err) {
       setErrorPage(true);

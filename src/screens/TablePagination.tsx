@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -25,7 +26,7 @@ const TablePagination = () => {
     prevPage,
     endPage,
     startPage,
-  } = useAlbums(25);
+  } = useAlbums();
 
   return (
     <Layout
@@ -42,26 +43,45 @@ const TablePagination = () => {
               ))}
             </TableRow>
           </TableHeader>
-          <TableBody>
-            {!loadingPage &&
-              !!currPageData &&
-              currPageData.map((row) => (
-                <TableRow key={JSON.stringify(row)}>
-                  {Object.values(row).map((rowData, rowDataIndex) => (
-                    <TableCell key={`${rowData}-${rowDataIndex}`}>
-                      {rowData}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))}
-            {errorPage && (
+          {loadingPage && (
+            <TableBody>
+              <TableRow>
+                <TableCell>
+                  <Skeleton className="h-4 w-full" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="h-4 w-full" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="h-4 w-full" />
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          )}
+          {!loadingPage && (
+            <TableBody>
+              {!errorPage &&
+                !!currPageData &&
+                currPageData.map((row) => (
+                  <TableRow key={JSON.stringify(row)}>
+                    {Object.values(row).map((rowData, rowDataIndex) => (
+                      <TableCell key={`${rowData}-${rowDataIndex}`}>
+                        {rowData}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+            </TableBody>
+          )}
+          {errorPage && (
+            <TableBody>
               <TableRow>
                 <TableCell className="text-red-500 font-extrabold">
                   Internal server error
                 </TableCell>
               </TableRow>
-            )}
-          </TableBody>
+            </TableBody>
+          )}
         </Table>
         <div className="flex flex-row items-center justify-center gap-x-4">
           <Button
