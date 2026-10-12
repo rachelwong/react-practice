@@ -98,7 +98,7 @@ export function useAlbums(pageSize: number = 10): UseAlbumsType {
   };
 
   const endPage = () => {
-    goToPage(totalNumPages);
+    goToPage(totalNumPages - 1);
   };
 
   const startPage = () => {
