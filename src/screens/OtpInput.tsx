@@ -16,7 +16,7 @@ const OtpInput = () => {
     inputRefs.current[index]?.focus();
   };
 
-  const isDirty = value.some((x) => !!x);
+  const isDirty = value.every((x) => !!x);
   const isValid = value.join("") === ANSWER.toString();
 
   const handlePaste = (
