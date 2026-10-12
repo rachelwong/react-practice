@@ -54,6 +54,7 @@ const TrafficLightsScreen = lazy(() => import("./screens/TrafficLights.tsx"));
 const CalendarScreen = lazy(() => import("./screens/Calendar.tsx"));
 const ReduxCartScreen = lazy(() => import("./screens/ReduxCart.tsx"));
 const UndoRedoScreen = lazy(() => import("./screens/UndoRedo.tsx"));
+const OTPScreen = lazy(() => import("./screens/OtpInput.tsx"));
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -156,6 +157,7 @@ createRoot(document.getElementById("root")!).render(
             }
           />
           <Route path={ROUTES.UNDO_REDO} element={<UndoRedoScreen />} />
+          <Route path={ROUTES.OTP_INPUT} element={<OTPScreen />} />
         </AllRoutes>
       </Suspense>
     </Router>

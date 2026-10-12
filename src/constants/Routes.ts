@@ -30,6 +30,7 @@ export const ROUTES = {
   CALENDAR: "/calendar",
   CART_REDUX: "/redux-cart",
   UNDO_REDO: "/undo-redo",
+  OTP_INPUT: "/otp-input",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -172,5 +173,11 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.UNDO_REDO,
     title: "Undo-redo",
     description: "useReducer to track future, present, history",
+  },
+  {
+    route: ROUTES.OTP_INPUT,
+    title: "OTP Input",
+    description: "Advance focus, validation, allow copy-paste",
+    inProgress: true,
   },
 ];
