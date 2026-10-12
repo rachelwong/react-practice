@@ -178,6 +178,5 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.OTP_INPUT,
     title: "OTP Input",
     description: "Advance focus, validation, allow copy-paste",
-    inProgress: true,
   },
 ];
