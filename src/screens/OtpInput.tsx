@@ -48,6 +48,7 @@ const OtpInput = () => {
     <Layout
       title="OTP Input"
       brief="https://www.reactchallenges.com/challenges/otp-input"
+      description="Validates once all fields are inputted. Includes focus management, paste action."
     >
       <div className="flex flex-col max-w-3xl justify-center items-start w-full h-auto gap-y-4 mx-auto">
         <p>Code is {JSON.stringify(ANSWER)}</p>
