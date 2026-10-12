@@ -31,6 +31,7 @@ export const ROUTES = {
   CART_REDUX: "/redux-cart",
   UNDO_REDO: "/undo-redo",
   OTP_INPUT: "/otp-input",
+  TABLE_PAGINATE: "/table-paginate",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -178,5 +179,11 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.OTP_INPUT,
     title: "OTP Input",
     description: "Advance focus, validation, allow copy-paste",
+  },
+  {
+    route: ROUTES.TABLE_PAGINATE,
+    title: "Table paginate",
+    description: "Pagination with next, prev, start, end",
+    inProgress: true,
   },
 ];

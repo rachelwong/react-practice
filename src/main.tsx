@@ -10,6 +10,7 @@ import {
 import { PersistGate } from "redux-persist/integration/react";
 import Layout from "./components/Layout.tsx";
 import { Spinner } from "./components/ui/spinner.tsx";
+import AlbumsProvider from "./context/AlbumsContext.tsx";
 import { dogCeoStore } from "./context/breedStore.ts";
 import { cartStore } from "./context/cartStore.ts";
 import { expensePersistor, expenseStore } from "./context/expenseStore.ts";
@@ -55,6 +56,7 @@ const CalendarScreen = lazy(() => import("./screens/Calendar.tsx"));
 const ReduxCartScreen = lazy(() => import("./screens/ReduxCart.tsx"));
 const UndoRedoScreen = lazy(() => import("./screens/UndoRedo.tsx"));
 const OTPScreen = lazy(() => import("./screens/OtpInput.tsx"));
+const TablePaginateScreen = lazy(() => import("./screens/TablePagination.tsx"));
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -158,6 +160,14 @@ createRoot(document.getElementById("root")!).render(
           />
           <Route path={ROUTES.UNDO_REDO} element={<UndoRedoScreen />} />
           <Route path={ROUTES.OTP_INPUT} element={<OTPScreen />} />
+          <Route
+            path={ROUTES.TABLE_PAGINATE}
+            element={
+              <AlbumsProvider>
+                <TablePaginateScreen />
+              </AlbumsProvider>
+            }
+          />
         </AllRoutes>
       </Suspense>
     </Router>
