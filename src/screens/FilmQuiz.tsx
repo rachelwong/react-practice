@@ -12,13 +12,27 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import quizMachine from "@/context/FilmQuizMachine";
 import { useActor } from "@xstate/react";
+import { intervalToDuration } from "date-fns";
 import { InfoIcon, Play } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
-const MAX_TOTAL_POINTS = 10;
-const MAX_NUMBER_QUESTIONS = 5;
+const MAX_TOTAL_POINTS = 100;
+const MAX_NUMBER_QUESTIONS = 10;
 const MAX_DURATION = 600000; // 10 mins in milliseconds
 
+const formatMsDuration = (ms: number) => {
+  const duration = intervalToDuration({ start: 0, end: ms });
+
+  // Use padStart to ensure seconds are always two digits (e.g., "05" instead of "5")
+  const minutes = duration.minutes || 0;
+  const seconds = String(duration.seconds || 0).padStart(2, "0");
+
+  return `${minutes}:${seconds}`;
+};
+
 const FilmQuiz = () => {
+  const globalQuizTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [globalTime, setGlobalTime] = useState<number>(MAX_DURATION);
   const [snapshot, send] = useActor(quizMachine, {
     input: {
       maxNumberPoints: MAX_TOTAL_POINTS,
@@ -26,6 +40,43 @@ const FilmQuiz = () => {
       maxDuration: MAX_DURATION,
     },
   });
+
+  useEffect(() => {
+    if (!snapshot.can({ type: "OUT_OF_TIME" })) {
+      return;
+    }
+    if (globalQuizTimerRef.current !== null) {
+      clearTimeout(globalQuizTimerRef.current);
+    }
+
+    globalQuizTimerRef.current = setTimeout(() => {
+      send({ type: "OUT_OF_TIME" });
+    }, snapshot.context.maxDuration);
+
+    return () => {
+      if (globalQuizTimerRef.current) {
+        clearTimeout(globalQuizTimerRef.current);
+      }
+    };
+  }, [
+    send,
+    snapshot.can({ type: "OUT_OF_TIME" }),
+    snapshot.context.maxDuration,
+  ]);
+
+  useEffect(() => {
+    if (!snapshot.matches("quiz")) {
+      return;
+    }
+
+    const handleTimerDisplay = setInterval(() => {
+      setGlobalTime((prev) => prev - 1000);
+    }, 1000);
+
+    return () => {
+      clearInterval(handleTimerDisplay);
+    };
+  }, [snapshot.matches("quiz")]);
 
   return (
     <Layout
@@ -63,7 +114,9 @@ const FilmQuiz = () => {
                 Question # {snapshot.context.currIndex + 1} /{" "}
                 {snapshot.context.totalNumberQuestions}
               </h1>
-              <p>Timer</p>
+              <p className="text-lg font-extrabold text-slate-900 text-right">
+                Timer: {formatMsDuration(globalTime)}
+              </p>
             </div>
             <FilmQuizQuestion
               handleSelectAnswer={(val: string) => {
@@ -94,6 +147,7 @@ const FilmQuiz = () => {
             results={snapshot.context.results}
             maxTotalPoints={snapshot.context.maxNumberPoints}
             totalNumberQuestions={snapshot.context.totalNumberQuestions}
+            maxDuration={snapshot.context.maxDuration}
           />
         )}
       </div>

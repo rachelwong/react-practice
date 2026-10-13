@@ -20,7 +20,8 @@ export interface QuizMachineContextType {
 
 export type QuizMachineEventTypes =
   | { type: "SUBMIT_ANSWER"; answer: string }
-  | { type: "START_QUIZ" };
+  | { type: "START_QUIZ" }
+  | { type: "OUT_OF_TIME" }; // global time
 
 const initialState = {
   totalNumberQuestions: 0,
@@ -85,6 +86,11 @@ const quizMachine = setup({
     quiz: {
       id: "quiz",
       initial: "checkQuizStatus",
+      on: {
+        OUT_OF_TIME: {
+          target: "#end",
+        },
+      },
       states: {
         checkQuizStatus: {
           tags: ["loading"],

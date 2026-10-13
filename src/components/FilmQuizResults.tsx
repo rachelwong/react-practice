@@ -1,12 +1,14 @@
 import type { QuizItemResult } from "@/context/FilmQuizMachine";
 import { decode } from "html-entities";
-import { Play } from "lucide-react";
+import { InfoIcon, Play } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { Button } from "./ui/button";
 
 interface FilmQuizResultsProps {
   results: QuizItemResult[];
   maxTotalPoints: number;
   totalNumberQuestions: number;
+  maxDuration: number;
   onStart: () => void;
 }
 
@@ -14,8 +16,11 @@ const FilmQuizResults = ({
   results,
   maxTotalPoints,
   totalNumberQuestions,
+  maxDuration,
   onStart,
 }: FilmQuizResultsProps) => {
+  const durationInMinutes = maxDuration / 60000;
+
   const score = results.reduce((acc, cur) => {
     if (cur.chosen_answer === cur.correct_answer) {
       acc += maxTotalPoints / totalNumberQuestions;
@@ -34,27 +39,43 @@ const FilmQuizResults = ({
       <p className="text-3xl font-extrabold text-center">
         Your score: {formattedScore} / {maxTotalPoints}
       </p>
-      <ol className="list-decimal w-full text-left h-auto flex flex-col gap-y-3">
-        {results.map((result) => {
-          const isCorrect = result.correct_answer === result.chosen_answer;
-          return (
-            <li className="text-left" key={result.id}>
-              <p className="text-lg">
-                <span className="mr-3">
-                  {isCorrect ? decode(`&#9989`) : decode(`&#10060;`)}
-                </span>
-                {result.question}
-              </p>
-              {!isCorrect && (
-                <p className="italic text-md">
-                  Correct answer: {result.correct_answer}. You answered:{" "}
-                  {result.chosen_answer}
+      {!results ||
+        (!results.length && (
+          <Alert>
+            <InfoIcon />
+            <AlertTitle>No results!</AlertTitle>
+            <AlertDescription>
+              You have not answered any questions at all within the quiz limit
+              of {durationInMinutes} minutes. Try again next time.
+            </AlertDescription>
+          </Alert>
+        ))}
+      {results.length && (
+        <ol className="list-decimal w-full text-left h-auto flex flex-col gap-y-3">
+          {results.map((result) => {
+            const isCorrect = result.correct_answer === result.chosen_answer;
+            return (
+              <li className="text-left" key={result.id}>
+                <p className="text-lg">
+                  <span className="mr-3">
+                    {isCorrect ? decode(`&#9989`) : decode(`&#10060;`)}
+                  </span>
+                  {result.question}
                 </p>
-              )}
-            </li>
-          );
-        })}
-      </ol>
+                {!isCorrect && (
+                  <p className="italic text-md">
+                    Correct answer: {result.correct_answer}.{" "}
+                    {result.chosen_answer
+                      ? `You answered: 
+                      ${result.chosen_answer}`
+                      : "You did not answer this one"}
+                  </p>
+                )}
+              </li>
+            );
+          })}
+        </ol>
+      )}
       <Button onClick={() => onStart()}>
         <Play />
         Start new Quiz
