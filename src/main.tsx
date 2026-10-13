@@ -57,6 +57,7 @@ const ReduxCartScreen = lazy(() => import("./screens/ReduxCart.tsx"));
 const UndoRedoScreen = lazy(() => import("./screens/UndoRedo.tsx"));
 const OTPScreen = lazy(() => import("./screens/OtpInput.tsx"));
 const TablePaginateScreen = lazy(() => import("./screens/TablePagination.tsx"));
+const FilmQuizScreen = lazy(() => import("./screens/FilmQuiz.tsx"));
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -168,6 +169,7 @@ createRoot(document.getElementById("root")!).render(
               </AlbumsProvider>
             }
           />
+          <Route path={ROUTES.FILM_QUIZ} element={<FilmQuizScreen />} />
         </AllRoutes>
       </Suspense>
     </Router>

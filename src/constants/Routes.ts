@@ -32,6 +32,7 @@ export const ROUTES = {
   UNDO_REDO: "/undo-redo",
   OTP_INPUT: "/otp-input",
   TABLE_PAGINATE: "/table-paginate",
+  FILM_QUIZ: "/film-quiz",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -184,5 +185,11 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.TABLE_PAGINATE,
     title: "Table paginate",
     description: "Pagination with next, prev, start, end",
+  },
+  {
+    route: ROUTES.FILM_QUIZ,
+    title: "Film Quiz",
+    description: "state machine with scoring, progress, timer, results",
+    inProgress: true,
   },
 ];
