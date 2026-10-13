@@ -140,6 +140,14 @@ const FilmQuiz = () => {
           />
         )}
       </div>
+      <div className="flex flex-col items-center justify-center gap-y-4 my-3">
+        <p className="text-3xl text-slate-900 font-extrabold">State machine</p>
+        <img
+          className="max-w-3xl h-auto"
+          src={"/film_quiz_state_machine.png"}
+          alt="state machine"
+        />
+      </div>
     </Layout>
   );
 };
