@@ -11,27 +11,16 @@ import {
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import quizMachine from "@/context/FilmQuizMachine";
+import { formatMsDuration } from "@/utils/DateTimeUtils";
 import { useActor } from "@xstate/react";
-import { intervalToDuration } from "date-fns";
 import { InfoIcon, Play } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const MAX_TOTAL_POINTS = 100;
 const MAX_NUMBER_QUESTIONS = 10;
 const MAX_DURATION = 600000; // 10 mins in milliseconds
 
-const formatMsDuration = (ms: number) => {
-  const duration = intervalToDuration({ start: 0, end: ms });
-
-  // Use padStart to ensure seconds are always two digits (e.g., "05" instead of "5")
-  const minutes = duration.minutes || 0;
-  const seconds = String(duration.seconds || 0).padStart(2, "0");
-
-  return `${minutes}:${seconds}`;
-};
-
 const FilmQuiz = () => {
-  const globalQuizTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [globalTime, setGlobalTime] = useState<number>(MAX_DURATION);
   const [snapshot, send] = useActor(quizMachine, {
     input: {
@@ -42,41 +31,34 @@ const FilmQuiz = () => {
   });
 
   useEffect(() => {
-    if (!snapshot.can({ type: "OUT_OF_TIME" })) {
+    if (!snapshot.matches("quiz") || snapshot.matches({ quiz: "errorQuiz" })) {
       return;
     }
-    if (globalQuizTimerRef.current !== null) {
-      clearTimeout(globalQuizTimerRef.current);
-    }
 
-    globalQuizTimerRef.current = setTimeout(() => {
+    const deadline = Date.now() + snapshot.context.maxDuration;
+    // reset for restarting a new quiz
+    setGlobalTime(snapshot.context.maxDuration);
+
+    const displayGlobalTimer = setInterval(() => {
+      setGlobalTime(
+        Math.max(0, Math.ceil((deadline - Date.now()) / 1000) * 1000),
+      );
+    }, 250);
+
+    const globalTimeout = setTimeout(() => {
       send({ type: "OUT_OF_TIME" });
     }, snapshot.context.maxDuration);
 
     return () => {
-      if (globalQuizTimerRef.current) {
-        clearTimeout(globalQuizTimerRef.current);
-      }
+      clearInterval(displayGlobalTimer);
+      clearTimeout(globalTimeout);
     };
   }, [
+    snapshot.matches("quiz"),
     send,
-    snapshot.can({ type: "OUT_OF_TIME" }),
     snapshot.context.maxDuration,
+    snapshot.matches({ quiz: "errorQuiz" }),
   ]);
-
-  useEffect(() => {
-    if (!snapshot.matches("quiz")) {
-      return;
-    }
-
-    const handleTimerDisplay = setInterval(() => {
-      setGlobalTime((prev) => prev - 1000);
-    }, 1000);
-
-    return () => {
-      clearInterval(handleTimerDisplay);
-    };
-  }, [snapshot.matches("quiz")]);
 
   return (
     <Layout
@@ -122,7 +104,14 @@ const FilmQuiz = () => {
               handleSelectAnswer={(val: string) => {
                 send({ type: "SUBMIT_ANSWER", answer: val });
               }}
+              questionTimeout={() => {
+                send({ type: "QUESTION_TIME_OUT" });
+              }}
               item={snapshot.context.currQuestion}
+              baseTimeValue={
+                snapshot.context.maxDuration /
+                snapshot.context.totalNumberQuestions
+              }
             />
           </div>
         )}

@@ -3,6 +3,7 @@ import {
   differenceInYears,
   format,
   getYear,
+  intervalToDuration,
   isAfter,
   isMatch,
   parse,
@@ -66,4 +67,15 @@ export const isFutureDate = ({
   }
   const parsedDate = parse(date, format, new Date());
   return isAfter(parsedDate, startOfToday());
+};
+
+// format integer number of milliseconds to mm:ss clock format
+export const formatMsDuration = (ms: number) => {
+  const duration = intervalToDuration({ start: 0, end: ms });
+
+  // Use padStart to ensure seconds are always two digits (e.g., "05" instead of "5")
+  const minutes = duration.minutes || 0;
+  const seconds = String(duration.seconds || 0).padStart(2, "0");
+
+  return `${minutes}:${seconds}`;
 };

@@ -13,7 +13,6 @@ export interface QuizMachineContextType {
   currIndex: number;
   currQuestion: QuizItem | null;
   results: QuizItemResult[];
-  timer: number;
   maxNumberPoints: number;
   maxDuration: number;
 }
@@ -21,14 +20,14 @@ export interface QuizMachineContextType {
 export type QuizMachineEventTypes =
   | { type: "SUBMIT_ANSWER"; answer: string }
   | { type: "START_QUIZ" }
-  | { type: "OUT_OF_TIME" }; // global time
+  | { type: "OUT_OF_TIME" } // global timer
+  | { type: "QUESTION_TIME_OUT" }; // timeWeight per question
 
 const initialState = {
   totalNumberQuestions: 0,
   currIndex: 0,
   currQuestion: null,
   results: [],
-  timer: 0, // TODO
   maxNumberPoints: 0,
   maxDuration: 0,
 };
@@ -37,9 +36,12 @@ const initialState = {
 const PENALTY_RATIO = [0.5, 1, 0];
 const TIME_WEIGHT = [1, 1.5, 0.5];
 
-const fetchOneQuizQuestion = fromPromise(async (): Promise<QuizItem | null> => {
+const fetchOneQuizQuestion = fromPromise(async (): Promise<QuizItem> => {
   const response = await getFilmQuiz(1);
-  return response?.results[0] || null;
+  if (!response || !response.results[0]) {
+    throw new Error("No quiz question available");
+  }
+  return response?.results[0];
 });
 
 const quizMachine = setup({
@@ -77,18 +79,35 @@ const quizMachine = setup({
   states: {
     init: {
       id: "init",
+      entry: assign(({ context }) => ({
+        ...context,
+        currIndex: 0,
+        currQuestion: null,
+        results: [],
+      })),
       on: {
         START_QUIZ: {
-          target: "quiz",
+          target: "#quizQuestion",
         },
       },
     },
     quiz: {
-      id: "quiz",
+      id: "quizQuestion",
       initial: "checkQuizStatus",
       on: {
+        // global kick out
         OUT_OF_TIME: {
           target: "#end",
+        },
+        // question kick out
+        QUESTION_TIME_OUT: {
+          target: "#quizQuestion",
+          actions: [
+            "incrementCurrIndex",
+            assign({
+              currQuestion: () => null,
+            }),
+          ],
         },
       },
       states: {
@@ -106,17 +125,15 @@ const quizMachine = setup({
           invoke: {
             src: "fetchOneQuizQuestion",
             onDone: {
+              target: "idle",
               actions: assign({
                 currQuestion: ({ event }) => {
-                  if (!event.output) {
-                    return null;
-                  }
                   const randomPenaltyRatio =
                     PENALTY_RATIO[
-                      Math.floor(Math.random()) * PENALTY_RATIO.length
+                      Math.floor(Math.random() * PENALTY_RATIO.length)
                     ];
                   const randomTimeWeight =
-                    TIME_WEIGHT[Math.floor(Math.random()) * TIME_WEIGHT.length];
+                    TIME_WEIGHT[Math.floor(Math.random() * TIME_WEIGHT.length)];
 
                   return {
                     ...event.output,
@@ -132,7 +149,6 @@ const quizMachine = setup({
                   };
                 }, // In v5, promise data is in event.output
               }),
-              target: "idle",
             },
             onError: {
               target: "errorQuiz",
@@ -159,7 +175,7 @@ const quizMachine = setup({
                   currQuestion: () => null,
                 }),
               ],
-              target: "#quiz",
+              target: "#quizQuestion",
             },
           },
         },

@@ -1,7 +1,8 @@
 import type { QuizItem } from "@/services/types/QuizResponse";
 import { randomShuffleArray } from "@/utils";
+import { formatMsDuration } from "@/utils/DateTimeUtils";
 import parse from "html-react-parser";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { Checkbox } from "./ui/checkbox";
@@ -10,12 +11,21 @@ import { Spinner } from "./ui/spinner";
 const FilmQuizQuestion = ({
   item,
   handleSelectAnswer,
+  questionTimeout,
+  baseTimeValue,
 }: {
   item: QuizItem | null;
   handleSelectAnswer: (answer: string) => void;
+  questionTimeout: () => void;
+  baseTimeValue: number; // base time per question in milliseconds
 }) => {
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [canSubmit, setCanSubmit] = useState<boolean>(false);
+
+  const questionDuration = baseTimeValue * (item?.timeWeight ?? 1);
+
+  const [questionTimeDisplay, setQuestionTimeDisplay] = useState<number>(
+    () => questionDuration,
+  );
 
   const allAnswers = useMemo(() => {
     return !!item
@@ -23,36 +33,63 @@ const FilmQuizQuestion = ({
           items: [item.correct_answer, ...item.incorrect_answers],
         })
       : [];
-  }, [item?.correct_answer, item?.incorrect_answers, randomShuffleArray]);
+  }, [item?.id]);
 
   const [selected, setSelected] = useState<string>("");
 
-  if (!item) {
-    return <Spinner />;
-  }
-
+  // Handling question timeout computed from timeWeight and base time value per question
   useEffect(() => {
-    // clear any existing ref
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
+    if (!item) {
+      return;
     }
+    // calculated once so it's the fixed duration value
+    const deadline = Date.now() + questionDuration;
 
-    // timer to prevent calling api too quickly
-    // requires at least 5 second gap https://opentdb.com/api_config.php
-    timerRef.current = setTimeout(() => {
+    // Date.now() inside this block will move with each tick
+    // and the duration will be shorter
+    const displayTimer = setInterval(() => {
+      // Math.max prevents going below 0
+      // display and the timeout needs to not drift apart due to rounding
+      // Math.ceil rounds up so that when 0:00 is displayed, the question timesout
+      setQuestionTimeDisplay(
+        Math.max(0, Math.ceil((deadline - Date.now()) / 1000) * 1000),
+      );
+    }, 250); // 250 instead of 1000, timers are not accurate so a slight delay can cascade
+    // Math.ceil calculates and displays correct number, 250ms updates the timer accurately
+
+    const timeout = setTimeout(() => {
+      questionTimeout();
+    }, questionDuration);
+
+    return () => {
+      clearInterval(displayTimer);
+      clearTimeout(timeout);
+    };
+  }, [questionDuration, item?.id]);
+
+  // timer to prevent calling api too quickly
+  // requires at least 5 second gap https://opentdb.com/api_config.php
+  useEffect(() => {
+    const submitTimer = setTimeout(() => {
       setCanSubmit(true);
     }, 5500);
 
     return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
+      clearTimeout(submitTimer);
     };
   }, []);
 
+  // if above useEffect this will return too early
+  if (!item) {
+    return <Spinner />;
+  }
+
   return (
     <div className="p-6 flex w-full h-auto flex-col items-start justify-start rounded-md border-1 border-neutral-700 gap-y-6">
-      <div className="flex flex-row justify-end items-center">
+      <div className="flex flex-row justify-between items-center w-full h-auto">
+        <p className="text-lg text-slate-900 font-extrabold">
+          Time to complete this question {formatMsDuration(questionTimeDisplay)}
+        </p>
         <Button
           disabled={!selected.length || !canSubmit}
           onClick={() => {
