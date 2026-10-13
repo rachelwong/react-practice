@@ -190,6 +190,5 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.FILM_QUIZ,
     title: "Film Quiz",
     description: "state machine with scoring, progress, timer, results",
-    inProgress: true,
   },
 ];
