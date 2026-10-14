@@ -34,6 +34,7 @@ export const ROUTES = {
   TABLE_PAGINATE: "/table-paginate",
   FILM_QUIZ: "/film-quiz",
   GEOLOCATION: "/geolocation",
+  TIER_LIST: "/tier-list",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -195,5 +196,11 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.GEOLOCATION,
     title: "useGeolocation",
     description: "Reusable custom hook",
+  },
+  {
+    route: ROUTES.TIER_LIST,
+    title: "Tier List",
+    description: "File upload with Drag & Drop",
+    inProgress: true,
   },
 ];

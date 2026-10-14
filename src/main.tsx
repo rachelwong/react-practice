@@ -56,6 +56,7 @@ const OTPScreen = lazy(() => import("./screens/OtpInput.tsx"));
 const TablePaginateScreen = lazy(() => import("./screens/TablePagination.tsx"));
 const FilmQuizScreen = lazy(() => import("./screens/FilmQuiz.tsx"));
 const GeolocationScreen = lazy(() => import("./screens/Geolocation.tsx"));
+const TierListScreen = lazy(() => import("./screens/TierList.tsx"));
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -162,6 +163,7 @@ createRoot(document.getElementById("root")!).render(
           />
           <Route path={ROUTES.FILM_QUIZ} element={<FilmQuizScreen />} />
           <Route path={ROUTES.GEOLOCATION} element={<GeolocationScreen />} />
+          <Route path={ROUTES.TIER_LIST} element={<TierListScreen />} />
         </AllRoutes>
       </Suspense>
     </Router>
