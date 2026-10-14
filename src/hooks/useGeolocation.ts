@@ -1,67 +1,79 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 const options = {
-  enableHighAccuracy: true, // Uses GPS if available instead of just Wi-Fi/IP
+  enableHighAccuracy: false,
   timeout: 10000, // Wait up to 10 seconds for a response
-  maximumAge: 0, // Force the browser to get a fresh position
+  maximumAge: 30000, // Time for browser to get a fresh position
 };
 
-const useGeolocation = () => {
-  const [coords, setCoords] = useState<{
-    lat: number | null;
-    lng: number | null;
-  }>({
-    lat: null,
-    lng: null,
-  });
-  const [error, setError] = useState<string | null>(null);
+const initialState: Coordinates = {
+  lat: null,
+  lng: null,
+};
 
-  const getGeolocation = () => {
+interface Coordinates {
+  lat: number | null;
+  lng: number | null;
+}
+
+interface UseGeolocationType {
+  coords: Coordinates;
+  geolocationError: string | null;
+  getGeolocation: () => void;
+  geolocationLoading: boolean;
+}
+
+const useGeolocation = (): UseGeolocationType => {
+  const [coords, setCoords] = useState<Coordinates>(initialState);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  // useCallback helps to keeps its identity stable if it's used in an useEffect
+  const getGeolocation = useCallback(() => {
     if (!("geolocation" in navigator)) {
       setError("Your browser does not support geolocation");
       return;
     }
-    navigator.permissions.query({ name: "geolocation" }).then((result) => {
-      if (result.state === "granted" || result.state === "prompt") {
-        navigator.geolocation.getCurrentPosition(
-          (success) => {
-            setError(null);
-            const lat = success.coords.latitude;
-            const lng = success.coords.longitude;
-            setCoords({ lat, lng });
-          },
-          (error) => {
-            switch (error.code) {
-              case error.PERMISSION_DENIED:
-                setError("User denied the request for Geolocation.");
-                break;
-              case error.POSITION_UNAVAILABLE:
-                setError("Location information is unavailable.");
-                break;
-              case error.TIMEOUT:
-                setError("The request to get user location timed out.");
-                break;
-              default:
-                setError(`An unknown error occurred. ${error.message}`);
-                break;
-            }
-          },
-          options,
-        );
-      } else if (result.state === "denied") {
-        setError(
-          "You have denied permission to access geolocation on your browser.",
-        );
-      }
-      result.addEventListener("change", () => {
-        console.log(result.state);
-      });
-    });
-  };
+    setError(null);
+    setLoading(true);
+
+    // no need to query for permission navigator.permissions.query as that's
+    // already achieved below by handling success/error
+    // also not supported in older safari
+    // only use when need to know permissio before user clicks anything (i.e. toggle visibility of use location button)
+    navigator.geolocation.getCurrentPosition(
+      (success) => {
+        const lat = success.coords.latitude;
+        const lng = success.coords.longitude;
+        setCoords({ lat, lng });
+        setLoading(false);
+      },
+      (err) => {
+        setCoords(initialState);
+        setLoading(false);
+        switch (err.code) {
+          case err.PERMISSION_DENIED:
+            setError("User denied the request for Geolocation.");
+            break;
+          case err.POSITION_UNAVAILABLE:
+            setError("Location information is unavailable.");
+            break;
+          case err.TIMEOUT:
+            setError("The request to get user location timed out.");
+            break;
+          default:
+            setError(`An unknown error occurred. ${err.message}`);
+            break;
+        }
+      },
+      options,
+    );
+  }, []);
 
   return {
     coords,
     geolocationError: error,
     getGeolocation,
+    geolocationLoading: loading,
   };
 };
 
