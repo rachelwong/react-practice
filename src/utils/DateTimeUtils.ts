@@ -5,7 +5,7 @@ import {
   getYear,
   intervalToDuration,
   isAfter,
-  isMatch,
+  isValid,
   parse,
   startOfDay,
   startOfToday,
@@ -18,14 +18,20 @@ export const formatDate = (
   dateFormat: string = DateTimeFormat.DMY,
 ): string => format(date, dateFormat);
 
-// checks the string is a real calendar date in dd/MM/yyyy (rejects 31/02/2020, 29/02/2023, etc.)
+// checks the string is a valid date based on date format provided
 export const isValidDateString = ({
   date,
   dateFormat = DateTimeFormat.DMY,
 }: {
   date: string;
   dateFormat?: string;
-}): boolean => isMatch(date, dateFormat);
+}): boolean => {
+  const parsedDate = parse(date, dateFormat, new Date());
+  if (!isValid(parsedDate)) return false;
+  // date-fns is lenient: "12/08/19" parses as year 0019 with "yyyy".
+  // Formatting it back and comparing rejects anything that isn't an exact match.
+  return format(parsedDate, dateFormat) === date;
+};
 
 // Date of birth is over 18 as of today or a provdied date
 export const isOver18 = ({
@@ -79,3 +85,5 @@ export const formatMsDuration = (ms: number) => {
 
   return `${minutes}:${seconds}`;
 };
+
+export const padLeadingZero = (v: string) => (v ? v.padStart(2, "0") : v);

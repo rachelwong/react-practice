@@ -14,7 +14,6 @@ import AlbumsProvider from "./context/AlbumsContext.tsx";
 import { dogCeoStore } from "./context/breedStore.ts";
 import { cartStore } from "./context/cartStore.ts";
 import { expensePersistor, expenseStore } from "./context/expenseStore.ts";
-import { MultiStepFormProvider } from "./context/MultiStepFormContext.tsx";
 import { MusicPlayerProvider } from "./context/MusicPlayerContext.tsx";
 import RacesContextProvider from "./context/RacesContext.tsx";
 import "./index.css";
@@ -28,9 +27,7 @@ const StarReviewScreen = lazy(() => import("./screens/StarReview.tsx"));
 const TimerScreen = lazy(() => import("./screens/Timer.tsx"));
 const ReduxDogListScreen = lazy(() => import("./screens/ReduxDogList.tsx"));
 const CustomTextAreaScreen = lazy(() => import("./screens/CustomTextArea.tsx"));
-const MultiSignupFormScreen = lazy(
-  () => import("./screens/MultiSignupForm.tsx"),
-);
+const MultiStepForm = lazy(() => import("./screens/MultiStepForm.tsx"));
 const CarouselScreen = lazy(() => import("./screens/Carousel.tsx"));
 const AccordionListScreen = lazy(() => import("./screens/AccordionList.tsx"));
 const CopyToClipboardScreen = lazy(
@@ -90,14 +87,7 @@ createRoot(document.getElementById("root")!).render(
             path={ROUTES.CUSTOM_TEXTAREA}
             element={<CustomTextAreaScreen />}
           />
-          <Route
-            path={ROUTES.MULTI_SIGN_UP}
-            element={
-              <MultiStepFormProvider>
-                <MultiSignupFormScreen />
-              </MultiStepFormProvider>
-            }
-          />
+          <Route path={ROUTES.MULTI_SIGN_UP} element={<MultiStepForm />} />
           <Route path={ROUTES.CAROUSEL} element={<CarouselScreen />} />
           <Route path={ROUTES.ACCORDION} element={<AccordionListScreen />} />
           <Route path={ROUTES.COPY} element={<CopyToClipboardScreen />} />

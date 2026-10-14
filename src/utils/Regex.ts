@@ -4,14 +4,14 @@ export const validCardNumber = /^\d{16}$/;
 
 export const validCVV = /^\d{3}$/;
 
-// over 8 characters long with at least 1 number, 1 capital and 1 symbol and no spaces. give me regex
+// over 8 characters long with at least 1 number, 1 capital and 1 symbol and no spaces.
 export const validPassword =
   /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9\s])(?!.*\s).{9,}$/;
 
 // not full validator but rejects malformed strings while allowing real-world addresses
 export const validEmail = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
-export const alphabetOnly = /^[a-zA-Z]$/;
+export const alphabetOnly = /^[A-Za-z]+$/;
 
 export const anySpecialChars = /[^a-zA-Z0-9 ]/;
 

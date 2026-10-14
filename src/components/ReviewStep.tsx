@@ -1,24 +1,59 @@
-import { useMultiStepForm } from "@/context/MultiStepFormContext";
+import { Eye, EyeOff, RotateCcw } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Button } from "./ui/button";
 
-const ReviewStep = () => {
-  const {
-    state: { formData },
-  } = useMultiStepForm();
-  const { name, email, gender, dateOfBirth } = formData;
+interface ReviewStepProps {
+  email: string;
+  name: string;
+  gender?: string;
+  dateOfBirth: string;
+  password: string;
+  reset: () => void;
+}
+
+const ReviewStep = ({
+  email,
+  name,
+  gender,
+  dateOfBirth,
+  password,
+  reset,
+}: ReviewStepProps) => {
+  const [toggle, setToggle] = useState<boolean>(false);
+  const formattedPassword = useMemo(() => {
+    return !toggle
+      ? password
+          .split("")
+          .map((_) => "*")
+          .join("")
+      : password;
+  }, [password, toggle]);
   return (
-    <div className="flex flex-col gap-y-4 bg-green-100">
+    <div className="flex flex-col gap-y-4 w-full h-auto ">
       <h2 className="font-extrabold text-slate-900 text-lg">
         Review your details
       </h2>
-      <ul className="flex flex-col gap-y-3 text-left">
+      <ul className="flex flex-col gap-y-3 text-left justify-start items-start">
         <li>Name: {name}</li>
         <li>Email: {email}</li>
-        <li>Gender: {gender || "--"}</li>
+        <li>Gender: {gender || "Not provided"}</li>
         <li>
-          Date of Birth:{" "}
-          {`${dateOfBirth.day}/${dateOfBirth.month}/${dateOfBirth.year}`}
+          <span>Password: {formattedPassword}</span>
+          <Button
+            className="ml-4"
+            variant="outline"
+            size="icon"
+            onClick={() => setToggle((prev) => !prev)}
+          >
+            {toggle ? <Eye /> : <EyeOff />}
+          </Button>
         </li>
+        <li>Date of Birth: {dateOfBirth}</li>
       </ul>
+      <Button onClick={() => reset()}>
+        <RotateCcw />
+        Reset form
+      </Button>
     </div>
   );
 };
