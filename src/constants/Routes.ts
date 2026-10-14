@@ -33,6 +33,7 @@ export const ROUTES = {
   OTP_INPUT: "/otp-input",
   TABLE_PAGINATE: "/table-paginate",
   FILM_QUIZ: "/film-quiz",
+  GEOLOCATION: "/geolocation",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -189,5 +190,10 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.FILM_QUIZ,
     title: "Film Quiz",
     description: "state machine with scoring, progress, timer, results",
+  },
+  {
+    route: ROUTES.GEOLOCATION,
+    title: "useGeolocation",
+    description: "Reusable custom hook",
   },
 ];

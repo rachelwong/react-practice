@@ -55,6 +55,7 @@ const UndoRedoScreen = lazy(() => import("./screens/UndoRedo.tsx"));
 const OTPScreen = lazy(() => import("./screens/OtpInput.tsx"));
 const TablePaginateScreen = lazy(() => import("./screens/TablePagination.tsx"));
 const FilmQuizScreen = lazy(() => import("./screens/FilmQuiz.tsx"));
+const GeolocationScreen = lazy(() => import("./screens/Geolocation.tsx"));
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -160,6 +161,7 @@ createRoot(document.getElementById("root")!).render(
             }
           />
           <Route path={ROUTES.FILM_QUIZ} element={<FilmQuizScreen />} />
+          <Route path={ROUTES.GEOLOCATION} element={<GeolocationScreen />} />
         </AllRoutes>
       </Suspense>
     </Router>
