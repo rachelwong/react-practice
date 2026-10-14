@@ -201,6 +201,5 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.TIER_LIST,
     title: "Tier List",
     description: "File upload with Drag & Drop",
-    inProgress: true,
   },
 ];
