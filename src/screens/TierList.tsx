@@ -16,10 +16,11 @@ interface FileToDrag {
   url: string;
   zone: string;
 }
+const DROPZONE_ID = "dropzone";
 
 const TierList = () => {
   const [files, setFiles] = useState<FileToDrag[]>([]);
-
+  const [hoverZone, setHoverZone] = useState<string | null>(null);
   const [currDrag, setCurrDrag] = useState<FileToDrag | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -30,7 +31,7 @@ const TierList = () => {
       return;
     }
     const fileURL = URL.createObjectURL(uploadedFiles[0]);
-    setFiles((prev) => [...prev, { url: fileURL, zone: "" }]);
+    setFiles((prev) => [...prev, { url: fileURL, zone: DROPZONE_ID }]);
   };
 
   // mock click on the input
@@ -47,30 +48,17 @@ const TierList = () => {
   };
 
   // useState instead of e.dataTransfer so we can transfer more data
-  const handleDragStart = ({
-    event,
-    item,
-  }: {
-    event: DragEvent<HTMLDivElement>;
-    item: FileToDrag;
-  }) => {
-    console.log("handledragstart", event);
+  const handleDragStart = ({ item }: { item: FileToDrag }) => {
     setCurrDrag(item);
   };
 
   //  Browsers block drops by default.
-  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
+  const handleDragOver = (e: DragEvent<HTMLDivElement>, zone: string) => {
     e.preventDefault();
+    setHoverZone(zone);
   };
 
-  const handleDrop = ({
-    event,
-    zone,
-  }: {
-    event: DragEvent<HTMLDivElement>;
-    zone: string;
-  }) => {
-    console.log("handleDrop");
+  const handleDrop = ({ zone }: { zone: string }) => {
     if (!currDrag) {
       return;
     }
@@ -78,19 +66,36 @@ const TierList = () => {
     setCurrDrag(updated);
     // every time you drag into a zone then it is re-ordered to the back
     setFiles((prev) => [...prev.filter((x) => x.url !== updated.url), updated]);
+    setHoverZone(null);
   };
 
   const handleDragEnd = () => {
     setCurrDrag(null);
   };
 
+  const handleDragEnter = ({ zone }: { zone: string }) => {
+    setHoverZone(zone);
+  };
+
+  const handleDragLeave = () => {
+    setHoverZone(null);
+  };
+
   return (
     <Layout
       title="Tier List"
       brief="https://www.reactchallenges.com/challenges/tier-list"
+      description={
+        <ul>
+          <li>A drop only needs onDragStart, onDragOver, onDrop</li>
+          <li>
+            onDragEnter and onDRagLeave only for reacting to drag visually
+            (highlight a zone when hovering over it)
+          </li>
+        </ul>
+      }
     >
       <div className="max-w-5xl mx-auto flex flex-col gap-y-10 items-center justify-start">
-        <p>currDrag {JSON.stringify(currDrag)}</p>
         <div className="tiers w-full h-auto rounded round-lg border-1 border-neutral-900">
           {ZONES.map((zone) => {
             return (
@@ -104,19 +109,22 @@ const TierList = () => {
                   {zone.value}
                 </div>
                 <div
-                  className="drag-zone w-full h-full flex items-center justify-start flex-wrap flex-row"
+                  className={`drag-zone w-full h-full flex items-center justify-start flex-wrap flex-row ${!!hoverZone && hoverZone === zone.id ? "bg-neutral-200" : ""}`}
                   id={zone.id}
-                  onDragEnter={() => {}}
-                  onDragOver={(e) => {
-                    handleDragOver(e);
+                  onDragEnter={() => {
+                    handleDragEnter({ zone: zone.id });
                   }}
-                  onDragLeave={() => {}}
+                  onDragOver={(e) => {
+                    handleDragOver(e, zone.id);
+                  }}
+                  onDragLeave={() => {
+                    handleDragLeave();
+                  }}
                   onDragEnd={() => {
                     handleDragEnd();
                   }}
-                  onDrop={(e) => {
-                    console.log("DROP!", e);
-                    handleDrop({ event: e, zone: zone.id });
+                  onDrop={() => {
+                    handleDrop({ zone: zone.id });
                   }}
                 >
                   {files
@@ -127,9 +135,8 @@ const TierList = () => {
                           className="h-20 w-20 flex flex-row items-center justify-center"
                           draggable
                           key={file.url}
-                          onDragStart={(e) => {
+                          onDragStart={() => {
                             handleDragStart({
-                              event: e,
                               item: file,
                             });
                           }}
@@ -173,23 +180,27 @@ const TierList = () => {
             <RefreshCw />
           </Button>
         </div>
-        {/* // zone id is empty string */}
+
         <div
-          className="file-zone w-full h-80 rounded round-lg border-1 border-neutral-900 flex flex-row flex-wrap justify-start items-start relative"
-          onDragEnter={() => {}}
+          className={`file-zone w-full h-80 rounded round-lg border-1 border-neutral-900 flex flex-row flex-wrap justify-start items-start relative ${!!hoverZone && hoverZone === DROPZONE_ID ? "bg-sky-100" : ""}`}
+          onDragEnter={() => {
+            handleDragEnter({ zone: DROPZONE_ID });
+          }}
           onDragOver={(e) => {
-            handleDragOver(e);
+            handleDragOver(e, DROPZONE_ID);
           }}
           onDragEnd={() => {
             handleDragEnd();
           }}
-          onDragLeave={() => {}}
+          onDragLeave={() => {
+            handleDragLeave();
+          }}
           onDrop={(e) => {
-            handleDrop({ event: e, zone: "" });
+            handleDrop({ zone: DROPZONE_ID });
           }}
         >
           {files
-            .filter((file) => file.zone === "")
+            .filter((file) => file.zone === DROPZONE_ID)
             .map((file) => (
               <div
                 className="h-20 w-20 flex flex-row items-center justify-center"
@@ -197,7 +208,6 @@ const TierList = () => {
                 draggable
                 onDragStart={(e) => {
                   handleDragStart({
-                    event: e,
                     item: file,
                   });
                 }}
