@@ -30,6 +30,7 @@ const useGeolocation = (): UseGeolocationType => {
   // useCallback helps to keeps its identity stable if it's used in an useEffect
   const getGeolocation = useCallback(() => {
     if (!("geolocation" in navigator)) {
+      setLoading(false);
       setError("Your browser does not support geolocation");
       return;
     }

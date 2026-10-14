@@ -1,11 +1,13 @@
 import Layout from "@/components/Layout";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 import useGeolocation from "@/hooks/useGeolocation";
 import { ShieldAlert } from "lucide-react";
 
 const Geolocation = () => {
-  const { coords, getGeolocation, geolocationError } = useGeolocation();
+  const { coords, getGeolocation, geolocationError, geolocationLoading } =
+    useGeolocation();
   return (
     <Layout
       title="Get user browser geolocation"
@@ -19,13 +21,15 @@ const Geolocation = () => {
             onClick={() => {
               getGeolocation();
             }}
+            disabled={geolocationLoading}
           >
-            Click to get geolocation
+            Get geolocation
           </Button>
-          {Object.values(coords).every((x) => !!x) && (
+          {!geolocationLoading && Object.values(coords).every((x) => !!x) && (
             <p className="text-lg">{JSON.stringify(coords)}</p>
           )}
-          {!!geolocationError && (
+          {geolocationLoading && <Spinner />}
+          {!geolocationLoading && !!geolocationError && (
             <Alert>
               <ShieldAlert />
               <AlertTitle>Error getting geolocation!</AlertTitle>
