@@ -58,6 +58,7 @@ const TierList = () => {
     setCurrDrag(item);
   };
 
+  //  Browsers block drops by default.
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
   };
@@ -75,16 +76,8 @@ const TierList = () => {
     }
     const updated = { ...currDrag, zone };
     setCurrDrag(updated);
-    setFiles((prev) =>
-      prev.map((file) => {
-        if (file.url === updated.url) {
-          return {
-            ...updated,
-          };
-        }
-        return file;
-      }),
-    );
+    // every time you drag into a zone then it is re-ordered to the back
+    setFiles((prev) => [...prev.filter((x) => x.url !== updated.url), updated]);
   };
 
   const handleDragEnd = () => {
