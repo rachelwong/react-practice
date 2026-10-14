@@ -195,7 +195,7 @@ const TierList = () => {
           onDragLeave={() => {
             handleDragLeave();
           }}
-          onDrop={(e) => {
+          onDrop={() => {
             handleDrop({ zone: DROPZONE_ID });
           }}
         >
@@ -206,7 +206,7 @@ const TierList = () => {
                 className="h-20 w-20 flex flex-row items-center justify-center"
                 key={file.url}
                 draggable
-                onDragStart={(e) => {
+                onDragStart={() => {
                   handleDragStart({
                     item: file,
                   });
