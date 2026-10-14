@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { ChevronDown, ChevronUp } from "lucide-react";
@@ -46,7 +46,7 @@ const Accordion = () => {
   }, []);
 
   return (
-    <Layout
+    <ScreenLayout
       title="Accordion"
       brief="https://www.reactgrind.com/problems/accordion-single-expand"
     >
@@ -92,7 +92,7 @@ const Accordion = () => {
           })}
         </div>
       )}
-    </Layout>
+    </ScreenLayout>
   );
 };
 

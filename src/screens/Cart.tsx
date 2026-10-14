@@ -1,5 +1,5 @@
 import CartItemRow from "@/components/CartItemRow";
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
@@ -48,7 +48,7 @@ const Cart = () => {
   }, []);
 
   return (
-    <Layout
+    <ScreenLayout
       title="Shopping Cart"
       brief="https://www.reactgrind.com/problems/shopping-cart-usereducer"
     >
@@ -117,7 +117,7 @@ const Cart = () => {
           </>
         )}
       </div>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

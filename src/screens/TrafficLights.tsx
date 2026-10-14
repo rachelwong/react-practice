@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import { useEffect, useState } from "react";
 
 const lights = ["bg-red-500", "bg-yellow-300", "bg-green-500"];
@@ -21,7 +21,7 @@ const TrafficLights = () => {
   }, [currentIndex, lights]);
 
   return (
-    <Layout
+    <ScreenLayout
       title={"Traffic lights"}
       brief={"https://www.reactchallenges.com/challenges/traffic-light"}
     >
@@ -37,7 +37,7 @@ const TrafficLights = () => {
           );
         })}
       </div>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

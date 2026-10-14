@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import { Input } from "@/components/ui/input";
 import { useRef, useState, type ChangeEvent } from "react";
 
@@ -50,7 +50,7 @@ const CountrySearch = () => {
   };
 
   return (
-    <Layout
+    <ScreenLayout
       title="Country search with autocomplete"
       brief="https://www.reactgrind.com/problems/react-autocomplete"
       description={
@@ -88,7 +88,7 @@ const CountrySearch = () => {
           )}
         </div>
       </div>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

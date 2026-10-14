@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import MusicPlayerBar from "@/components/MusicPlayerBar";
 import MusicPlayerSearch from "@/components/MusicPlayerSearch";
 import MusicProfile from "@/components/MusicProfile";
@@ -12,7 +12,7 @@ const MusicPlayer = () => {
   const { isMobile } = useScreenSize();
 
   return (
-    <Layout
+    <ScreenLayout
       title="Music player"
       brief="/flip_code_challenge_fe.pdf"
       description={
@@ -42,7 +42,7 @@ const MusicPlayer = () => {
         </div>
         {activeTrack && isMobile && <MusicPlayerBar />}
       </div>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

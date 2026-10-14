@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import { Button } from "@/components/ui/button";
 import { integerToMinuteSeconds } from "@/utils";
 import { useEffect, useState } from "react";
@@ -38,7 +38,7 @@ const Timer = () => {
   };
 
   return (
-    <Layout
+    <ScreenLayout
       title="Timer"
       description={
         <>
@@ -67,7 +67,7 @@ const Timer = () => {
       <p className="text-lg font-extrabold">
         Clock Time {clockTime.toLocaleTimeString()}
       </p>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

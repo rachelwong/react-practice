@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import { Input } from "@/components/ui/input";
 import useDebounce from "@/hooks/useDebounce";
 import { useState, type ChangeEvent } from "react";
@@ -12,7 +12,7 @@ const Debounce = () => {
   };
 
   return (
-    <Layout
+    <ScreenLayout
       title="useDebounce"
       brief="https://www.reactgrind.com/problems/use-debounce"
     >
@@ -27,7 +27,7 @@ const Debounce = () => {
           }}
         />
       </div>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

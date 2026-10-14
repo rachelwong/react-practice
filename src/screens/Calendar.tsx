@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import { Button } from "@/components/ui/button";
 import { DateTimeFormat } from "@/constants";
 import {
@@ -116,7 +116,7 @@ const Calendar = () => {
     : null;
 
   return (
-    <Layout
+    <ScreenLayout
       brief="https://www.reactchallenges.com/challenges/calendar"
       title="Custom calendar"
       description="No limits"
@@ -187,7 +187,7 @@ const Calendar = () => {
           </div>
         ))}
       </div>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import Star from "@/components/Star";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
@@ -54,7 +54,7 @@ const StarReview = () => {
   };
 
   return (
-    <Layout
+    <ScreenLayout
       title="Star Reviews component"
       description={
         <>
@@ -112,7 +112,7 @@ const StarReview = () => {
       >
         Reset Star Review
       </Button>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

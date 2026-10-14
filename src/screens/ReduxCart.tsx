@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import ReduxCartDrawer from "@/components/ReduxCartDrawer";
 import { Button } from "@/components/ui/button";
 import {
@@ -30,7 +30,7 @@ const ReduxCart = () => {
   }, []);
 
   return (
-    <Layout
+    <ScreenLayout
       title="Shopping Cart in Redux"
       brief="https://www.reactchallenges.com/challenges/shopping-cart"
     >
@@ -89,7 +89,7 @@ const ReduxCart = () => {
           </>
         )}
       </div>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

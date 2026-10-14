@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Field, FieldTitle } from "@/components/ui/field";
@@ -60,7 +60,7 @@ const AsyncFieldValidation = () => {
   }, [email]);
 
   return (
-    <Layout
+    <ScreenLayout
       title="Email field with Async validation"
       brief="https://www.reactgrind.com/problems/async-form-validation"
       description={
@@ -127,7 +127,7 @@ const AsyncFieldValidation = () => {
             </Alert>
           )}
       </div>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

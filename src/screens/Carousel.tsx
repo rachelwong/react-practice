@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import NoSlideCarousel from "@/components/NoSlideCarousel";
 import SlideCarousel from "@/components/SlideCarousel";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -42,7 +42,7 @@ const Carousel = () => {
   }, []);
 
   return (
-    <Layout
+    <ScreenLayout
       title="Carousel"
       brief="https://www.reactgrind.com/problems/react-carousel"
       description={
@@ -83,7 +83,7 @@ const Carousel = () => {
           />
         </>
       )}
-    </Layout>
+    </ScreenLayout>
   );
 };
 

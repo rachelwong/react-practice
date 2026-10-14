@@ -2,7 +2,6 @@ import { Badge } from "@/components/ui/badge";
 import { ROUTE_CONFIG } from "@/constants";
 import { BookmarkIcon } from "lucide-react";
 import { Link } from "react-router";
-import Layout from "./components/Layout";
 import { Button } from "./components/ui/button";
 import {
   Card,
@@ -15,7 +14,7 @@ import {
 function App() {
   const list = ROUTE_CONFIG.toReversed();
   return (
-    <Layout>
+    <>
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-3 grid-flow-row">
         {list.map((config) => {
           return (
@@ -55,7 +54,7 @@ function App() {
           );
         })}
       </ul>
-    </Layout>
+    </>
   );
 }
 

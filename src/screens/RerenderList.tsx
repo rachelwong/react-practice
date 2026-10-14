@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import ReRenderListItem from "@/components/ReRenderListItem";
 import { Button } from "@/components/ui/button";
 import { AVAILABLE_PRODUCTS } from "@/constants";
@@ -36,7 +36,7 @@ const RerenderList = () => {
   );
 
   return (
-    <Layout
+    <ScreenLayout
       title="Prevent re-rendering list"
       brief="https://www.reactgrind.com/problems/memoize-list"
       description={
@@ -68,7 +68,7 @@ const RerenderList = () => {
           );
         })}
       </div>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import RaceItem from "@/components/RaceItem";
 import { Button } from "@/components/ui/button";
 import { FILTER, useRacesContext } from "@/context/RacesContext";
@@ -28,7 +28,7 @@ const Races = () => {
   }, [races, filter]);
 
   return (
-    <Layout
+    <ScreenLayout
       title="Rolling race timetable"
       brief="/Entain_Technical_Task_-__Front-End_Developer__Vue_..pdf"
       description={
@@ -91,7 +91,7 @@ const Races = () => {
           </ul>
         </div>
       </div>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

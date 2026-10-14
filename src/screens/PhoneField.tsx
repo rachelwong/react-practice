@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import SelectField from "@/components/SelectField";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -139,7 +139,7 @@ const PhoneField = () => {
   };
 
   return (
-    <Layout
+    <ScreenLayout
       brief="https://www.reactchallenges.com/challenges/phone-number-field"
       title="Custom phone field"
       description={
@@ -224,7 +224,7 @@ const PhoneField = () => {
           </Field>
         </div>
       </div>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

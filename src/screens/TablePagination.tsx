@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -29,7 +29,7 @@ const TablePagination = () => {
   } = useAlbums();
 
   return (
-    <Layout
+    <ScreenLayout
       title="Table Pagination"
       brief="https://www.reactchallenges.com/challenges/simple-pagination"
     >
@@ -133,7 +133,7 @@ const TablePagination = () => {
           </Button>
         </div>
       </div>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

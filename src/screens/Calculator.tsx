@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
@@ -88,7 +88,7 @@ const Calculator = () => {
   };
 
   return (
-    <Layout
+    <ScreenLayout
       title="Calculator"
       brief="https://www.reactgrind.com/problems/react-calculator"
     >
@@ -141,7 +141,7 @@ const Calculator = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

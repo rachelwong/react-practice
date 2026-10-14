@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import { Button } from "@/components/ui/button";
 import classNames from "classnames";
 import { useState } from "react";
@@ -15,7 +15,7 @@ const CustomTextArea = () => {
   };
   const error = text?.length === MAX_LENGTH;
   return (
-    <Layout
+    <ScreenLayout
       title="Custom text area"
       brief="https://www.reactgrind.com/problems/text-area-react"
       description={
@@ -54,7 +54,7 @@ const CustomTextArea = () => {
           Reset
         </Button>
       </div>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import { Button } from "@/components/ui/button";
 import useSimpleWordle from "@/hooks/useSimpleWordle";
 import classNames from "classnames";
@@ -26,7 +26,7 @@ const SimpleWordle = () => {
   const gameEnded = haveWon || haveLost;
 
   return (
-    <Layout
+    <ScreenLayout
       title="Wordle"
       brief="https://www.reactchallenges.com/challenges/wordle-simplified"
     >
@@ -146,7 +146,7 @@ const SimpleWordle = () => {
           })}
         </div>
       </div>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

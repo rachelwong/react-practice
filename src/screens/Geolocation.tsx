@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
@@ -9,7 +9,7 @@ const Geolocation = () => {
   const { coords, getGeolocation, geolocationError, geolocationLoading } =
     useGeolocation();
   return (
-    <Layout
+    <ScreenLayout
       title="Get user browser geolocation"
       brief="https://www.reacterry.com/portal/challenges/use-geolocation"
       description="A reusable hook to request for permission and get the browser's geolocation"
@@ -38,7 +38,7 @@ const Geolocation = () => {
           )}
         </div>
       </div>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

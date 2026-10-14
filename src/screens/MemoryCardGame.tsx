@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import MemoryCard from "@/components/MemoryCard";
 import { Button } from "@/components/ui/button";
 import { randomShuffleArray } from "@/utils";
@@ -94,7 +94,7 @@ const MemoryCardGame = () => {
   }, [currentSelected.length]);
 
   return (
-    <Layout
+    <ScreenLayout
       title="Memory Card game"
       brief="https://www.reactchallenges.com/challenges/memory-card-game"
     >
@@ -129,7 +129,7 @@ const MemoryCardGame = () => {
           })}
         </div>
       </div>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

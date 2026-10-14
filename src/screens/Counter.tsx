@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import useCounter from "@/hooks/useCounter";
@@ -16,7 +16,7 @@ const Counter = () => {
   const secondsWait = millisecondsToSeconds(TEST_WAIT_MILLISECONDS);
 
   return (
-    <Layout
+    <ScreenLayout
       title="Counter"
       description={
         <>
@@ -46,7 +46,7 @@ const Counter = () => {
           + Add{" "}
         </Button>
       </div>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

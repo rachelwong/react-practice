@@ -35,6 +35,7 @@ export const ROUTES = {
   FILM_QUIZ: "/film-quiz",
   GEOLOCATION: "/geolocation",
   TIER_LIST: "/tier-list",
+  KANBAN: "/kanban",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -201,5 +202,11 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.TIER_LIST,
     title: "Tier List",
     description: "File upload with Drag & Drop",
+  },
+  {
+    route: ROUTES.KANBAN,
+    title: "Kanban board",
+    description: "Drag & Drop with custom hook",
+    inProgress: true,
   },
 ];

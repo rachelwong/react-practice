@@ -1,10 +1,10 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import XstateMultiStepForm from "@/components/XstateMultiStepForm";
 import ReducerMultiStepForm from "../components/ReducerMultiStepForm";
 
 const MultiStepForm = () => {
   return (
-    <Layout
+    <ScreenLayout
       title="Multi Sign up form"
       brief="https://www.reactgrind.com/problems/wizard-state-machine"
     >
@@ -24,7 +24,7 @@ const MultiStepForm = () => {
           <XstateMultiStepForm />
         </div>
       </div>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

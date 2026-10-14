@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import ReduxDogImages from "@/components/ReduxDogImages";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -87,7 +87,7 @@ const ReduxDogList = () => {
 
   return (
     <div className="block absolute w-full h-dvh">
-      <Layout>
+      <ScreenLayout>
         <div className="block relative w-full flex flex-row justify-between align-stretch h-900 ">
           <div className="relative block redux-dog-list h-full overflow-y-auto w-1/2 border-1 border-slate-900 p-6">
             <h3 className="text-2xl font-extrabold mb-6">Dog breed list</h3>
@@ -196,7 +196,7 @@ const ReduxDogList = () => {
             )}
           </div>
         </div>
-      </Layout>
+      </ScreenLayout>
     </div>
   );
 };

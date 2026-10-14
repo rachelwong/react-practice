@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRef, useState, type ClipboardEvent } from "react";
@@ -45,7 +45,7 @@ const OtpInput = () => {
   };
 
   return (
-    <Layout
+    <ScreenLayout
       title="OTP Input"
       brief="https://www.reactchallenges.com/challenges/otp-input"
       description="Validates once all fields are inputted. Includes focus management, paste action."
@@ -136,7 +136,7 @@ const OtpInput = () => {
           Reset
         </Button>
       </div>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import { Button } from "@/components/ui/button";
 import { CirclePlus, RefreshCw } from "lucide-react";
 import { useRef, useState, type ChangeEvent, type DragEvent } from "react";
@@ -82,7 +82,7 @@ const TierList = () => {
   };
 
   return (
-    <Layout
+    <ScreenLayout
       title="Tier List"
       brief="https://www.reactchallenges.com/challenges/tier-list"
       description={
@@ -225,7 +225,7 @@ const TierList = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

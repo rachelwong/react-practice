@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import {
   InputGroup,
   InputGroupAddon,
@@ -179,7 +179,7 @@ const StrongPassword = () => {
   }, [password]);
 
   return (
-    <Layout
+    <ScreenLayout
       title="Strong password checker"
       brief="https://www.reactchallenges.com/challenges/strong-password"
       description={
@@ -251,7 +251,7 @@ const StrongPassword = () => {
           })}
         </div>
       </div>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

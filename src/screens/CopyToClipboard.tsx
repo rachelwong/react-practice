@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import useCopyToClipboard from "@/hooks/useCopyToClipboard";
@@ -14,7 +14,7 @@ const CopyToClipboard = () => {
   };
 
   return (
-    <Layout
+    <ScreenLayout
       title="Copy to clipboard"
       brief="https://www.reactgrind.com/problems/copy-to-clipboard"
       description={
@@ -49,7 +49,7 @@ const CopyToClipboard = () => {
           placeholder="test your clipboard here"
         />
       </div>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

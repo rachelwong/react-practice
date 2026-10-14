@@ -1,25 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants";
-import { useEffect, type PropsWithChildren, type ReactNode } from "react";
-import { Link, useNavigate } from "react-router";
+import { useEffect, type PropsWithChildren } from "react";
+import { Link, useLocation, useNavigate } from "react-router";
 
-interface LayoutProps {
-  title?: string;
-  brief?: string;
-  description?: ReactNode;
-}
-
-const Layout = ({
-  title,
-  brief,
-  description,
-  children,
-}: PropsWithChildren<LayoutProps>) => {
-  let navigate = useNavigate();
+const Layout = ({ children }: PropsWithChildren) => {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, [pathname]);
 
   return (
     <div className="layout">
@@ -41,19 +31,6 @@ const Layout = ({
           </Button>
         </div>
       </div>
-      {title && (
-        <div className="heading mx-auto my-6 max-w-7xl flex flex-col items-start justify-start gap-y-2">
-          <h3 className="text-neutral-800 font-extrabold text-xl">{title}</h3>
-          {brief && (
-            <p className="flex flex-row">
-              <a href={brief} target="_blank" rel="noreferrer" className="link">
-                Original brief here
-              </a>
-            </p>
-          )}
-          <div className="heading__description">{description}</div>
-        </div>
-      )}
       <div className="mx-auto my-0 max-w-7xl">{children}</div>
     </div>
   );

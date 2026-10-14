@@ -1,7 +1,7 @@
 import FilmQuizQuestion from "@/components/FilmQuizQuestion";
 import FilmQuizResults from "@/components/FilmQuizResults";
 import FilmQuizStartScreen from "@/components/FilmQuizStartScreen";
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import {
   Alert,
   AlertAction,
@@ -61,7 +61,7 @@ const FilmQuiz = () => {
   ]);
 
   return (
-    <Layout
+    <ScreenLayout
       title="Film Quiz"
       brief="https://www.reactchallenges.com/challenges/react-quiz"
     >
@@ -148,7 +148,7 @@ const FilmQuiz = () => {
           alt="state machine"
         />
       </div>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import { Button } from "@/components/ui/button";
 import getImages from "@/services/getImages";
 import type { ImageProfile } from "@/services/types/ImageResponse";
@@ -43,7 +43,7 @@ const Pagination = () => {
   }, []);
 
   return (
-    <Layout
+    <ScreenLayout
       title="Pagination without load more"
       brief="https://www.reactgrind.com/problems/react-pagination"
     >
@@ -112,7 +112,7 @@ const Pagination = () => {
           </div>
         )}
       </div>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

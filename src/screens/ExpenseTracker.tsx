@@ -1,7 +1,7 @@
 import ExpenseFilter from "@/components/ExpenseFilter";
 import ExpenseItem from "@/components/ExpenseItem";
 import ExpenseTrackerForm from "@/components/ExpenseTrackerForm";
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import { Button } from "@/components/ui/button";
 import UnitCostTracker from "@/components/UnitCostTracker";
 import { EXPENSE_TYPE } from "@/constants/ExpenseTracker";
@@ -40,7 +40,7 @@ const ExpenseTracker = () => {
   const total = totalCredit - totalDebit;
 
   return (
-    <Layout
+    <ScreenLayout
       title="Expense tracker"
       brief="https://www.reactgrind.com/problems/expense-tracker-react"
       description={
@@ -149,7 +149,7 @@ const ExpenseTracker = () => {
         <hr className="border-1 border-slate-300 w-full h-0" />
         <UnitCostTracker />
       </div>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

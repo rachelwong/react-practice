@@ -1,5 +1,5 @@
 import DateField from "@/components/DateField";
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -34,7 +34,7 @@ const BasicForm = () => {
   } = useBasicForm();
 
   return (
-    <Layout
+    <ScreenLayout
       title="Basic form"
       description={
         <>
@@ -159,7 +159,7 @@ const BasicForm = () => {
           </Field>
         </FieldGroup>
       </form>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

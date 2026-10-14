@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import ScreenLayout from "@/components/ScreenLayout";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -39,7 +39,7 @@ const UndoRedo = () => {
   });
 
   return (
-    <Layout
+    <ScreenLayout
       title="Undo/Redo"
       brief="https://www.reactchallenges.com/challenges/undo-redo"
       description="To-do list whose add, edit, toggle, and delete actions are tracked in a useReducer past/present/future history. This version does not prioritise performance. "
@@ -139,7 +139,7 @@ const UndoRedo = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    </ScreenLayout>
   );
 };
 

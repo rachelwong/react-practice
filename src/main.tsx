@@ -57,115 +57,123 @@ const TablePaginateScreen = lazy(() => import("./screens/TablePagination.tsx"));
 const FilmQuizScreen = lazy(() => import("./screens/FilmQuiz.tsx"));
 const GeolocationScreen = lazy(() => import("./screens/Geolocation.tsx"));
 const TierListScreen = lazy(() => import("./screens/TierList.tsx"));
+const KanbanScreen = lazy(() => import("./screens/Kanban.tsx"));
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Router>
-      <Suspense
-        fallback={
-          <Layout>
+      <Layout>
+        <Suspense
+          fallback={
             <div className="w-full h-dvh flex flex-col items-center justify-center">
               <Spinner className="size-50 mx-auto my-0" />
             </div>
-          </Layout>
-        }
-      >
-        <AllRoutes>
-          <Route path={ROUTES.HOME} element={<HomeScreen />} />
-          <Route path={ROUTES.COUNTER} element={<CounterScreen />} />
-          <Route path={ROUTES.CART} element={<CartScreen />} />
-          <Route path={ROUTES.FORM_VALIDATION} element={<BasicFormScreen />} />
-          <Route path={ROUTES.STAR_REVIEW} element={<StarReviewScreen />} />
-          <Route path={ROUTES.TIMER} element={<TimerScreen />} />
-          <Route
-            path={ROUTES.DOG_LIST}
-            element={
-              <Provider store={dogCeoStore}>
-                <ReduxDogListScreen />
-              </Provider>
-            }
-          />
-          <Route
-            path={ROUTES.CUSTOM_TEXTAREA}
-            element={<CustomTextAreaScreen />}
-          />
-          <Route path={ROUTES.MULTI_SIGN_UP} element={<MultiStepForm />} />
-          <Route path={ROUTES.CAROUSEL} element={<CarouselScreen />} />
-          <Route path={ROUTES.ACCORDION} element={<AccordionListScreen />} />
-          <Route path={ROUTES.COPY} element={<CopyToClipboardScreen />} />
-          <Route
-            path={ROUTES.ASYNC_VALIDATION}
-            element={<AsyncFieldValidationScreen />}
-          />
-          <Route
-            path={ROUTES.MUSIC_PLAYER}
-            element={
-              <MusicPlayerProvider>
-                <MusicPlayerScreen />
-              </MusicPlayerProvider>
-            }
-          />
-          <Route path={ROUTES.DEBOUNCE} element={<DebounceScreen />} />
-          <Route path={ROUTES.RERENDER_LIST} element={<RerenderListScreen />} />
-          <Route
-            path={ROUTES.RACES}
-            element={
-              <RacesContextProvider>
-                <RacesScreen />
-              </RacesContextProvider>
-            }
-          />
-          <Route path={ROUTES.PAGINATION} element={<PaginationScreen />} />
-          <Route
-            path={ROUTES.COUNTRY_SEARCH}
-            element={<CountrySearchScreen />}
-          />
-          <Route path={ROUTES.CALCULATOR} element={<CalculatorScreen />} />
-          <Route
-            path={ROUTES.EXPENSE_TRACKER}
-            element={
-              <Provider store={expenseStore}>
-                <PersistGate loading={null} persistor={expensePersistor}>
-                  <ExpenseTrackerScreen />
-                </PersistGate>
-              </Provider>
-            }
-          />
-          <Route path={ROUTES.MEMORY} element={<MemoryGameScreen />} />
-          <Route path={ROUTES.WORDLE} element={<SimpleWordleScreen />} />
-          <Route
-            path={ROUTES.STRONG_PASSWORD}
-            element={<StrongPasswordScreen />}
-          />
-          <Route path={ROUTES.PHONE_FIELD} element={<PhoneFieldScreen />} />
-          <Route
-            path={ROUTES.TRAFFIC_LIGHTS}
-            element={<TrafficLightsScreen />}
-          />
-          <Route path={ROUTES.CALENDAR} element={<CalendarScreen />} />
-          <Route
-            path={ROUTES.CART_REDUX}
-            element={
-              <Provider store={cartStore}>
-                <ReduxCartScreen />
-              </Provider>
-            }
-          />
-          <Route path={ROUTES.UNDO_REDO} element={<UndoRedoScreen />} />
-          <Route path={ROUTES.OTP_INPUT} element={<OTPScreen />} />
-          <Route
-            path={ROUTES.TABLE_PAGINATE}
-            element={
-              <AlbumsProvider>
-                <TablePaginateScreen />
-              </AlbumsProvider>
-            }
-          />
-          <Route path={ROUTES.FILM_QUIZ} element={<FilmQuizScreen />} />
-          <Route path={ROUTES.GEOLOCATION} element={<GeolocationScreen />} />
-          <Route path={ROUTES.TIER_LIST} element={<TierListScreen />} />
-        </AllRoutes>
-      </Suspense>
+          }
+        >
+          <AllRoutes>
+            <Route path={ROUTES.HOME} element={<HomeScreen />} />
+            <Route path={ROUTES.COUNTER} element={<CounterScreen />} />
+            <Route path={ROUTES.CART} element={<CartScreen />} />
+            <Route
+              path={ROUTES.FORM_VALIDATION}
+              element={<BasicFormScreen />}
+            />
+            <Route path={ROUTES.STAR_REVIEW} element={<StarReviewScreen />} />
+            <Route path={ROUTES.TIMER} element={<TimerScreen />} />
+            <Route
+              path={ROUTES.DOG_LIST}
+              element={
+                <Provider store={dogCeoStore}>
+                  <ReduxDogListScreen />
+                </Provider>
+              }
+            />
+            <Route
+              path={ROUTES.CUSTOM_TEXTAREA}
+              element={<CustomTextAreaScreen />}
+            />
+            <Route path={ROUTES.MULTI_SIGN_UP} element={<MultiStepForm />} />
+            <Route path={ROUTES.CAROUSEL} element={<CarouselScreen />} />
+            <Route path={ROUTES.ACCORDION} element={<AccordionListScreen />} />
+            <Route path={ROUTES.COPY} element={<CopyToClipboardScreen />} />
+            <Route
+              path={ROUTES.ASYNC_VALIDATION}
+              element={<AsyncFieldValidationScreen />}
+            />
+            <Route
+              path={ROUTES.MUSIC_PLAYER}
+              element={
+                <MusicPlayerProvider>
+                  <MusicPlayerScreen />
+                </MusicPlayerProvider>
+              }
+            />
+            <Route path={ROUTES.DEBOUNCE} element={<DebounceScreen />} />
+            <Route
+              path={ROUTES.RERENDER_LIST}
+              element={<RerenderListScreen />}
+            />
+            <Route
+              path={ROUTES.RACES}
+              element={
+                <RacesContextProvider>
+                  <RacesScreen />
+                </RacesContextProvider>
+              }
+            />
+            <Route path={ROUTES.PAGINATION} element={<PaginationScreen />} />
+            <Route
+              path={ROUTES.COUNTRY_SEARCH}
+              element={<CountrySearchScreen />}
+            />
+            <Route path={ROUTES.CALCULATOR} element={<CalculatorScreen />} />
+            <Route
+              path={ROUTES.EXPENSE_TRACKER}
+              element={
+                <Provider store={expenseStore}>
+                  <PersistGate loading={null} persistor={expensePersistor}>
+                    <ExpenseTrackerScreen />
+                  </PersistGate>
+                </Provider>
+              }
+            />
+            <Route path={ROUTES.MEMORY} element={<MemoryGameScreen />} />
+            <Route path={ROUTES.WORDLE} element={<SimpleWordleScreen />} />
+            <Route
+              path={ROUTES.STRONG_PASSWORD}
+              element={<StrongPasswordScreen />}
+            />
+            <Route path={ROUTES.PHONE_FIELD} element={<PhoneFieldScreen />} />
+            <Route
+              path={ROUTES.TRAFFIC_LIGHTS}
+              element={<TrafficLightsScreen />}
+            />
+            <Route path={ROUTES.CALENDAR} element={<CalendarScreen />} />
+            <Route
+              path={ROUTES.CART_REDUX}
+              element={
+                <Provider store={cartStore}>
+                  <ReduxCartScreen />
+                </Provider>
+              }
+            />
+            <Route path={ROUTES.UNDO_REDO} element={<UndoRedoScreen />} />
+            <Route path={ROUTES.OTP_INPUT} element={<OTPScreen />} />
+            <Route
+              path={ROUTES.TABLE_PAGINATE}
+              element={
+                <AlbumsProvider>
+                  <TablePaginateScreen />
+                </AlbumsProvider>
+              }
+            />
+            <Route path={ROUTES.FILM_QUIZ} element={<FilmQuizScreen />} />
+            <Route path={ROUTES.GEOLOCATION} element={<GeolocationScreen />} />
+            <Route path={ROUTES.TIER_LIST} element={<TierListScreen />} />
+            <Route path={ROUTES.KANBAN} element={<KanbanScreen />} />
+          </AllRoutes>
+        </Suspense>
+      </Layout>
     </Router>
   </StrictMode>,
 );
