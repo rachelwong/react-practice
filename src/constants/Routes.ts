@@ -76,7 +76,6 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.MULTI_SIGN_UP,
     title: "Multi-step Form",
     description: "Different approaches to manage multi-step form",
-    inProgress: true,
   },
   {
     route: ROUTES.CAROUSEL,

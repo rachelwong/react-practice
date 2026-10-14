@@ -1,92 +1,47 @@
-import { GENDER_OPTIONS } from "@/constants";
-import { assertEvent, assign, setup } from "xstate";
+import { assign, setup } from "xstate";
+import accountStepMachine from "./AccountStepMachine";
+import profileStepMachine from "./ProfileStepMachine";
 
 export interface MultiStepFormContextType {
   currIndex: number;
   totalNumberOfSteps: number;
   profile: {
-    name: {
-      value: string;
-      error: string | null;
-    };
-    dateOfBirth: {
-      value: string;
-      error: string | null;
-    };
-    gender?: {
-      value: string;
-      options: string[];
-    };
+    name: string;
+    dateOfBirth: string;
+    gender: string;
   };
   account: {
-    email: {
-      value: string;
-      error: string | null;
-    };
-    password: {
-      value: string;
-      error: string | null;
-    };
+    email: string;
+    password: string;
   };
 }
-
-const genderOptions = Object.values(GENDER_OPTIONS);
 
 const initialState: MultiStepFormContextType = {
   currIndex: 0,
   totalNumberOfSteps: 0,
   profile: {
-    name: {
-      value: "",
-      error: null,
-    },
-    dateOfBirth: {
-      value: "",
-      error: null,
-    },
-    gender: {
-      value: "",
-      options: genderOptions,
-    },
+    name: "",
+    dateOfBirth: "",
+    gender: "",
   },
   account: {
-    email: {
-      value: "",
-      error: null,
-    },
-    password: {
-      value: "",
-      error: null,
-    },
+    email: "",
+    password: "",
   },
 };
-type ProfileField = "name" | "dateOfBirth";
-
-type AccountField = "email" | "password";
-
-type MultiStepFormField = AccountField | ProfileField;
-
-const getFieldValue = (
-  context: MultiStepFormContextType,
-  field: MultiStepFormField,
-): string =>
-  field === "name" || field === "dateOfBirth"
-    ? context.profile[field].value // field is ProfileField here
-    : context.account[field].value; // field is AccountField here
 
 export type MultiStepFormEventType =
-  | { type: "NAME_CHANGE"; value: string }
-  | { type: "NAME_BLUR"; value: string }
-  | { type: "DOB_CHANGE"; value: string }
-  | { type: "DOB_BLUR"; value: string }
-  | { type: "GENDER_CHANGE"; value: string }
-  | { type: "EMAIL_CHANGE"; value: string }
-  | { type: "EMAIL_BLUR"; value: string }
-  | { type: "PASSWORD_CHANGE"; value: string }
-  | { type: "PASSWORD_BLUR"; value: string }
-  | { type: "NEXT" }
-  | { type: "BACK" }
-  | { type: "RESTART" };
+  | { type: "INCREMENT_STEP" }
+  | { type: "DECREMENT_STEP" }
+  | { type: "RESTART" }
+  | {
+      type: "PROFILE_SUBMITTED";
+      value: { name: string; dateOfBirth: string; gender: string };
+    }
+  | {
+      type: "ACCOUNT_SUBMITTED";
+      value: { email: string; password: string };
+    };
 
 const multiStepFormMachine = setup({
   types: {
@@ -95,14 +50,14 @@ const multiStepFormMachine = setup({
     input: {} as {
       totalNumberOfSteps: number;
     },
-  },
-  guards: {
-    // when this is declared, it is not attached to any state or event
-    // if not assertingEvent, then do it inline inside the event actions itself
-    validateName: ({ event }) => {
-      assertEvent(event, ["NAME_CHANGE", "NAME_BLUR"]);
-      return !!event.value.toString();
+    children: {} as {
+      profileForm: "profileStepMachine";
+      accountForm: "accountStepMachine";
     },
+  },
+  actors: {
+    profileStepMachine,
+    accountStepMachine,
   },
   actions: {
     nextStep: assign({
@@ -117,134 +72,72 @@ const multiStepFormMachine = setup({
     }),
     resetData: assign({
       ...initialState,
-    }),
-    clearNameError: assign({
-      profile: ({ context }) => {
-        return {
-          ...context.profile,
-          name: {
-            ...context.profile.name,
-            error: null,
-          },
-        };
-      },
+      totalNumberOfSteps: ({ context }) => context.totalNumberOfSteps,
     }),
   },
 }).createMachine({
   id: "multiStepForm",
-  initial: "profileStep",
+  initial: "profile",
   context: ({ input }) => ({
     ...initialState,
     totalNumberOfSteps: input.totalNumberOfSteps,
   }),
   states: {
-    profileStep: {
+    profile: {
       tags: "progress",
       id: "profileStep",
-      type: "parallel",
-      states: {
-        name: {
-          initial: "empty",
-          states: {
-            empty: {
-              on: {
-                NAME_BLUR: [
-                  { guard: "validateName", target: "#profileStep.name.valid" },
-                  { target: "#profileStep.name.invalid" },
-                ],
-                NAME_CHANGE: {
-                  actions: [
-                    assign({
-                      profile: ({ context, event }) => {
-                        return {
-                          ...context.profile,
-                          name: {
-                            ...context.profile.name,
-                            value: event.value,
-                          },
-                        };
-                      },
-                    }),
-                  ],
-                },
-              },
-            },
-            valid: {
-              tags: "success",
-              on: {
-                NAME_BLUR: [
-                  { guard: "validateName", target: "#profileStep.name.valid" },
-                  { target: "#profileStep.name.invalid" },
-                ],
-                NAME_CHANGE: {
-                  actions: [
-                    assign({
-                      profile: ({ context, event }) => {
-                        return {
-                          ...context.profile,
-                          name: {
-                            ...context.profile.name,
-                            value: event.value,
-                          },
-                        };
-                      },
-                    }),
-                  ],
-                },
-                NEXT: {
-                  target: "#accountStep",
-                },
-              },
-            },
-            invalid: {
-              tags: "error",
-              exit: "clearNameError",
-              on: {
-                NAME_BLUR: [
-                  { guard: "validateName", target: "#profileStep.name.valid" },
-                  { target: "#profileStep.name.invalid" },
-                ],
-                NAME_CHANGE: {
-                  actions: [
-                    assign({
-                      profile: ({ context, event }) => {
-                        return {
-                          ...context.profile,
-                          name: {
-                            ...context.profile.name,
-                            value: event.value,
-                          },
-                        };
-                      },
-                    }),
-                  ],
-                },
-              },
-            },
-          },
+      invoke: {
+        id: "profileForm",
+        src: "profileStepMachine",
+        input: ({ context }) => ({
+          name: context.profile.name,
+          dateOfBirth: context.profile.dateOfBirth,
+          gender: context.profile.gender,
+        }),
+      },
+      on: {
+        INCREMENT_STEP: {
+          actions: "nextStep",
+        },
+        PROFILE_SUBMITTED: {
+          target: "#accountStep",
+          actions: [
+            assign({ profile: ({ event }) => event.value }),
+            "nextStep",
+          ],
         },
       },
     },
-    accountStep: {
+    account: {
       tags: "progress",
       id: "accountStep",
+      invoke: {
+        id: "accountForm",
+        src: "accountStepMachine",
+        input: ({ context }) => ({
+          email: context.account.email,
+          password: context.account.password,
+        }),
+      },
       on: {
-        NEXT: {
-          target: "reviewStep",
+        DECREMENT_STEP: {
+          actions: "backStep",
         },
-        BACK: {
-          target: "profileStep",
+        ACCOUNT_SUBMITTED: {
+          target: "#reviewStep",
+          actions: [
+            assign({ account: ({ event }) => event.value }),
+            "nextStep",
+          ],
         },
-        ON_BLUR: {},
-        ON_CHANGE: {},
       },
     },
-    reviewStep: {
+    review: {
       tags: "final",
       id: "reviewStep",
       on: {
-        BACK: {
-          target: "accountStep",
+        DECREMENT_STEP: {
+          actions: "backStep",
         },
         RESTART: {
           target: "#profileStep",
