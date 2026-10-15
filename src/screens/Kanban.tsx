@@ -8,9 +8,7 @@ const ZONES = {
   TODO: "TODO",
   PROGRESS: "PROGRESS",
   COMPLETED: "COMPLETED",
-};
-
-type ZoneKey = keyof typeof ZONES;
+} as const;
 
 const ZONE_CONFIG = {
   [ZONES.TODO]: {
@@ -22,12 +20,11 @@ const ZONE_CONFIG = {
   [ZONES.COMPLETED]: {
     colour: "bg-green-100",
   },
-};
+} as const;
 
-const DELETE_ZONE = "DELETE";
+const DELETE_ZONE = "DELETE" as const;
 
-type AllZoneType = (typeof DELETE_ZONE)[keyof typeof DELETE_ZONE] &
-  (typeof ZONES)[keyof typeof ZONES];
+type AllZoneType = typeof DELETE_ZONE | (typeof ZONES)[keyof typeof ZONES];
 
 interface Ticket {
   id: string;
@@ -63,7 +60,6 @@ const Kanban = () => {
   };
 
   const handleDrop = (zoneId: AllZoneType) => {
-    setHoverZone(null);
     if (!currTicket) {
       return;
     }
@@ -90,7 +86,20 @@ const Kanban = () => {
     e.preventDefault();
   };
 
-  const handleDragLeave = () => {
+  // fires every time the cursor moves from the column onto a ticket inside it
+  const handleDragLeave = (e: DragEvent<HTMLDivElement>, zoneId: string) => {
+    if (e.currentTarget.contains(e.relatedTarget as Node)) {
+      return;
+    }
+    // Only clear it when the cursor has actually left the column
+    // Only clear the highlight if it still belongs to the zone being left:
+    setHoverZone((prev) => (prev === zoneId ? null : prev));
+  };
+
+  // fires when dragging completes -> reset
+  // need this even if you don't drag a ticket into a drop zone
+  const handleDragEnd = () => {
+    setCurrTicket(null);
     setHoverZone(null);
   };
 
@@ -130,8 +139,8 @@ const Kanban = () => {
               onDragOver={(e) => {
                 handleDragOver(e);
               }}
-              onDragLeave={() => {
-                handleDragLeave();
+              onDragLeave={(e) => {
+                handleDragLeave(e, DELETE_ZONE);
               }}
               onDrop={() => {
                 handleDrop(DELETE_ZONE);
@@ -153,8 +162,8 @@ const Kanban = () => {
                 onDragOver={(e) => {
                   handleDragOver(e);
                 }}
-                onDragLeave={() => {
-                  handleDragLeave();
+                onDragLeave={(e) => {
+                  handleDragLeave(e, zone);
                 }}
                 onDrop={() => {
                   handleDrop(zone);
@@ -170,6 +179,7 @@ const Kanban = () => {
                       key={ticket.id}
                       className="w-full border-1 border-neutral-600 bg-white p-5"
                       draggable
+                      onDragEnd={() => handleDragEnd()}
                       onDragStart={() => {
                         handleDragStart(ticket);
                       }}
