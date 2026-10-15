@@ -75,6 +75,7 @@ const Kanban = () => {
       });
     }
     setCurrTicket(null);
+    setHoverZone(null);
   };
 
   const handleDragEnter = (zoneId: AllZoneType) => {
@@ -87,11 +88,13 @@ const Kanban = () => {
   };
 
   // fires every time the cursor moves from the column onto a ticket inside it
-  const handleDragLeave = (e: DragEvent<HTMLDivElement>, zoneId: string) => {
+  const handleDragLeave = (
+    e: DragEvent<HTMLDivElement>,
+    zoneId: AllZoneType,
+  ) => {
     if (e.currentTarget.contains(e.relatedTarget as Node)) {
       return;
     }
-    // Only clear it when the cursor has actually left the column
     // Only clear the highlight if it still belongs to the zone being left:
     setHoverZone((prev) => (prev === zoneId ? null : prev));
   };
