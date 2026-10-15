@@ -207,6 +207,5 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.KANBAN,
     title: "Kanban board",
     description: "Drag & Drop with custom hook",
-    inProgress: true,
   },
 ];
