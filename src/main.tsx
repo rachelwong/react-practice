@@ -59,6 +59,7 @@ const GeolocationScreen = lazy(() => import("./screens/Geolocation.tsx"));
 const TierListScreen = lazy(() => import("./screens/TierList.tsx"));
 const KanbanScreen = lazy(() => import("./screens/Kanban.tsx"));
 const CheckboxGroupScreen = lazy(() => import("./screens/CheckboxGroup.tsx"));
+const TransferListScreen = lazy(() => import("./screens/TransferList.tsx"));
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -175,6 +176,10 @@ createRoot(document.getElementById("root")!).render(
             <Route
               path={ROUTES.NESTED_CHECKBOXES}
               element={<CheckboxGroupScreen />}
+            />
+            <Route
+              path={ROUTES.TRANSFER_LIST}
+              element={<TransferListScreen />}
             />
           </AllRoutes>
         </Suspense>

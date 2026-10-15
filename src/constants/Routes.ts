@@ -37,6 +37,7 @@ export const ROUTES = {
   TIER_LIST: "/tier-list",
   KANBAN: "/kanban",
   NESTED_CHECKBOXES: "/nested-checkboxes",
+  TRANSFER_LIST: "/transfer-list",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -213,5 +214,10 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.NESTED_CHECKBOXES,
     title: "Nested Checkboxes",
     description: "Recursion",
+  },
+  {
+    route: ROUTES.TRANSFER_LIST,
+    title: "Transfer List",
+    description: "",
   },
 ];
