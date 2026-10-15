@@ -1,6 +1,6 @@
 import ScreenLayout from "@/components/ScreenLayout";
+import TransferListColumn from "@/components/TransferListColumn";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   FastForward,
   MoveLeft,
@@ -26,14 +26,14 @@ const initialState = {
   right: [DATA.CARROT, DATA.TOMATO, DATA.LETTUCE, DATA.RHUBARB],
 };
 
-type Item = {
+export type TransferItem = {
   id: string;
   value: boolean;
 };
 
 const TransferList = () => {
-  const [leftList, setLeftList] = useState<Item[]>([]);
-  const [rightList, setRightList] = useState<Item[]>([]);
+  const [leftList, setLeftList] = useState<TransferItem[]>([]);
+  const [rightList, setRightList] = useState<TransferItem[]>([]);
 
   const setup = () => {
     setLeftList(initialState.left.map((x) => ({ id: x, value: false })));
@@ -83,35 +83,24 @@ const TransferList = () => {
       title="Transfer list"
       brief="https://www.greatfrontend.com/questions/user-interface/transfer-list/react"
     >
-      <p>
-        {JSON.stringify(leftList.every((x) => !x.value))}{" "}
-        {JSON.stringify(disableRightToLeft)}
-      </p>
       <div className="max-w-4xl mx-auto w-full h-auto border-1 border-neutral-800 flex flex-row items-stretch justify-between">
-        <ul className="left basis-1/3 flex flex-col gap-y-6 items-start justify-start w-full p-6 bg-sky-100">
-          {leftList.map((left) => (
-            <li className="flex flex-row items-center justify-start gap-x-6 p-4 bg-white w-full">
-              <Checkbox
-                checked={left.value}
-                onCheckedChange={() => {
-                  setLeftList((prev) => {
-                    return prev.map((x) => {
-                      if (x.id === left.id) {
-                        return {
-                          ...x,
-                          value: !x.value,
-                        };
-                      }
-                      return x;
-                    });
-                  });
-                }}
-                className="w-10 h-10 "
-              />
-              {left.id}
-            </li>
-          ))}
-        </ul>
+        <TransferListColumn
+          side="left"
+          setList={(left) =>
+            setLeftList((prev) => {
+              return prev.map((x) => {
+                if (x.id === left) {
+                  return {
+                    ...x,
+                    value: !x.value,
+                  };
+                }
+                return x;
+              });
+            })
+          }
+          list={leftList}
+        />
         <div className="controls basis-1/3 flex flex-col items-center justify-center w-full gap-y-5">
           <Button
             size="lg"
@@ -159,30 +148,23 @@ const TransferList = () => {
             <RotateCcw />
           </Button>
         </div>
-        <ul className="right basis-1/3 flex flex-col gap-y-6 items-start justify-start w-full p-6 bg-violet-100">
-          {rightList.map((right) => (
-            <li className="flex flex-row items-center justify-start gap-x-6 p-4 bg-white w-full">
-              <Checkbox
-                checked={right.value}
-                onCheckedChange={() => {
-                  setRightList((prev) => {
-                    return prev.map((x) => {
-                      if (x.id === right.id) {
-                        return {
-                          ...x,
-                          value: !x.value,
-                        };
-                      }
-                      return x;
-                    });
-                  });
-                }}
-                className="w-10 h-10"
-              />
-              {right.id}
-            </li>
-          ))}
-        </ul>
+        <TransferListColumn
+          side="right"
+          setList={(right) =>
+            setRightList((prev) => {
+              return prev.map((x) => {
+                if (x.id === right) {
+                  return {
+                    ...x,
+                    value: !x.value,
+                  };
+                }
+                return x;
+              });
+            })
+          }
+          list={rightList}
+        />
       </div>
     </ScreenLayout>
   );
