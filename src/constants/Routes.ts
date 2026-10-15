@@ -213,6 +213,5 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.NESTED_CHECKBOXES,
     title: "Nested Checkboxes",
     description: "Recursion",
-    inProgress: true,
   },
 ];
