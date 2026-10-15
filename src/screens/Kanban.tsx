@@ -42,7 +42,16 @@ const Kanban = () => {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [currTicket, setCurrTicket] = useState<Ticket | null>(null);
   const [newTicket, setNewTicket] = useState<Ticket>(initialState);
-  const [hoverZone, setHoverZone] = useState<AllZoneType | null>(null);
+  const [columnHoverZone, setColumnHoverZone] = useState<AllZoneType | null>(
+    null,
+  );
+  const [ticketHoverZone, setTicketHoverZone] = useState<string | null>(null);
+
+  const resetDragState = () => {
+    setCurrTicket(null);
+    setColumnHoverZone(null);
+    setTicketHoverZone(null);
+  };
 
   const handleAddTicket = (e: KeyboardEvent<HTMLInputElement>) => {
     if (!newTicket.description) {
@@ -66,7 +75,6 @@ const Kanban = () => {
     if (zoneId === DELETE_ZONE) {
       setTickets((prev) => [...prev.filter((x) => x.id !== currTicket.id)]);
     } else {
-      // TODO look at ordering
       setTickets((prev) => {
         return [
           ...prev.filter((x) => x.id !== currTicket.id),
@@ -74,12 +82,11 @@ const Kanban = () => {
         ];
       });
     }
-    setCurrTicket(null);
-    setHoverZone(null);
+    resetDragState();
   };
 
   const handleDragEnter = (zoneId: AllZoneType) => {
-    setHoverZone(zoneId);
+    setColumnHoverZone(zoneId);
   };
 
   // cancel browser block on dnd
@@ -96,14 +103,105 @@ const Kanban = () => {
       return;
     }
     // Only clear the highlight if it still belongs to the zone being left:
-    setHoverZone((prev) => (prev === zoneId ? null : prev));
+    setColumnHoverZone((prev) => (prev === zoneId ? null : prev));
   };
 
   // fires when dragging completes -> reset
   // need this even if you don't drag a ticket into a drop zone
   const handleDragEnd = () => {
-    setCurrTicket(null);
-    setHoverZone(null);
+    resetDragState();
+  };
+
+  const handleTicketDragEnter = (targetTicketId: string) => {
+    if (currTicket?.id === targetTicketId) {
+      return; // hovering over the ticket we're holding
+    }
+
+    setTicketHoverZone(targetTicketId);
+  };
+
+  const handleTicketDragOver = (e: DragEvent<HTMLDivElement>) => {
+    // detect cursor position over targetTicketId
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleTicketDragLeave = (
+    e: DragEvent<HTMLDivElement>,
+    targetTicketId: string,
+  ) => {
+    if (e.currentTarget.contains(e.relatedTarget as Node)) {
+      return;
+    }
+    // Only clear the highlight on target ticket if still dragging over it:
+    setTicketHoverZone((prev) =>
+      !!prev && prev === targetTicketId ? null : prev,
+    );
+  };
+
+  const handleTicketDrop = (
+    e: DragEvent<HTMLDivElement>,
+    targetTicketId: string,
+  ) => {
+    // stop the drag event being detected at the column level
+    e.stopPropagation();
+
+    const targetTicket = tickets.find((x) => x.id === targetTicketId);
+
+    // no dragging occuring, dropped on itself
+    if (!currTicket || !targetTicket || currTicket.id === targetTicketId) {
+      resetDragState();
+      return;
+    }
+
+    // detect cursor position over target ticket
+    // upper half of ticket then order before it
+    // lower half of ticket then order after it
+    const currentRect = e.currentTarget.getBoundingClientRect();
+    const cursorYPos = e.clientY - currentRect.top;
+    const totalHeight = currentRect.height;
+
+    // needs to find the index of the target
+    // without considering the currently dragged ticket
+    // in order to calculate a new order for tickets
+    const targetTicketIndex = tickets
+      .filter((x) => x.id !== currTicket.id)
+      .findIndex((x) => x.id === targetTicketId);
+
+    if (targetTicketIndex === -1) {
+      resetDragState();
+      return;
+    }
+
+    let updatedTickets: Ticket[] = [];
+
+    if (cursorYPos < totalHeight / 2) {
+      // upper half -> order above it
+      // immutable copy
+      updatedTickets = [
+        ...tickets
+          .filter((x) => x.id !== currTicket.id)
+          .slice(0, targetTicketIndex), // Elements before the index
+        { ...currTicket, zone: targetTicket.zone }, // dragged ticket takes same column as the target ticket being dragged over
+        ...tickets
+          .filter((x) => x.id !== currTicket.id)
+          .slice(targetTicketIndex), // Elements from the index to the end
+      ];
+    } else {
+      // lower half -> order below it
+      updatedTickets = [
+        ...tickets
+          .filter((x) => x.id !== currTicket.id)
+          .slice(0, targetTicketIndex + 1), // Elements after the index
+        { ...currTicket, zone: targetTicket.zone }, // dragged ticket takes same column as the target ticket being dragged over
+        ...tickets
+          .filter((x) => x.id !== currTicket.id)
+          .slice(targetTicketIndex + 1), // Elements from the index to the end
+      ];
+    }
+
+    setTickets(updatedTickets);
+    resetDragState();
   };
 
   return (
@@ -132,7 +230,7 @@ const Kanban = () => {
             </Field>
           </div>
           <div
-            className={`trash-zone relative basis-1/2 rounded rounded-3xl border-3 bg-pink-100 p-10 ${hoverZone === DELETE_ZONE ? "border-red-700" : "border-white"}`}
+            className={`trash-zone relative basis-1/2 rounded rounded-3xl border-3 bg-pink-100 p-10 ${columnHoverZone === DELETE_ZONE ? "border-red-700" : "border-white"}`}
           >
             <div
               className="text-center text-neutral-500"
@@ -158,7 +256,7 @@ const Kanban = () => {
             return (
               <div
                 key={zone}
-                className={`board-zone flex h-dvh w-full basis-1/3 flex-col items-start justify-start gap-y-6 overflow-y-scroll p-6 ${hoverZone === zone ? "bg-sky-100" : ZONE_CONFIG[zone].colour}`}
+                className={`board-zone flex h-dvh w-full basis-1/3 flex-col items-start justify-start gap-y-6 overflow-y-scroll p-6 ${columnHoverZone === zone ? "bg-sky-100" : ZONE_CONFIG[zone].colour}`}
                 onDragEnter={() => {
                   handleDragEnter(zone);
                 }}
@@ -180,11 +278,24 @@ const Kanban = () => {
                   .map((ticket) => (
                     <div
                       key={ticket.id}
-                      className="w-full border-1 border-neutral-600 bg-white p-5"
+                      className={`w-full border-1 p-5 ${!!ticketHoverZone && ticketHoverZone === ticket.id ? "bg-purple-200 border-purple-600" : "bg-white border-neutral-600"}`}
                       draggable
                       onDragEnd={() => handleDragEnd()}
                       onDragStart={() => {
                         handleDragStart(ticket);
+                      }}
+                      // make ticket a drop zone as well
+                      onDragEnter={() => {
+                        handleTicketDragEnter(ticket.id);
+                      }}
+                      onDragOver={(e) => {
+                        handleTicketDragOver(e);
+                      }}
+                      onDragLeave={(e) => {
+                        handleTicketDragLeave(e, ticket.id);
+                      }}
+                      onDrop={(e) => {
+                        handleTicketDrop(e, ticket.id);
                       }}
                     >
                       {ticket.description}
