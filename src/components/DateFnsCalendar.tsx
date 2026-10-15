@@ -172,7 +172,7 @@ const DateFnsCalendar = () => {
                   }
                 }}
                 key={day.dayOfMonth}
-                className={`${day.isVisible ? "hover:cursor-pointer text-slate-800 border-1 border-neutral-800" : "text-neutral-200"} w-full h-full rounded-10 text-center flex flex-row items-center justify-center`}
+                className={`${day.isVisible ? "hover:cursor-pointer text-slate-800 border-1 border-neutral-800" : "text-neutral-200"} w-full h-full rounded-10 text-center flex flex-row items-center justify-center ${selectedDay === day.date ? "bg-indigo-100" : "bg-white"}`}
               >
                 {day.dayOfMonth}
               </button>
