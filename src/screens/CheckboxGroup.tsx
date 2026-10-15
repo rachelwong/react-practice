@@ -47,7 +47,8 @@ export type TreeNode = {
 export type CheckState = Record<number, boolean>;
 
 // flattened for easier access based on id
-export type IndexMapType = Map<number, string | null>;
+// item's id -> item's parent node (all data incl id and children), or null if root.
+export type IndexMapType = Map<number, TreeNode | null>;
 
 const buildIndex = ({
   data,
@@ -55,7 +56,7 @@ const buildIndex = ({
   indexMap = new Map(),
 }: {
   data: TreeNode[];
-  parent: string | null;
+  parent: TreeNode | null;
   indexMap: IndexMapType;
 }) => {
   // for every tree node, create an entry in the indexMap as {id: label}
@@ -64,7 +65,7 @@ const buildIndex = ({
   data.forEach((item) => {
     indexMap.set(item.id, parent);
     if (item?.children?.length) {
-      buildIndex({ data: item.children, parent: item.label, indexMap });
+      buildIndex({ data: item.children, parent: item, indexMap });
     }
   });
 };
@@ -79,6 +80,8 @@ const CheckboxGroup = () => {
     buildIndex({ data: initialState, parent: null, indexMap: index });
     return index;
   }, [initialState]);
+
+  console.log("index", indexOfParents);
 
   // SSOT for all checkbox states
   const [checked, setChecked] = useState<CheckState>({});
