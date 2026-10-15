@@ -131,7 +131,7 @@ const TransferList = () => {
           </Button>
           <Button
             size="lg"
-            disabled={!rightList.length}
+            disabled={!leftList.length}
             onClick={() => {
               handleAllToRight();
             }}
