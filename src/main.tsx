@@ -58,6 +58,7 @@ const FilmQuizScreen = lazy(() => import("./screens/FilmQuiz.tsx"));
 const GeolocationScreen = lazy(() => import("./screens/Geolocation.tsx"));
 const TierListScreen = lazy(() => import("./screens/TierList.tsx"));
 const KanbanScreen = lazy(() => import("./screens/Kanban.tsx"));
+const CheckboxGroupScreen = lazy(() => import("./screens/CheckboxGroup.tsx"));
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -171,6 +172,10 @@ createRoot(document.getElementById("root")!).render(
             <Route path={ROUTES.GEOLOCATION} element={<GeolocationScreen />} />
             <Route path={ROUTES.TIER_LIST} element={<TierListScreen />} />
             <Route path={ROUTES.KANBAN} element={<KanbanScreen />} />
+            <Route
+              path={ROUTES.NESTED_CHECKBOXES}
+              element={<CheckboxGroupScreen />}
+            />
           </AllRoutes>
         </Suspense>
       </Layout>

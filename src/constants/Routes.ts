@@ -36,6 +36,7 @@ export const ROUTES = {
   GEOLOCATION: "/geolocation",
   TIER_LIST: "/tier-list",
   KANBAN: "/kanban",
+  NESTED_CHECKBOXES: "/nested-checkboxes",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -207,5 +208,11 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.KANBAN,
     title: "Kanban board",
     description: "Drag & Drop with custom hook",
+  },
+  {
+    route: ROUTES.NESTED_CHECKBOXES,
+    title: "Nested Checkboxes",
+    description: "Recursion",
+    inProgress: true,
   },
 ];
