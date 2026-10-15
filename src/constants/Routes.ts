@@ -166,7 +166,7 @@ export const ROUTE_CONFIG: RouteConfig[] = [
   {
     route: ROUTES.CALENDAR,
     title: "Calendar",
-    description: "Roll your own calendar",
+    description: "Roll your own calendar multiple ways",
   },
   {
     route: ROUTES.CART_REDUX,
