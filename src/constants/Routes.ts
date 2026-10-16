@@ -38,6 +38,7 @@ export const ROUTES = {
   KANBAN: "/kanban",
   NESTED_CHECKBOXES: "/nested-checkboxes",
   TRANSFER_LIST: "/transfer-list",
+  WORDAGE_QUIZ: "/wordage-quiz",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -219,5 +220,11 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.TRANSFER_LIST,
     title: "Transfer List",
     description: "",
+  },
+  {
+    route: ROUTES.WORDAGE_QUIZ,
+    title: "Wordage Quiz",
+    description: "Order items by drag and drop, randomly generate hints",
+    inProgress: true,
   },
 ];
