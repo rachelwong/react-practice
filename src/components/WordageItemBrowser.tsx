@@ -6,7 +6,7 @@ interface WordageItemBrowserProps {
   pageSize: number;
   onDragStart: (id: string) => void;
   currDragId: string | null;
-  onDrop: () => void;
+  onDrop: (e: DragEvent<HTMLDivElement>) => void;
   onDragEnd: () => void;
   onDragOver: (e: DragEvent<HTMLDivElement>) => void;
 }
@@ -29,8 +29,8 @@ const WordageItemBrowser = ({
     <div
       className="start-zone max-w-2xl w-full h-16 relative"
       onDragOver={(e) => onDragOver(e)}
-      onDrop={() => {
-        onDrop();
+      onDrop={(e) => {
+        onDrop(e);
       }}
     >
       <div
@@ -41,15 +41,17 @@ const WordageItemBrowser = ({
             {nextItems.at(-1)?.id}
           </div>
         )}
-        <div className="absolute w-full -z-1 top-5 rounded-lg bg-blue-100 text-neutral-500 font-extrabold border-neutral-300 border-1 h-10 px-6 flex flex-row items-center justify-start">
-          {!!nextItems.length && nextItems[0]?.id}
-        </div>
+        {!!nextItems.length && (
+          <div className="absolute w-full -z-1 top-5 rounded-lg bg-blue-100 text-neutral-500 font-extrabold border-neutral-300 border-1 h-10 px-6 flex flex-row items-center justify-start">
+            {!!nextItems.length && nextItems[0]?.id}
+          </div>
+        )}
       </div>
       <div
         draggable
         onDragStart={() => onDragStart(currDraggable.id)}
         onDragEnd={() => onDragEnd()}
-        className={`z-0 absolute bottom-0 left-0 curr-draggable w-full rounded-lg text-neutral-500 font-extrabold border-neutral-300 border-1 h-10 px-6 flex flex-row items-center justify-start ${!!currDragId ? "invisible" : "visible bg-blue-100"}`}
+        className={`z-0 absolute bottom-0 left-0 curr-draggable w-full rounded-lg text-neutral-500 font-extrabold border-neutral-300 border-1 h-10 px-6 flex flex-row items-center justify-start ${!!currDragId ? "invisible cursor-grabbing" : "visible bg-blue-100"} hover:cursor-grab`}
       >
         <span>{currDraggable?.id}</span>
       </div>
