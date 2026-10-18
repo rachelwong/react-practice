@@ -149,9 +149,7 @@ const Wordage = () => {
     lastSubmission.map((x) => x.id)?.join(",") ===
     droppedItems.map((x) => x.id).join(",");
 
-  const itemsWrong = lastSubmission.filter(
-    (x, index) => GAME_ITEMS.findIndex((y) => y === x.id) !== index,
-  );
+  const itemsWrong = gameItems.filter((x, index) => GAME_ITEMS[index] !== x.id);
 
   const handleSubmission = () => {
     // don't count a submit if nothing changed
