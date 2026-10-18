@@ -97,7 +97,7 @@ const getGameStatus = ({
 };
 
 const Wordage = () => {
-  const [hintTries, setHintTries] = useState<number>(0); // 2
+  const [hintTries, setHintTries] = useState<number>(0);
   // TODO modify this so that random shuffle will not accidently resolve into correct positioned items
   const [gameItems, setGameItems] = useState<WordageItem[]>(() => {
     return randomShuffleArray({ items: GAME_ITEMS }).map((x, i) => {
@@ -126,9 +126,6 @@ const Wordage = () => {
 
   const numDropItems = droppedItems.length;
 
-  const disableHint =
-    !!numStartItems || (!numStartItems && hintTries === MAX_HINTS);
-
   const allItemsReady = numDropItems === gameItems.length;
 
   const lastSubmission = submissions.at(-1) || [];
@@ -143,23 +140,22 @@ const Wordage = () => {
     outofSubmissionTries: submissions.length === MAX_TRIES,
   });
 
+  const gameOver =
+    gameStatus === GAME_STATUS.WON || gameStatus === GAME_STATUS.LOST;
+
   // adding comma prevents letter collision
   // i.e. ['a', 'bc'] and ['ab', 'c'] both joins to 'abc'
   const unchangedSubmission =
     lastSubmission.map((x) => x.id)?.join(",") ===
     droppedItems.map((x) => x.id).join(",");
 
-  const itemsWrong =
-    lastSubmission.filter(
-      (x, index) => GAME_ITEMS.findIndex((y) => y === x.id) !== index,
-    ) ?? [];
+  const itemsWrong = lastSubmission.filter(
+    (x, index) => GAME_ITEMS.findIndex((y) => y === x.id) !== index,
+  );
 
   const handleSubmission = () => {
-    if (
-      !allItemsReady ||
-      unchangedSubmission ||
-      gameStatus !== GAME_STATUS.PLAYING
-    ) {
+    // don't count a submit if nothing changed
+    if (gameStatus !== GAME_STATUS.PLAYING || unchangedSubmission) {
       return;
     }
 
@@ -193,9 +189,8 @@ const Wordage = () => {
   };
 
   // find first incorrect answer and move it to the correct position
-  const findReplaceIncorrectAnswer = async () => {
+  const findReplaceIncorrectAnswer = () => {
     // Check whether each item is right using its real position,
-    // and only then leave out the locked ones.
     // Never filter first and then use index.
     const currentWrongItems = gameItems.filter(
       (x, index) => GAME_ITEMS[index] !== x.id && x.zone === DROP_ZONE,
@@ -365,8 +360,6 @@ const Wordage = () => {
     }
 
     setGameItems((prev) => {
-      const others = prev.filter((x) => x.id !== currDrag.id);
-
       // Start item dropped above or below an item in the list: it goes in at that spot.
       // Start item dropped with nothing hovered: it goes to the end. In practice that means an empty drop zone, or letting go in the padding before touching any item.
       // Drop-zone item with nothing hovered: nothing changes.
@@ -377,6 +370,8 @@ const Wordage = () => {
         }
         return [...prev.filter((x) => x.id !== currDrag.id), currDrag];
       }
+      const others = prev.filter((x) => x.id !== currDrag.id);
+
       // split up remaining items by position of the dragged over item
       // to insert the currDrag in the middle
       const indexForDraggedOverItem = others.findIndex(
@@ -388,8 +383,6 @@ const Wordage = () => {
         return prev;
       }
 
-      // splits at the target, so the item always lands before it,
-      // even when the blank space was drawn after it
       const slicePoint =
         dropTarget.position === BEFORE_TARGET
           ? indexForDraggedOverItem
@@ -397,7 +390,17 @@ const Wordage = () => {
 
       const before = others.slice(0, slicePoint);
       const after = others.slice(slicePoint);
-      return [...before, currDrag, ...after];
+      const updatedList = [...before, currDrag, ...after];
+
+      const movableItems = updatedList.filter((x) => x.status !== CORRECT_POS);
+
+      // correct items keep position
+      // every other slot takes the next movable item
+      // .shift() removes the first item of movableItems and returns it,
+      // there are always exactly as many movable items as open slots.
+      return prev.map((x) =>
+        x.status === CORRECT_POS ? x : movableItems.shift()!,
+      );
     });
 
     // Not dragging on top of another item
@@ -438,7 +441,13 @@ const Wordage = () => {
       brief="https://www.abc.net.au/news/2026-10-04/abc-wordage-quiz/107211586"
       description={
         <>
-          <p>Inspired by ABC Wordage Quiz</p>
+          <p>
+            Inspired by ABC Wordage Quiz. Refer to the{" "}
+            <a className="link" href="/docs/wordage/README.md" target="_blank">
+              markdown file
+            </a>{" "}
+            for business rules and acceptance criteria
+          </p>
           <ul className="list-disc pl-2">
             <li>
               Initial start zone disappears after all items dragged into active
@@ -520,7 +529,7 @@ const Wordage = () => {
               <div className="flex flex-row items-center justify-center gap-x-4 py-4 text-neutral-400 font-extrabold w-full">
                 <span>{decode("&#10060;")} </span>
                 <p className="uppercase">
-                  {`${gameItems.length - itemsWrong?.length} / ${gameItems.length} correct`}
+                  {`${gameItems.length - itemsWrong.length} / ${gameItems.length} correct`}
                 </p>
               </div>
             )}
@@ -534,10 +543,6 @@ const Wordage = () => {
                 const placeholderSpace = (
                   <div className="w-full h-10 shrink-0 rounded-lg border-2 border-dashed border-sky-300" />
                 );
-
-                const gameOver =
-                  gameStatus === GAME_STATUS.WON ||
-                  gameStatus === GAME_STATUS.LOST;
 
                 const correctItem =
                   gameOver &&
@@ -556,8 +561,9 @@ const Wordage = () => {
                       dropTarget.position === BEFORE_TARGET &&
                       placeholderSpace}
                     <div
-                      className={`${bgColour} w-full rounded-lg overflow-hidden h-10 border-1 border-neutral-300 flex flex-row justify-start items-center hover:cursor-grab ${!!currDrag ? "cursor-grabbing" : ""}`}
-                      draggable={item.status !== CORRECT_POS}
+                      className={`${bgColour} w-full rounded-lg overflow-hidden h-10 border-1 border-neutral-300 flex flex-row justify-start items-center ${!gameOver && item.status !== CORRECT_POS ? "hover:cursor-grab" : ""} ${!!currDrag ? "cursor-grabbing" : ""}`}
+                      // prevent cards being draggable after loss/win
+                      draggable={!gameOver && item.status !== CORRECT_POS}
                       onDragStart={() => handleDragStart(item.id, DROP_ZONE)}
                       onDragOver={(e) =>
                         handleDragOver({
@@ -576,7 +582,7 @@ const Wordage = () => {
                           <CircleX />
                         )}
                       </div>
-                      <div className="text-sky-900 font-extrabold px-6 flex flex-row justify-between items-center">
+                      <div className="text-sky-900 w-full h-auto font-extrabold px-6 flex flex-row justify-between items-center">
                         <span>{item.id}</span>
                         {!gameOver &&
                           !!item.status &&
@@ -598,7 +604,9 @@ const Wordage = () => {
             <div className="flex flex-row items-center justify-center gap-x-10 w-full h-auto mb-10">
               <Button
                 size="lg"
-                disabled={!allItemsReady}
+                disabled={
+                  gameStatus !== GAME_STATUS.PLAYING || unchangedSubmission
+                }
                 onClick={() => {
                   handleSubmission();
                 }}
@@ -616,7 +624,9 @@ const Wordage = () => {
               </Button>
               <Button
                 size="lg"
-                disabled={disableHint}
+                disabled={
+                  gameStatus !== GAME_STATUS.PLAYING || hintTries === MAX_HINTS
+                }
                 onClick={() => {
                   handleHintTries();
                 }}
