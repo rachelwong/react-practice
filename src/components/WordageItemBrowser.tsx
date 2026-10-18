@@ -1,4 +1,4 @@
-import type { WordageItem } from "@/screens/Wordage";
+import type { WordageItem } from "@/constants/Wordage";
 import { type DragEvent } from "react";
 
 interface WordageItemBrowserProps {
