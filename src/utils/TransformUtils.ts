@@ -15,3 +15,24 @@ export const randomShuffleArray = <T>({ items }: { items: T[] }) => {
   }
   return shuffled;
 };
+
+// Sattolo shuffle algorithm (every element ends up in a new position)
+// different to Fisher-Yates in it picks current as the swap partner as well
+// Sattolo does not allow picking current item as swap partner
+// can't swap with itself
+export const fullRandomShuffleArray = <T>({ items }: { items: T[] }) => {
+  const shuffled = [...items];
+
+  // eval from back of the array (from right to left)
+  for (let curr = shuffled.length - 1; curr > 0; curr--) {
+    // find random item BEFORE (to the left) of current item
+    const swapPartner = Math.floor(Math.random() * curr);
+    // swap places
+    [shuffled[curr], shuffled[swapPartner]] = [
+      shuffled[swapPartner],
+      shuffled[curr],
+    ];
+  }
+
+  return shuffled;
+};

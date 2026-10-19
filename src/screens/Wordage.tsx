@@ -1,3 +1,4 @@
+import NewWordage from "@/components/NewWordage";
 import RoughWordage from "@/components/RoughWordage";
 import ScreenLayout from "@/components/ScreenLayout";
 
@@ -14,6 +15,17 @@ const Wordage = () => {
               markdown file
             </a>{" "}
             for business rules and acceptance criteria
+          </p>
+          <p>
+            This demonstrates multiple approaches to replicate the Wordage quiz
+            as seen on ABC news website, like{" "}
+            <a
+              target="_blank"
+              href="https://www.abc.net.au/news/2026-10-18/wordage-quiz-anger/107243852"
+            >
+              this one
+            </a>
+            .
           </p>
           <ul className="list-disc pl-2">
             <li>
@@ -57,8 +69,13 @@ const Wordage = () => {
     >
       <div className="mx-auto max-w-4xl w-full h-auto flex flex-col items-center justify-start">
         <h1 className="text-slate-800 text-3xl font-extrabold">
+          Custom hook version
+        </h1>
+        <NewWordage />
+        <h1 className="text-slate-800 text-3xl font-extrabold">
           First version
         </h1>
+        <p>This version uses in-component useState only</p>
         <RoughWordage />
       </div>
     </ScreenLayout>
