@@ -1,4 +1,3 @@
-import NewWordage from "@/components/NewWordage";
 import RoughWordage from "@/components/RoughWordage";
 import ScreenLayout from "@/components/ScreenLayout";
 
@@ -68,10 +67,10 @@ const Wordage = () => {
       }
     >
       <div className="mx-auto max-w-4xl w-full h-auto flex flex-col items-center justify-start">
-        <h1 className="text-slate-800 text-3xl font-extrabold">
+        {/* <h1 className="text-slate-800 text-3xl font-extrabold">
           Custom hook version
         </h1>
-        <NewWordage />
+        <NewWordage /> */}
         <h1 className="text-slate-800 text-3xl font-extrabold">
           First version
         </h1>
