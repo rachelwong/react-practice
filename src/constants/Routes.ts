@@ -39,6 +39,7 @@ export const ROUTES = {
   NESTED_CHECKBOXES: "/nested-checkboxes",
   TRANSFER_LIST: "/transfer-list",
   WORDAGE_QUIZ: "/wordage-quiz",
+  DICE_ROLLER: "/dice-roller",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -225,6 +226,12 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.WORDAGE_QUIZ,
     title: "Wordage Quiz",
     description: "Order items by drag and drop, randomly generate hints",
+    inProgress: true,
+  },
+  {
+    route: ROUTES.DICE_ROLLER,
+    title: "Dice roller",
+    description: "Random selection with slow-down roll",
     inProgress: true,
   },
 ];

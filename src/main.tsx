@@ -61,6 +61,7 @@ const KanbanScreen = lazy(() => import("./screens/Kanban.tsx"));
 const CheckboxGroupScreen = lazy(() => import("./screens/CheckboxGroup.tsx"));
 const TransferListScreen = lazy(() => import("./screens/TransferList.tsx"));
 const WordageScreen = lazy(() => import("./screens/Wordage.tsx"));
+const DiceRollerScreen = lazy(() => import("./screens/DiceRoller.tsx"));
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -183,6 +184,7 @@ createRoot(document.getElementById("root")!).render(
               element={<TransferListScreen />}
             />
             <Route path={ROUTES.WORDAGE_QUIZ} element={<WordageScreen />} />
+            <Route path={ROUTES.DICE_ROLLER} element={<DiceRollerScreen />} />
           </AllRoutes>
         </Suspense>
       </Layout>
