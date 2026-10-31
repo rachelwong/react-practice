@@ -28,17 +28,19 @@ const CommandPalette = () => {
     const handleKeyDown = (event: KeyboardEvent) => {
       let key = event.key.toLowerCase();
 
-      if (key === "escape") {
+      if (key === "escape" && toggle) {
         setToggle(false);
         setIndex(0);
         setFilter("");
         return;
       }
+
       if (event.metaKey && key === "k") {
         event.preventDefault(); // stops default browser behaviour
 
         setToggle((prev) => !prev);
       }
+
       if (!toggle) {
         if (searchRef?.current) {
           searchRef.current.blur();
@@ -47,6 +49,7 @@ const CommandPalette = () => {
       } else {
         searchRef.current?.focus();
       }
+
       if (key === "arrowup") {
         event.preventDefault(); // stops default browser behaviour
 
@@ -57,6 +60,7 @@ const CommandPalette = () => {
           return prev - 1;
         });
       }
+
       if (key === "arrowdown") {
         event.preventDefault(); // stops default browser behaviour
 
@@ -67,10 +71,12 @@ const CommandPalette = () => {
           return prev! + 1;
         });
       }
+
       if (key === "enter") {
         setHistory(COMMANDS[index]);
         setToggle(false);
         setIndex(0);
+        setFilter("");
       }
     };
 
@@ -79,8 +85,25 @@ const CommandPalette = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   });
 
-  const displayCommands = COMMANDS.filter((x) =>
-    !x.trim().length ? x : x.includes(filter.trim()),
+  // every letter has a match and is in the right order
+  const isFuzzyMatched = (target: string, queryFilter: string) => {
+    let lastQueryPos = 0;
+    const matchedQuery: string[] = [];
+
+    const query = queryFilter.replace(/\s/g, "").toLowerCase().split("");
+    const targetList = target.replace(/\s/g, "").toLowerCase().split("");
+
+    for (const targetVal of targetList) {
+      if (targetVal === query[lastQueryPos]) {
+        matchedQuery.push(query[lastQueryPos]);
+        lastQueryPos = lastQueryPos + 1;
+      }
+    }
+    return matchedQuery.length === queryFilter.length;
+  };
+
+  const displayCommands = COMMANDS.filter((command) =>
+    !command.trim().length ? command : isFuzzyMatched(command, filter),
   );
 
   return (
@@ -119,6 +142,8 @@ const CommandPalette = () => {
                       onClick={() => {
                         setHistory(command);
                         setToggle(false);
+                        setIndex(0);
+                        setFilter("");
                       }}
                       className={classNames(
                         "text-left py-2 px-6 h-full w-full",
