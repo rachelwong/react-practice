@@ -33,6 +33,17 @@ const CommandPalette = () => {
   };
 
   useEffect(() => {
+    if (!toggle) {
+      if (searchRef?.current) {
+        searchRef.current.blur();
+      }
+      return;
+    } else {
+      searchRef.current?.focus();
+    }
+  }, [toggle, searchRef?.current]);
+
+  useEffect(() => {
     window.addEventListener("mousedown", handleClick);
     return () => window.removeEventListener("mousedown", handleClick);
   }, []);
@@ -52,15 +63,6 @@ const CommandPalette = () => {
         event.preventDefault(); // stops default browser behaviour
 
         setToggle((prev) => !prev);
-      }
-
-      if (!toggle) {
-        if (searchRef?.current) {
-          searchRef.current.blur();
-        }
-        return;
-      } else {
-        searchRef.current?.focus();
       }
 
       if (key === "arrowup") {
