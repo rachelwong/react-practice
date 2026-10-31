@@ -41,11 +41,17 @@ const CommandPalette = () => {
   const paletteRef = useRef<HTMLDivElement | null>(null);
   const searchRef = useRef<HTMLInputElement | null>(null);
 
+  const reset = () => {
+    setFilter("");
+    setIndex(0);
+    setToggle(false);
+  };
+
   const handleClick = (e: MouseEvent) => {
     // contains() only accepts something on the page, like a div or a button.
     // Node is TypeScript's name for anything on the page
-    if (paletteRef.current && !paletteRef.current.contains(e.target as Node)) {
-      setToggle(false);
+    if (paletteRef?.current && !paletteRef.current.contains(e.target as Node)) {
+      reset();
     }
   };
 
@@ -70,9 +76,7 @@ const CommandPalette = () => {
       let key = event.key.toLowerCase();
 
       if (key === "escape" && toggle) {
-        setToggle(false);
-        setIndex(0);
-        setFilter("");
+        reset();
         return;
       }
 
@@ -106,9 +110,7 @@ const CommandPalette = () => {
 
       if (key === "enter") {
         setHistory(COMMANDS[index]);
-        setToggle(false);
-        setIndex(0);
-        setFilter("");
+        reset();
       }
     };
 
