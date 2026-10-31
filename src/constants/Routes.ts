@@ -44,6 +44,7 @@ export const ROUTES = {
   COMMAND_PALETTE: "/command-palette",
   WIKI_SEARCH: "/wiki-search",
   ACTION_STATE: "/action-state-form",
+  CONNECT_FOUR: "/connect-four",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -258,5 +259,10 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.ACTION_STATE,
     title: "Form with useActionState",
     description: "Basic validation",
+  },
+  {
+    route: ROUTES.CONNECT_FOUR,
+    title: "Connect four",
+    inProgress: true,
   },
 ];

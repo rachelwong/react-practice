@@ -69,6 +69,7 @@ const WikiSearchScreen = lazy(() => import("./screens/WikiSearch.tsx"));
 const ActionStateFormScreen = lazy(
   () => import("./screens/ActionStateForm.tsx"),
 );
+const ConnectFourScreen = lazy(() => import("./screens/ConnectFour.tsx"));
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -209,6 +210,7 @@ createRoot(document.getElementById("root")!).render(
               path={ROUTES.ACTION_STATE}
               element={<ActionStateFormScreen />}
             />
+            <Route path={ROUTES.CONNECT_FOUR} element={<ConnectFourScreen />} />
           </AllRoutes>
         </Suspense>
       </Layout>
