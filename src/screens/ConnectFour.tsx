@@ -62,7 +62,7 @@ const ConnectFour = () => {
 
     if (colWin || rowWin) {
       setWinner(latest.player);
-    } else if (gameState.every((col) => col.every((rowVal) => !!rowVal))) {
+    } else if (gameState.flat().every((val) => !!val)) {
       setWinner("draw");
     }
   };
@@ -75,8 +75,9 @@ const ConnectFour = () => {
   };
 
   useEffect(() => {
-    if (gameState.every((col) => col.every((rowVal) => rowVal === null))) {
+    if (gameState.flat().every((val) => !val)) {
       setLatest(null);
+      setWinner(null);
       // dont invert turn when resetting game
       return;
     }
