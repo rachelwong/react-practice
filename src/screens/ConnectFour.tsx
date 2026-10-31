@@ -20,6 +20,12 @@ const ConnectFour = () => {
     return Array.from({ length: MAX.COL }, () => Array(MAX.ROW).fill(null));
   });
   const [turn, setTurn] = useState<boolean>(false); // false = red, true = yellow
+  const [winner, setWinner] = useState<PlayerType | null>(null);
+  const [latest, setLatest] = useState<{
+    player: PlayerType;
+    colIndex: number;
+    rowIndex: number;
+  } | null>(null);
 
   const handleTurn = (colIndex: number) => {
     const currentTurn = turn ? PLAYER.YELLOW : PLAYER.RED;
@@ -31,6 +37,8 @@ const ConnectFour = () => {
       return;
     }
 
+    setLatest({ player: currentTurn, colIndex, rowIndex: unclaimedIndex });
+
     setGame((prev) => {
       const newGame = prev.map((column) => [...column]);
       newGame[colIndex][unclaimedIndex] = currentTurn;
@@ -38,15 +46,34 @@ const ConnectFour = () => {
     });
   };
 
-  const validateGame = () => {};
+  const validateGame = () => {
+    if (!latest) {
+      return;
+    }
+    // eval latest turn
+    // can build 4 x axis, y axis, diagonal x2
+    const colWin = gameState[latest.colIndex]
+      .join("")
+      .includes(latest.player!.repeat(4));
+    const rowWin = gameState
+      .map((col) => col[latest.rowIndex])
+      .join("")
+      .includes(latest.player!.repeat(4));
+    if (colWin || rowWin) {
+      setWinner(latest.player);
+    }
+  };
 
   const reset = () => {
     setGame(Array.from({ length: MAX.COL }, () => Array(MAX.ROW).fill(null)));
     setTurn(false);
+    setLatest(null);
+    setWinner(null);
   };
 
   useEffect(() => {
     if (gameState.every((col) => col.every((rowVal) => rowVal === null))) {
+      setLatest(null);
       // dont invert turn when resetting game
       return;
     }
@@ -55,7 +82,10 @@ const ConnectFour = () => {
   }, [gameState]);
 
   return (
-    <ScreenLayout brief="https://www.reactchallenges.com/challenges/connect-four">
+    <ScreenLayout
+      title="Connect four"
+      brief="https://www.reactchallenges.com/challenges/connect-four"
+    >
       <div className="max-w-5xl mx-auto w-full h-auto flex flex-col gap-y-4">
         <div className="flex flex-row justify-between items-center">
           <Button
@@ -65,6 +95,7 @@ const ConnectFour = () => {
           >
             Reset
           </Button>
+          {winner && <p>{winner} has won!</p>}
           <div className="flex flex-row justify-end items-center gap-x-5">
             Turn:{" "}
             <div
@@ -76,11 +107,13 @@ const ConnectFour = () => {
           </div>
         </div>
         <div
-          className={`bg-sky-800 p-4 w-full h-auto grid grid-cols-${gameState.length} gap-4 grid-flow-row`}
+          className={`${winner ? "bg-neutral-300" : "bg-sky-800"} p-4 w-full h-auto grid grid-cols-${gameState.length} gap-4 grid-flow-row`}
         >
           {gameState.map((gameCol, colIndex) => {
             return (
               <button
+                disabled={!!winner}
+                key={gameCol.length + colIndex}
                 onClick={() => {
                   handleTurn(colIndex);
                 }}
@@ -89,6 +122,8 @@ const ConnectFour = () => {
                 {gameCol.map((rowVal, rowIndex) => {
                   return (
                     <button
+                      disabled={!!winner}
+                      key={gameCol.length + rowIndex}
                       type="button"
                       onClick={() => {
                         handleTurn(colIndex);
@@ -96,7 +131,8 @@ const ConnectFour = () => {
                       className={classNames(
                         `row rounded-full w-30 h-30 flex flex-col justify-center items-center`,
                         {
-                          "bg-white": rowVal === null,
+                          "bg-neutral-100": winner,
+                          "bg-white": rowVal === null && !winner,
                           "bg-red-400": rowVal === PLAYER.RED,
                           "bg-yellow-400": rowVal === PLAYER.YELLOW,
                         },
