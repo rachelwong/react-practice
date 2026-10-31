@@ -42,6 +42,7 @@ export const ROUTES = {
   DICE_ROLLER: "/dice-roller",
   TOAST: "/toast",
   COMMAND_PALETTE: "/command-palette",
+  WIKI_SEARCH: "/wiki-search",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -246,5 +247,10 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     title: "Command Palette",
     description:
       "Global keyboard listening, fuzzy filtering, roving navigation, focus management",
+  },
+  {
+    route: ROUTES.WIKI_SEARCH,
+    title: "Wikipedia Search",
+    description: "Search with de-duped, most recent 5 item search history",
   },
 ];
