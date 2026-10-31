@@ -161,9 +161,7 @@ const CommandPalette = () => {
                       key={command}
                       onClick={() => {
                         setHistory(command);
-                        setToggle(false);
-                        setIndex(0);
-                        setFilter("");
+                        reset();
                       }}
                       className={classNames(
                         "text-left py-2 px-6 h-full w-full",
