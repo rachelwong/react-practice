@@ -65,6 +65,7 @@ const WordageScreen = lazy(() => import("./screens/Wordage.tsx"));
 const DiceRollerScreen = lazy(() => import("./screens/DiceRoller.tsx"));
 const ToastScreen = lazy(() => import("./screens/Toasts.tsx"));
 const CommandPaletteScreen = lazy(() => import("./screens/CommandPalette.tsx"));
+const WikiSearchScreen = lazy(() => import("./screens/WikiSearch.tsx"));
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -200,6 +201,7 @@ createRoot(document.getElementById("root")!).render(
               path={ROUTES.COMMAND_PALETTE}
               element={<CommandPaletteScreen />}
             />
+            <Route path={ROUTES.WIKI_SEARCH} element={<WikiSearchScreen />} />
           </AllRoutes>
         </Suspense>
       </Layout>
