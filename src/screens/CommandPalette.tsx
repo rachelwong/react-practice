@@ -16,6 +16,23 @@ const COMMANDS = [
   "Go to Terms of service",
 ];
 
+// every letter has a match and is in the right order
+const isFuzzyMatched = (target: string, queryFilter: string) => {
+  let lastQueryPos = 0;
+  const matchedQuery: string[] = [];
+
+  const query = queryFilter.replace(/\s/g, "").toLowerCase().split("");
+  const targetList = target.replace(/\s/g, "").toLowerCase().split("");
+
+  for (const targetVal of targetList) {
+    if (targetVal === query[lastQueryPos]) {
+      matchedQuery.push(query[lastQueryPos]);
+      lastQueryPos = lastQueryPos + 1;
+    }
+  }
+  return matchedQuery.length === queryFilter.length;
+};
+
 const CommandPalette = () => {
   const [history, setHistory] = useState<string>("--");
   const [toggle, setToggle] = useState<boolean>(false); // toggle palette
@@ -99,23 +116,6 @@ const CommandPalette = () => {
 
     return () => window.removeEventListener("keydown", handleKeyDown);
   });
-
-  // every letter has a match and is in the right order
-  const isFuzzyMatched = (target: string, queryFilter: string) => {
-    let lastQueryPos = 0;
-    const matchedQuery: string[] = [];
-
-    const query = queryFilter.replace(/\s/g, "").toLowerCase().split("");
-    const targetList = target.replace(/\s/g, "").toLowerCase().split("");
-
-    for (const targetVal of targetList) {
-      if (targetVal === query[lastQueryPos]) {
-        matchedQuery.push(query[lastQueryPos]);
-        lastQueryPos = lastQueryPos + 1;
-      }
-    }
-    return matchedQuery.length === queryFilter.length;
-  };
 
   const displayCommands = COMMANDS.filter((command) =>
     !command.trim().length ? command : isFuzzyMatched(command, filter),
