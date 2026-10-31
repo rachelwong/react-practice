@@ -21,8 +21,21 @@ const CommandPalette = () => {
   const [toggle, setToggle] = useState<boolean>(false); // toggle palette
   const [index, setIndex] = useState<number>(0);
   const [filter, setFilter] = useState<string>("");
-
+  const paletteRef = useRef<HTMLDivElement | null>(null);
   const searchRef = useRef<HTMLInputElement | null>(null);
+
+  const handleClick = (e: MouseEvent) => {
+    // contains() only accepts something on the page, like a div or a button.
+    // Node is TypeScript's name for anything on the page
+    if (paletteRef.current && !paletteRef.current.contains(e.target as Node)) {
+      setToggle(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("mousedown", handleClick);
+    return () => window.removeEventListener("mousedown", handleClick);
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -115,7 +128,10 @@ const CommandPalette = () => {
         <>
           <div className="flex flex-cols items-center justify-center before:content-['*'] before:absolute before:w-screen before:h-screen before:bg-black before:top-0 before:left-0 before:opacity-75 before:z-10" />
           <div className="absolute flex flex-cols items-center justify-center top-0 left-0 right-0 bottom-0">
-            <Card className="max-w-md w-full opacity-100 bg-white z-10 flex flex-col items-start justify-start">
+            <Card
+              ref={paletteRef}
+              className="max-w-md w-full opacity-100 bg-white z-10 flex flex-col items-start justify-start"
+            >
               <div className="px-4 w-full">
                 <Input
                   ref={searchRef}
