@@ -4,7 +4,8 @@ import { Card } from "@/components/ui/card";
 import { Pause, Play, TimerReset } from "lucide-react";
 import { useEffect, useState } from "react";
 
-const DICE_AMOUNTS = Array.from(Array(6).keys()).map((x) => x + 1);
+// const DICE_AMOUNTS = Array.from(Array(6).keys()).map((x) => x + 1);
+const DICE_AMOUNTS = "abcdef".toUpperCase().split("");
 
 const DiceRoller = () => {
   const [selectedIndex, setIndex] = useState<number | null>(null);
@@ -31,7 +32,7 @@ const DiceRoller = () => {
       } else {
         setIndex((prev) => (prev === null ? null : prev + 1));
       }
-    }, 1000);
+    }, 250);
 
     return () => clearInterval(timer);
   }, [status, selectedIndex]);
