@@ -41,6 +41,7 @@ export const ROUTES = {
   WORDAGE_QUIZ: "/wordage-quiz",
   DICE_ROLLER: "/dice-roller",
   TOAST: "/toast",
+  COMMAND_PALETTE: "/command-palette",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -239,5 +240,11 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.TOAST,
     title: "Toast",
     description: "useContext, self-dismissable toast notifications",
+  },
+  {
+    route: ROUTES.COMMAND_PALETTE,
+    title: "Command Palette",
+    description:
+      "Global keyboard listening, fuzzy filtering, roving navigation, focus management",
   },
 ];

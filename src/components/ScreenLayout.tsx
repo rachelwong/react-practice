@@ -1,9 +1,11 @@
+import classNames from "classnames";
 import type { PropsWithChildren, ReactNode } from "react";
 
 interface ScreenLayoutProps {
   title?: string;
   brief?: string;
   description?: ReactNode;
+  className?: string;
 }
 
 const ScreenLayout = ({
@@ -11,9 +13,10 @@ const ScreenLayout = ({
   brief,
   description,
   children,
+  className,
 }: PropsWithChildren<ScreenLayoutProps>) => {
   return (
-    <div className="relative block w-full h-full">
+    <div className={classNames("block w-full h-full", className)}>
       {title && (
         <div className="heading my-6 flex flex-col items-start justify-start gap-y-2">
           <h3 className="text-neutral-800 font-extrabold text-xl">{title}</h3>

@@ -19,6 +19,7 @@ const Toasts = () => {
     <ScreenLayout
       title="Toasts"
       brief="https://www.reactchallenges.com/challenges/toast-notifications"
+      className="relative"
     >
       <div className="toasts-viewport relative border-1 w-full h-full border-red-800 flex flex-col items-stretch justify-start gap-y-6">
         {!!toasts && !!toasts.length && (

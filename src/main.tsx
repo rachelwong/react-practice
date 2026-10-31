@@ -64,6 +64,7 @@ const TransferListScreen = lazy(() => import("./screens/TransferList.tsx"));
 const WordageScreen = lazy(() => import("./screens/Wordage.tsx"));
 const DiceRollerScreen = lazy(() => import("./screens/DiceRoller.tsx"));
 const ToastScreen = lazy(() => import("./screens/Toasts.tsx"));
+const CommandPaletteScreen = lazy(() => import("./screens/CommandPalette.tsx"));
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -194,6 +195,10 @@ createRoot(document.getElementById("root")!).render(
                   <ToastScreen />
                 </ToastProvider>
               }
+            />
+            <Route
+              path={ROUTES.COMMAND_PALETTE}
+              element={<CommandPaletteScreen />}
             />
           </AllRoutes>
         </Suspense>
