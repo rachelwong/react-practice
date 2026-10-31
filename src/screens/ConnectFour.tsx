@@ -20,7 +20,7 @@ const ConnectFour = () => {
     return Array.from({ length: MAX.COL }, () => Array(MAX.ROW).fill(null));
   });
   const [turn, setTurn] = useState<boolean>(false); // false = red, true = yellow
-  const [winner, setWinner] = useState<PlayerType | null>(null);
+  const [winner, setWinner] = useState<PlayerType | "draw">(null);
   const [latest, setLatest] = useState<{
     player: PlayerType;
     colIndex: number;
@@ -59,8 +59,11 @@ const ConnectFour = () => {
       .map((col) => col[latest.rowIndex])
       .join("")
       .includes(latest.player!.repeat(4));
+
     if (colWin || rowWin) {
       setWinner(latest.player);
+    } else if (gameState.every((col) => col.every((rowVal) => !!rowVal))) {
+      setWinner("draw");
     }
   };
 
@@ -95,7 +98,8 @@ const ConnectFour = () => {
           >
             Reset
           </Button>
-          {winner && <p>{winner} has won!</p>}
+          {winner && winner === "draw" && <p>A draw! No winners </p>}
+          {winner && winner !== "draw" && <p>{winner} has won!</p>}
           <div className="flex flex-row justify-end items-center gap-x-5">
             Turn:{" "}
             <div
