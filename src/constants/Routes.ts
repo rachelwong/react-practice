@@ -43,6 +43,7 @@ export const ROUTES = {
   TOAST: "/toast",
   COMMAND_PALETTE: "/command-palette",
   WIKI_SEARCH: "/wiki-search",
+  ACTION_STATE: "/action-state-form",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -252,5 +253,10 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.WIKI_SEARCH,
     title: "Wikipedia Search",
     description: "Search with de-duped, most recent 5 item search history",
+  },
+  {
+    route: ROUTES.ACTION_STATE,
+    title: "Form with useActionState",
+    description: "Basic validation",
   },
 ];
