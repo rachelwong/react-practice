@@ -15,6 +15,68 @@ const PLAYER = {
 
 type PlayerType = (typeof PLAYER)[keyof typeof PLAYER] | null;
 
+const beforeVals = (val: number) => {
+  return Array.from({ length: val }, (_, i) => i);
+};
+
+// lists every index that comes after the one you give it,
+// up to and including the last index on the board
+// maxIndex is needed because the grid is not perfect square therefore not same max
+const afterVals = (val: number, maxIndex: number) => {
+  // maxIndex - val = how many digits to get
+  // + 1 = starts on the next index valu and not on the current val
+  return Array.from({ length: maxIndex - val }, (_, i) => val + 1 + i);
+};
+
+const evalDiag = ({
+  gameState,
+  latest,
+  direction,
+}: {
+  gameState: (PlayerType | null)[][];
+  latest: {
+    player: PlayerType;
+    colIndex: number;
+    rowIndex: number;
+  };
+  direction: "desc" | "asc";
+}): boolean => {
+  const startRow =
+    direction === "asc" ? MAX.ROW - 1 - latest.rowIndex : latest.rowIndex;
+
+  const beforeRow = beforeVals(startRow);
+  const afterRow = afterVals(startRow, MAX.ROW - 1);
+  const beforeCol = beforeVals(latest.colIndex);
+  const afterCol = afterVals(latest.colIndex, MAX.COL - 1);
+  const beforeCount = Math.min(beforeRow.length, beforeCol.length);
+  const afterCount = Math.min(afterRow.length, afterCol.length);
+
+  const allRows = [
+    ...beforeRow.slice(beforeRow.length - beforeCount),
+    startRow,
+    ...afterRow.slice(0, afterCount),
+  ];
+  const allCols = [
+    ...beforeCol.slice(beforeCol.length - beforeCount),
+    latest.colIndex,
+    ...afterCol.slice(0, afterCount),
+  ];
+
+  const coords = allRows.map((row, idx) => {
+    return {
+      // flip back to the real array row before reading the board
+      rowIndex: direction === "asc" ? MAX.ROW - 1 - row : row,
+      colIndex: allCols[idx],
+    };
+  });
+  return coords
+    .map((item) => {
+      return gameState[item.colIndex][item.rowIndex] ?? "-";
+    })
+    .join("")
+    .includes(latest.player!.repeat(4));
+};
+
 const ConnectFour = () => {
   const [gameState, setGame] = useState<(PlayerType | null)[][]>(() => {
     return Array.from({ length: MAX.COL }, () => Array(MAX.ROW).fill(null));
@@ -53,14 +115,19 @@ const ConnectFour = () => {
     // eval latest turn
     // can build 4 x axis, y axis, diagonal x2
     const colWin = gameState[latest.colIndex]
-      .join("")
-      .includes(latest.player!.repeat(4));
-    const rowWin = gameState
-      .map((col) => col[latest.rowIndex])
+      .map((z) => z ?? "-")
       .join("")
       .includes(latest.player!.repeat(4));
 
-    if (colWin || rowWin) {
+    const rowWin = gameState
+      .map((col) => col[latest.rowIndex] ?? "-")
+      .join("")
+      .includes(latest.player!.repeat(4));
+
+    const descDiagWin = evalDiag({ gameState, latest, direction: "desc" });
+    const ascDiagWin = evalDiag({ gameState, latest, direction: "asc" });
+
+    if (colWin || rowWin || descDiagWin || ascDiagWin) {
       setWinner(latest.player);
     } else if (gameState.flat().every((val) => !!val)) {
       setWinner("draw");
@@ -126,13 +193,8 @@ const ConnectFour = () => {
               >
                 {gameCol.map((rowVal, rowIndex) => {
                   return (
-                    <button
-                      disabled={!!winner}
+                    <div
                       key={gameCol.length + rowIndex}
-                      type="button"
-                      onClick={() => {
-                        handleTurn(colIndex);
-                      }}
                       className={classNames(
                         `row rounded-full w-30 h-30 flex flex-col justify-center items-center`,
                         {
@@ -144,7 +206,7 @@ const ConnectFour = () => {
                       )}
                     >
                       ({rowIndex}, {colIndex})
-                    </button>
+                    </div>
                   );
                 })}
               </button>
