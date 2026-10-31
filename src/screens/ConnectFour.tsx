@@ -1,5 +1,6 @@
 import ScreenLayout from "@/components/ScreenLayout";
 import { Button } from "@/components/ui/button";
+import classNames from "classnames";
 import { useEffect, useState } from "react";
 
 const MAX = {
@@ -67,7 +68,10 @@ const ConnectFour = () => {
           <div className="flex flex-row justify-end items-center gap-x-5">
             Turn:{" "}
             <div
-              className={`rounded-full w-10 h-10 bg-${turn ? PLAYER.YELLOW : PLAYER.RED}-400`}
+              className={classNames(`rounded-full w-10 h-10`, {
+                "bg-red-400": !turn,
+                "bg-yellow-400": !!turn,
+              })}
             />
           </div>
         </div>
@@ -89,7 +93,14 @@ const ConnectFour = () => {
                       onClick={() => {
                         handleTurn(colIndex);
                       }}
-                      className={`row rounded-full w-30 h-30 flex flex-col justify-center items-center ${rowVal === null ? "bg-white" : `bg-${rowVal}-400`}`}
+                      className={classNames(
+                        `row rounded-full w-30 h-30 flex flex-col justify-center items-center`,
+                        {
+                          "bg-white": rowVal === null,
+                          "bg-red-400": rowVal === PLAYER.RED,
+                          "bg-yellow-400": rowVal === PLAYER.YELLOW,
+                        },
+                      )}
                     >
                       ({rowIndex}, {colIndex})
                     </button>
