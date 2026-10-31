@@ -20,7 +20,7 @@ type SignupFormData = {
   error: { name: string; email: string; country: string } | null;
 };
 
-async function reducerAction(prevState: SignupFormData, formData: FormData) {
+async function reducerAction(_: SignupFormData, formData: FormData) {
   await new Promise((resolve) => setTimeout(resolve, 1000));
   const invalidEmail = !validEmail.test(
     formData.get("email")?.toString() ?? "",
