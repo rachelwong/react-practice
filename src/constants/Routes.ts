@@ -40,6 +40,7 @@ export const ROUTES = {
   TRANSFER_LIST: "/transfer-list",
   WORDAGE_QUIZ: "/wordage-quiz",
   DICE_ROLLER: "/dice-roller",
+  TOAST: "/toast",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -233,5 +234,10 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     title: "Dice roller",
     description: "Random selection with slow-down roll",
     inProgress: true,
+  },
+  {
+    route: ROUTES.TOAST,
+    title: "Toast",
+    description: "useContext, self-dismissable toast notifications",
   },
 ];

@@ -16,6 +16,7 @@ import { cartStore } from "./context/cartStore.ts";
 import { expensePersistor, expenseStore } from "./context/expenseStore.ts";
 import { MusicPlayerProvider } from "./context/MusicPlayerContext.tsx";
 import RacesContextProvider from "./context/RacesContext.tsx";
+import ToastProvider from "./context/ToastsContext.tsx";
 import "./index.css";
 import "./styles.scss";
 
@@ -62,6 +63,7 @@ const CheckboxGroupScreen = lazy(() => import("./screens/CheckboxGroup.tsx"));
 const TransferListScreen = lazy(() => import("./screens/TransferList.tsx"));
 const WordageScreen = lazy(() => import("./screens/Wordage.tsx"));
 const DiceRollerScreen = lazy(() => import("./screens/DiceRoller.tsx"));
+const ToastScreen = lazy(() => import("./screens/Toasts.tsx"));
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -185,6 +187,14 @@ createRoot(document.getElementById("root")!).render(
             />
             <Route path={ROUTES.WORDAGE_QUIZ} element={<WordageScreen />} />
             <Route path={ROUTES.DICE_ROLLER} element={<DiceRollerScreen />} />
+            <Route
+              path={ROUTES.TOAST}
+              element={
+                <ToastProvider>
+                  <ToastScreen />
+                </ToastProvider>
+              }
+            />
           </AllRoutes>
         </Suspense>
       </Layout>

@@ -13,7 +13,7 @@ const ScreenLayout = ({
   children,
 }: PropsWithChildren<ScreenLayoutProps>) => {
   return (
-    <>
+    <div className="relative block w-full h-full">
       {title && (
         <div className="heading my-6 flex flex-col items-start justify-start gap-y-2">
           <h3 className="text-neutral-800 font-extrabold text-xl">{title}</h3>
@@ -28,7 +28,7 @@ const ScreenLayout = ({
         </div>
       )}
       {children}
-    </>
+    </div>
   );
 };
 
