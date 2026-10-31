@@ -1,9 +1,10 @@
 import ScreenLayout from "@/components/ScreenLayout";
 import { Button } from "@/components/ui/button";
+import { fullRandomShuffleArray } from "@/utils";
 import { RefreshCcw } from "lucide-react";
 import { useEffect, useState } from "react";
 
-const BASE_COLOURS = {
+const BASE_COLOURS: Record<string, string> = {
   red: "hsl(0, 72%, 51%)",
   orange: `hsl(25, 95%, 53%)`,
   yellow: "hsl(50, 98%, 64%)",
@@ -15,7 +16,7 @@ const BASE_COLOURS = {
   rose: "hsl(347, 77%, 50%)",
   grey: "hsl(215, 14%, 34%)",
   stone: "hsl(30, 6%, 25%)",
-};
+} as const;
 
 const MAX_GRID_LEN = 8;
 const MAX_LEVEL = 50;
@@ -37,6 +38,8 @@ const ColourGame = () => {
   const [level, setLevel] = useState<number>(1); // max 50
   const [target, setTarget] = useState<Coords | null>(null);
   const [selected, setSelected] = useState<Coords | null>(null);
+  const [baseColour, setBaseColour] = useState<string>();
+  const [targetColour, setTargetColour] = useState<string>();
 
   const getRandomTarget = () => {
     setTarget({ x: getRandomNumber(), y: getRandomNumber() });
@@ -48,6 +51,7 @@ const ColourGame = () => {
     }
     setLevel((prev) => prev + 1);
     getRandomTarget();
+    setRandomColour();
     setSelected(null);
   };
 
@@ -55,10 +59,24 @@ const ColourGame = () => {
     setSelected(null);
     setLevel(1);
     getRandomTarget();
+    setRandomColour();
+  };
+
+  const setRandomColour = () => {
+    let randomBaseColours: string[];
+
+    randomBaseColours = fullRandomShuffleArray({
+      items: Object.values(BASE_COLOURS).filter((x) =>
+        !baseColour ? x !== baseColour : true,
+      ),
+    });
+
+    setBaseColour(randomBaseColours[0]);
   };
 
   useEffect(() => {
     getRandomTarget();
+    setRandomColour();
   }, []);
 
   const hasWon =
@@ -105,9 +123,8 @@ const ColourGame = () => {
                 className={`grid grid-cols-${MAX_GRID_LEN} gap-2`}
               >
                 {row.map((_, colIndex) => {
-                  const highlight = hasLost
-                    ? target?.x === rowIndex && target?.y === colIndex
-                    : false;
+                  const isTarget =
+                    target?.x === rowIndex && target?.y === colIndex;
                   return (
                     <button
                       type="button"
@@ -115,7 +132,10 @@ const ColourGame = () => {
                         onSelect({ x: rowIndex, y: colIndex });
                       }}
                       key={`${rowIndex} ${colIndex}`}
-                      className={`bg-pink-200 aspect-square rounded-xl text-sm hover:cursor-pointer rounded flex flex-row items-center justify-center border-2 ${highlight ? "border-black" : "border-white"}`}
+                      className={`${isTarget ? "bg-red-700" : ""} aspect-square rounded-xl text-sm hover:cursor-pointer rounded flex flex-row items-center justify-center border-2 ${hasLost ? "border-black" : "border-white"}`}
+                      style={{
+                        backgroundColor: isTarget ? "" : `${baseColour}`,
+                      }}
                     >
                       ({rowIndex}, {colIndex})
                     </button>
