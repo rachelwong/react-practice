@@ -263,6 +263,5 @@ export const ROUTE_CONFIG: RouteConfig[] = [
   {
     route: ROUTES.CONNECT_FOUR,
     title: "Connect four",
-    inProgress: true,
   },
 ];
