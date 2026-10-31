@@ -16,6 +16,8 @@ type WikiResult = {
   url: string;
 };
 
+const MAX_RESULTS = 5;
+
 const WikiSearch = () => {
   const [search, setSearch] = useState<string>("");
   const [history, setHistory] = useState<WikiHistoryItem[]>([]);
@@ -46,11 +48,13 @@ const WikiSearch = () => {
             ...prev.filter(
               (x) => x.value.toLowerCase() !== search.toLowerCase(),
             ),
-          ];
+          ].slice(0, MAX_RESULTS);
         });
         return;
       }
-      setHistory((prev) => [{ value: search, date: newTimeStamp }, ...prev]);
+      setHistory((prev) =>
+        [{ value: search, date: newTimeStamp }, ...prev].slice(0, MAX_RESULTS),
+      );
     } catch (err) {
       console.error("Error getting wiki search results", err);
     } finally {
@@ -108,7 +112,9 @@ const WikiSearch = () => {
                 )}
               </div>
               <div className="flex flex-col gap-y-3 basis-1/2 p-0">
-                <h2 className="text-lg font-bold">Last 5 searches:</h2>
+                <h2 className="text-lg font-bold">
+                  Last {MAX_RESULTS} searches:
+                </h2>
                 {!history.length && <p>No searches available</p>}
                 {!!history.length && (
                   <ul>
