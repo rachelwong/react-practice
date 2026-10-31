@@ -45,6 +45,7 @@ export const ROUTES = {
   WIKI_SEARCH: "/wiki-search",
   ACTION_STATE: "/action-state-form",
   CONNECT_FOUR: "/connect-four",
+  COLOUR_GAME: "/colour-game",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -263,5 +264,10 @@ export const ROUTE_CONFIG: RouteConfig[] = [
   {
     route: ROUTES.CONNECT_FOUR,
     title: "Connect four",
+  },
+  {
+    route: ROUTES.COLOUR_GAME,
+    title: "Find the deviant colour",
+    inProgress: true,
   },
 ];

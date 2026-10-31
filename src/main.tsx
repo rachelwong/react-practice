@@ -70,6 +70,7 @@ const ActionStateFormScreen = lazy(
   () => import("./screens/ActionStateForm.tsx"),
 );
 const ConnectFourScreen = lazy(() => import("./screens/ConnectFour.tsx"));
+const ColourGameScreen = lazy(() => import("./screens/ColourGame.tsx"));
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -211,6 +212,7 @@ createRoot(document.getElementById("root")!).render(
               element={<ActionStateFormScreen />}
             />
             <Route path={ROUTES.CONNECT_FOUR} element={<ConnectFourScreen />} />
+            <Route path={ROUTES.COLOUR_GAME} element={<ColourGameScreen />} />
           </AllRoutes>
         </Suspense>
       </Layout>
