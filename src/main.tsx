@@ -72,6 +72,7 @@ const ActionStateFormScreen = lazy(
 const ConnectFourScreen = lazy(() => import("./screens/ConnectFour.tsx"));
 const ColourGameScreen = lazy(() => import("./screens/ColourGame.tsx"));
 const FilterAndOrScreen = lazy(() => import("./screens/FilterAndOr.tsx"));
+const DaysOldScreen = lazy(() => import("./screens/DaysOldCounter.tsx"));
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -218,6 +219,7 @@ createRoot(document.getElementById("root")!).render(
               path={ROUTES.FILTER_AND_OR}
               element={<FilterAndOrScreen />}
             />
+            <Route path={ROUTES.DAYS_OLD} element={<DaysOldScreen />} />
           </AllRoutes>
         </Suspense>
       </Layout>

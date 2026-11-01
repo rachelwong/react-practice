@@ -47,6 +47,7 @@ export const ROUTES = {
   CONNECT_FOUR: "/connect-four",
   COLOUR_GAME: "/colour-game",
   FILTER_AND_OR: "/filter-and-or",
+  DAYS_OLD: "/days-old",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -273,5 +274,11 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.FILTER_AND_OR,
     title: "Filter And | Or",
     description: "Overlapping AND matches versus additive OR matches",
+  },
+  {
+    route: ROUTES.DAYS_OLD,
+    title: "Rolling Days Old Counter",
+    description:
+      "Calculates and displays how many days old a user is based on their birth date",
   },
 ];
