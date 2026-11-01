@@ -2,11 +2,19 @@ import ScreenLayout from "@/components/ScreenLayout";
 import { Card } from "@/components/ui/card";
 import { useEffect, useRef, useState } from "react";
 
+// converts both Date/s into milliseconds, subtract, convert milliseconds diff into days
 function getDaysBetween(fromDate: Date) {
   const now = new Date();
 
+  // does not consider time, only the date at midnight
+  // needs to be UTC so to not consider the time of day
+  // Date.UTC also returns ms
   const todayUtc = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+  // fromDate.getTime returns ms
   const diffInMs = todayUtc - fromDate.getTime();
+
+  // 1000 * 60 * 60 * 24 = number of milliseconds in 1 day
+  // rounding up to get integer
   return Math.round(diffInMs / (1000 * 60 * 60 * 24));
 }
 
