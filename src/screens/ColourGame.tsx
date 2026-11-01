@@ -62,9 +62,9 @@ const ColourGame = () => {
   const [level, setLevel] = useState<number>(1);
   const [target, setTarget] = useState<Coords | null>(null);
   const [selected, setSelected] = useState<Coords | null>(null);
-  const [baseColour, setBaseColour] = useState<string>();
+  const [baseColour, setBaseColour] = useState<string>("");
 
-  const targetColour = baseColour
+  const targetColour = !!baseColour
     ? getTargetColour(baseColour, level)
     : undefined;
 
@@ -158,11 +158,9 @@ const ColourGame = () => {
                           : `${baseColour}`,
                       }}
                     >
-                      {hasWon
-                        ? decode(`&#127942;`)
-                        : hasLost
-                          ? decode(`&#128170;`)
-                          : `${rowIndex}, ${colIndex}`}
+                      {hasWon && decode(`&#127942;`)}
+                      {hasLost && decode(`&#128170;`)}
+                      {!hasWon && !hasLost && `${rowIndex}, ${colIndex}`}
                     </button>
                   );
                 })}

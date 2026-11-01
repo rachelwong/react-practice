@@ -56,14 +56,11 @@ const CommandPalette = () => {
   };
 
   useEffect(() => {
-    if (!toggle) {
-      if (searchRef?.current) {
-        searchRef.current.blur();
-      }
-      return;
-    } else {
+    if (toggle) {
       searchRef.current?.focus();
+      return;
     }
+    searchRef.current?.blur();
   }, [toggle, searchRef?.current]);
 
   useEffect(() => {
