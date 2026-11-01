@@ -273,6 +273,6 @@ export const ROUTE_CONFIG: RouteConfig[] = [
   {
     route: ROUTES.FILTER_AND_OR,
     title: "Filter And | Or",
-    inProgress: true,
+    description: "Overlapping AND matches versus additive OR matches",
   },
 ];
