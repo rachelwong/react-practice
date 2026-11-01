@@ -83,7 +83,6 @@ const FilmQuiz = () => {
             totalNumberQuestions={snapshot.context.totalNumberQuestions}
             maxNumberPoints={snapshot.context.maxNumberPoints}
             onStart={() => {
-              console.log("START!");
               send({ type: "START_QUIZ" });
             }}
           />

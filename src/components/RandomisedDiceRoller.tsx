@@ -63,7 +63,6 @@ const RandomisedDiceRoller = () => {
     <div className="p-6 w-full h-auto flex flex-col items-center justify-start bg-taupe-100 gap-y-6">
       <p className="font-bold">
         Variable cycling speed with pre-calculated randomised result{" "}
-        {JSON.stringify(delayRef.current)}
       </p>
       <Button size="lg" disabled={loading === true} onClick={() => roll()}>
         {loading ? <Spinner /> : "Roll dice"}

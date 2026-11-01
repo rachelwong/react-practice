@@ -1,5 +1,5 @@
-import ScreenLayout from "@/components/ScreenLayout";
 import ReduxCartDrawer from "@/components/ReduxCartDrawer";
+import ScreenLayout from "@/components/ScreenLayout";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -70,11 +70,6 @@ const ReduxCart = () => {
                     <CardFooter>
                       <Button
                         onClick={() => {
-                          console.log(
-                            "product selected",
-                            product.id.toString(),
-                            product.title,
-                          );
                           dispatch(addToCart(product.id.toString()));
                         }}
                         className="w-full"

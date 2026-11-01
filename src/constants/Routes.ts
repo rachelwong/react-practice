@@ -239,7 +239,6 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     route: ROUTES.DICE_ROLLER,
     title: "Dice roller",
     description: "Random selection with slow-down roll",
-    inProgress: true,
   },
   {
     route: ROUTES.TOAST,

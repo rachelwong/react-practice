@@ -212,7 +212,6 @@ const FilterAndOr = () => {
                 items={shapeFilters}
                 value={shape}
                 onValueChange={(val: string | null) => {
-                  console.log("filter", val);
                   if (!val) {
                     return;
                   }
@@ -270,7 +269,6 @@ const FilterAndOr = () => {
                 items={sizeFilters}
                 value={size}
                 onValueChange={(val: string | null) => {
-                  console.log("filter", val);
                   if (!val) {
                     return;
                   }

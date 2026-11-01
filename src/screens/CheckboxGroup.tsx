@@ -81,8 +81,6 @@ const CheckboxGroup = () => {
     return index;
   }, [initialState]);
 
-  console.log("index", indexOfParents);
-
   // SSOT for all checkbox states
   const [checked, setChecked] = useState<CheckState>({});
 
