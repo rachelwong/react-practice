@@ -35,58 +35,63 @@ const getRandomNumber = (): number => {
   return random;
 };
 
+const getTargetColour = (
+  baseColour: string,
+  level: number,
+): string | undefined => {
+  const hslColourValues = baseColour.match(validHSLColour);
+  if (!hslColourValues) {
+    return undefined;
+  }
+
+  const hue = Number(hslColourValues[1]);
+  const saturation = Number(hslColourValues[2]);
+  const lightness = Number(hslColourValues[3]);
+
+  // Since the number you're dividing by doubles each level, the result halves each level
+  // how many percentage points the target square's lightness moves away from the base colour
+  // 2 sets how quickly it gets harder. increase that val makes it harder faster
+  const offset = 100 / Math.pow(2, level);
+  const newLightness = lightness > 50 ? lightness - offset : offset + lightness;
+  return `hsl(${hue}, ${saturation}%, ${newLightness}%)`;
+};
+
 const ColourGame = () => {
+  // before adding a useState, ask "could I work this out from what I already have?"
+  // If yes, make it a plain variable
   const [level, setLevel] = useState<number>(1);
   const [target, setTarget] = useState<Coords | null>(null);
   const [selected, setSelected] = useState<Coords | null>(null);
   const [baseColour, setBaseColour] = useState<string>();
-  const [targetColour, setTargetColour] = useState<string>();
-  const [offsetLimit, setRangeLimit] = useState<number>(100);
 
-  // passing in offsetLimit because the first time
-  // and after reset is very severe contrast
-  const randomiseBoard = (currentOffsetLimit: number) => {
+  const targetColour = baseColour
+    ? getTargetColour(baseColour, level)
+    : undefined;
+
+  const randomiseBoard = () => {
     setTarget({ x: getRandomNumber(), y: getRandomNumber() });
 
     let randomBaseColours: string[] = fullRandomShuffleArray({
       items: Object.values(BASE_COLOURS).filter((x) => x !== baseColour),
     });
 
-    const hslColourValues = randomBaseColours[0].match(validHSLColour);
-
-    if (!hslColourValues) {
-      return;
-    }
-
-    const hue = Number(hslColourValues[1]);
-    const saturation = Number(hslColourValues[2]);
-    const lightness = Number(hslColourValues[3]);
-
-    const offset = offsetLimit * 0.5;
-
-    const newLightness =
-      lightness > 50 ? lightness - offset : offset + lightness;
-    const updatedTargetColour = `hsl(${hue}, ${saturation}%, ${newLightness}%)`;
-    setTargetColour(updatedTargetColour);
     setBaseColour(randomBaseColours[0]);
-    setRangeLimit(currentOffsetLimit / 2);
   };
 
   const nextGame = () => {
     setLevel((prev) => prev + 1);
-    randomiseBoard(offsetLimit);
+    randomiseBoard();
     setSelected(null);
   };
 
   const reset = () => {
     setSelected(null);
     setLevel(1);
-    setRangeLimit(100);
-    randomiseBoard(100);
+    randomiseBoard();
   };
 
   useEffect(() => {
-    randomiseBoard(100);
+    randomiseBoard();
   }, []);
 
   const hasWon =
@@ -122,12 +127,18 @@ const ColourGame = () => {
         <h3 className="text-lg font-bold">Level: {level}</h3>
         <div className="flex flex-col items-center justify-center w-full h-full gap-y-6 mb-10">
           <div
-            className={`w-full grid grid-rows-${MAX_GRID_LEN} grid-flow-col gap-2`}
+            className={`w-full grid grid-flow-col gap-2`}
+            style={{
+              gridTemplateRows: `repeat(${MAX_GRID_LEN}, minmax(0, 1fr))`,
+            }}
           >
             {grid.map((row, rowIndex) => (
               <div
                 key={rowIndex}
-                className={`grid grid-cols-${MAX_GRID_LEN} gap-2`}
+                className={`grid gap-2`}
+                style={{
+                  gridTemplateColumns: `repeat(${MAX_GRID_LEN}, minmax(0, 1fr))`,
+                }}
               >
                 {row.map((_, colIndex) => {
                   const isTarget =
