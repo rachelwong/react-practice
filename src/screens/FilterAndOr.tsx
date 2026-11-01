@@ -115,35 +115,31 @@ const FilterAndOr = () => {
   }, [DATA]);
 
   const displayData = useMemo(() => {
+    // common to both AND OR filtering
+    const showEverything =
+      colour === FILTER_ALL && shape === FILTER_ALL && size === FILTER_ALL;
+
+    if (showEverything) {
+      return randomData;
+    }
+
     return randomData.filter((item) => {
+      // "all" should mean "nothing picked, so this filter adds nothing".
+      // filtering specifically for that match
+      const colourMatched: boolean = item.colour === colour;
+      const shapeMatched: boolean = item.shapeName === shape;
+      const sizeMatched: boolean = item.size === size;
+
       if (filterType === FILTER_TYPE.AND) {
-        const colourFilter: boolean =
-          colour === FILTER_ALL ? true : item.colour === colour;
-        const shapeFilter: boolean =
-          shape === FILTER_ALL ? true : item.shapeName === shape;
-        const sizeFilter: boolean =
-          size === FILTER_ALL ? true : item.size === size;
+        // AND: a filter set to "all" lets every item through
+        const colourFilter: boolean = colour === FILTER_ALL || colourMatched;
+        const shapeFilter: boolean = shape === FILTER_ALL || shapeMatched;
+        const sizeFilter: boolean = size === FILTER_ALL || sizeMatched;
 
         return colourFilter && shapeFilter && sizeFilter;
       }
-      // OR filter adds matches on top of existing filtered list
-      // if all filters are set to ALL, then show everything
-      if (
-        colour === FILTER_ALL &&
-        shape === FILTER_ALL &&
-        size === FILTER_ALL
-      ) {
-        return true;
-      }
-      // "all" should mean "nothing picked, so this filter adds nothing".
-      // filtering specifically for that match
-      const colourFilter: boolean =
-        colour !== FILTER_ALL && item.colour === colour;
-      const shapeFilter: boolean =
-        shape !== FILTER_ALL && item.shapeName === shape;
-      const sizeFilter: boolean = size !== FILTER_ALL && item.size === size;
 
-      return colourFilter || shapeFilter || sizeFilter;
+      return colourMatched || shapeMatched || sizeMatched;
     });
   }, [randomData, colour, shape, size, filterType]);
 
