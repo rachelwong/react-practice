@@ -1,0 +1,84 @@
+{
+    "people" : [
+        {
+            "id": "9fff626b-ec4f-4c57-ad74-0563193bbb4f",
+            "name": "Smith",
+            "joined": "2021-02-18T00:21:31.292Z",
+            "age": 140,
+            "score": 19,
+            "active": false
+        },
+        {
+            "id": "b6262da2-5e23-4c4f-8abc-b9f16ffaf14f",
+            "name": "Wilson",
+            "joined": "2020-02-14T02:38:47.829Z",
+            "age": 514,
+            "score": 46,
+            "active": true
+        },
+        {
+            "id": "03c957fe-1a40-4919-b87d-80cbeb066606",
+            "name": "Henry",
+            "joined": "2024-01-07T05:08:01.065Z",
+            "age": 156,
+            "score": 983,
+            "active": false
+        },
+        {
+            "id": "49a7997b-cd46-4c9f-be0d-076e0e6e5742",
+            "name": "Frank",
+            "joined": "2026-07-06T02:35:24.737Z",
+            "age": 949,
+            "score": 713,
+            "active": true
+        },
+        {
+            "id": "693729c2-467f-4139-97ba-e835975da638",
+            "name": "Maya",
+            "joined": "2021-10-01T06:22:43.386Z",
+            "age": 402,
+            "score": 123,
+            "active": true
+        },
+        {
+            "id": "8a3f978a-d97b-42fa-9f4d-2ea0c4edede7",
+            "name": "Wilson",
+            "joined": "2023-01-18T08:02:49.970Z",
+            "age": 61,
+            "score": 499,
+            "active": false
+        },
+        {
+            "id": "0ffef447-9668-4a35-a41d-b5caab9307cb",
+            "name": "Wendy",
+            "joined": "2026-10-31T00:57:31.956Z",
+            "age": 961,
+            "score": 999,
+            "active": false
+        },
+        {
+            "id": "b5716a01-e419-4f7c-bbb0-ad3d4429a689",
+            "name": "Young",
+            "joined": "2025-09-22T08:11:19.616Z",
+            "age": 824,
+            "score": 455,
+            "active": true
+        },
+        {
+            "id": "9b3f2cb2-f75b-4a77-8199-8f73e62b42ad",
+            "name": "Williams",
+            "joined": "2024-08-11T14:34:15.940Z",
+            "age": 977,
+            "score": 815,
+            "active": true
+        },
+        {
+            "id": "89fe820a-2e60-4fec-ad19-ed64e3f97325",
+            "name": "Jack",
+            "joined": "2020-02-23T12:46:25.022Z",
+            "age": 145,
+            "score": 325,
+            "active": true
+        }
+    ]
+}

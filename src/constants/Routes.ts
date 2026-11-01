@@ -48,6 +48,7 @@ export const ROUTES = {
   COLOUR_GAME: "/colour-game",
   FILTER_AND_OR: "/filter-and-or",
   DAYS_OLD: "/days-old",
+  SORTABLE_TABLE: "/sortable-table",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -280,5 +281,11 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     title: "Rolling Days Old Counter",
     description:
       "Calculates and displays how many days old a user is based on their birth date",
+  },
+  {
+    route: ROUTES.SORTABLE_TABLE,
+    title: "Sortable Table",
+    description:
+      "Click on column headers to sort data in ascending or descending order",
   },
 ];

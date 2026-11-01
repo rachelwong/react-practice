@@ -73,6 +73,7 @@ const ConnectFourScreen = lazy(() => import("./screens/ConnectFour.tsx"));
 const ColourGameScreen = lazy(() => import("./screens/ColourGame.tsx"));
 const FilterAndOrScreen = lazy(() => import("./screens/FilterAndOr.tsx"));
 const DaysOldScreen = lazy(() => import("./screens/DaysOldCounter.tsx"));
+const SortableTableScreen = lazy(() => import("./screens/SortableTable.tsx"));
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -220,6 +221,10 @@ createRoot(document.getElementById("root")!).render(
               element={<FilterAndOrScreen />}
             />
             <Route path={ROUTES.DAYS_OLD} element={<DaysOldScreen />} />
+            <Route
+              path={ROUTES.SORTABLE_TABLE}
+              element={<SortableTableScreen />}
+            />
           </AllRoutes>
         </Suspense>
       </Layout>
