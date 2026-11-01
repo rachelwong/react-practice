@@ -116,17 +116,36 @@ const FilterAndOr = () => {
 
   const displayData = useMemo(() => {
     return randomData.filter((item) => {
+      if (filterType === FILTER_TYPE.AND) {
+        const colourFilter: boolean =
+          colour === FILTER_ALL ? true : item.colour === colour;
+        const shapeFilter: boolean =
+          shape === FILTER_ALL ? true : item.shapeName === shape;
+        const sizeFilter: boolean =
+          size === FILTER_ALL ? true : item.size === size;
+
+        return colourFilter && shapeFilter && sizeFilter;
+      }
+      // OR filter adds matches on top of existing filtered list
+      // if all filters are set to ALL, then show everything
+      if (
+        colour === FILTER_ALL &&
+        shape === FILTER_ALL &&
+        size === FILTER_ALL
+      ) {
+        return true;
+      }
+      // "all" should mean "nothing picked, so this filter adds nothing".
+      // filtering specifically for that match
       const colourFilter: boolean =
-        colour === FILTER_ALL ? true : item.colour === colour;
+        colour !== FILTER_ALL && item.colour === colour;
       const shapeFilter: boolean =
-        shape === FILTER_ALL ? true : item.shapeName === shape;
-      const sizeFilter: boolean =
-        size === FILTER_ALL ? true : item.size === size;
-      return filterType === FILTER_TYPE.AND
-        ? colourFilter && shapeFilter && sizeFilter
-        : colourFilter || shapeFilter || sizeFilter;
+        shape !== FILTER_ALL && item.shapeName === shape;
+      const sizeFilter: boolean = size !== FILTER_ALL && item.size === size;
+
+      return colourFilter || shapeFilter || sizeFilter;
     });
-  }, [randomData, colour, shape, size]);
+  }, [randomData, colour, shape, size, filterType]);
 
   const clearFilters = () => {
     setSize(FILTER_ALL);
@@ -281,42 +300,30 @@ const FilterAndOr = () => {
         </CardAction>
         <CardContent className="flex flex-col gap-y-4 items-center justify-start">
           <div className="flex flex-row flex-wrap justify-center items-center gap-4">
-            {displayData
-              // .filter((item) => {
-              //   const colourFilter: boolean =
-              //     colour === FILTER_ALL ? true : item.colour === colour;
-              //   const shapeFilter: boolean =
-              //     shape === FILTER_ALL ? true : item.shapeName === shape;
-              //   const sizeFilter: boolean =
-              //     size === FILTER_ALL ? true : item.size === size;
-              //   return filterType === FILTER_TYPE.AND
-              //     ? colourFilter && shapeFilter && sizeFilter
-              //     : colourFilter || shapeFilter || sizeFilter;
-              // })
-              .map((item) => (
-                <div
-                  key={item.id}
-                  className={classNames(
-                    "relative block flex items-center justify-center fill-current size-full",
-                    {
-                      "bg-purple-500": item.colour === "purple",
-                      "bg-yellow-500": item.colour === "yellow",
-                      "bg-red-500": item.colour === "red",
-                      "bg-green-500": item.colour === "green",
-                      "bg-blue-500": item.colour === "blue",
-                      "bg-indigo-500": item.colour === "indigo",
-                      "bg-orange-500": item.colour === "orange",
-                      "w-20 h-20": item.size === "lg",
-                      "w-10 w-10": item.size === "md",
-                      "w-5 h-5": item.size === "sm",
-                    },
-                  )}
-                >
-                  <div className=" block fill-current size-full">
-                    {item.shape}
-                  </div>
+            {displayData.map((item) => (
+              <div
+                key={item.id}
+                className={classNames(
+                  "relative block flex items-center justify-center fill-current size-full",
+                  {
+                    "bg-purple-500": item.colour === "purple",
+                    "bg-yellow-500": item.colour === "yellow",
+                    "bg-red-500": item.colour === "red",
+                    "bg-green-500": item.colour === "green",
+                    "bg-blue-500": item.colour === "blue",
+                    "bg-indigo-500": item.colour === "indigo",
+                    "bg-orange-500": item.colour === "orange",
+                    "w-20 h-20": item.size === "lg",
+                    "w-10 h-10": item.size === "md",
+                    "w-5 h-5": item.size === "sm",
+                  },
+                )}
+              >
+                <div className=" block fill-current size-full">
+                  {item.shape}
                 </div>
-              ))}
+              </div>
+            ))}
           </div>
           <p className="text-xl font-extrabold">
             Total items: {displayData.length}
