@@ -46,6 +46,7 @@ export const ROUTES = {
   ACTION_STATE: "/action-state-form",
   CONNECT_FOUR: "/connect-four",
   COLOUR_GAME: "/colour-game",
+  FILTER_AND_OR: "/filter-and-or",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -268,5 +269,10 @@ export const ROUTE_CONFIG: RouteConfig[] = [
   {
     route: ROUTES.COLOUR_GAME,
     title: "Find the deviant colour",
+  },
+  {
+    route: ROUTES.FILTER_AND_OR,
+    title: "Filter And | Or",
+    inProgress: true,
   },
 ];
