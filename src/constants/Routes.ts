@@ -268,6 +268,5 @@ export const ROUTE_CONFIG: RouteConfig[] = [
   {
     route: ROUTES.COLOUR_GAME,
     title: "Find the deviant colour",
-    inProgress: true,
   },
 ];

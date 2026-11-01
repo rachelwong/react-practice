@@ -23,3 +23,5 @@ export const atLeastOneLowerCase = /[a-z]/;
 
 // removes anything that isn't a + at the start, isn't a digit, space anywhere
 export const notDigitSpacePlus = /(?!^)\+|[^\d\s+]/g;
+
+export const validHSLColour = /hsl\(\s*(\d+)\s*,\s*(\d+)%\s*,\s*(\d+)%\s*\)/;

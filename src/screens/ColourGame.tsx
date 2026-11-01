@@ -1,6 +1,7 @@
 import ScreenLayout from "@/components/ScreenLayout";
 import { Button } from "@/components/ui/button";
-import { fullRandomShuffleArray } from "@/utils";
+import { fullRandomShuffleArray, validHSLColour } from "@/utils";
+import { decode } from "html-entities";
 import { RefreshCcw } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -19,7 +20,7 @@ const BASE_COLOURS: Record<string, string> = {
 } as const;
 
 const MAX_GRID_LEN = 8;
-const MAX_LEVEL = 50;
+const MAX_LEVEL = 5;
 
 type Coords = { x: number; y: number };
 const grid: Coords[][] = Array.from({ length: MAX_GRID_LEN }, () =>
@@ -35,52 +36,61 @@ const getRandomNumber = (): number => {
 };
 
 const ColourGame = () => {
-  const [level, setLevel] = useState<number>(1); // max 50
+  const [level, setLevel] = useState<number>(1);
   const [target, setTarget] = useState<Coords | null>(null);
   const [selected, setSelected] = useState<Coords | null>(null);
   const [baseColour, setBaseColour] = useState<string>();
   const [targetColour, setTargetColour] = useState<string>();
+  const [offsetLimit, setRangeLimit] = useState<number>(100);
 
-  const getRandomTarget = () => {
+  // passing in offsetLimit because the first time
+  // and after reset is very severe contrast
+  const randomiseBoard = (currentOffsetLimit: number) => {
     setTarget({ x: getRandomNumber(), y: getRandomNumber() });
+
+    let randomBaseColours: string[] = fullRandomShuffleArray({
+      items: Object.values(BASE_COLOURS).filter((x) => x !== baseColour),
+    });
+
+    const hslColourValues = randomBaseColours[0].match(validHSLColour);
+
+    if (!hslColourValues) {
+      return;
+    }
+
+    const hue = Number(hslColourValues[1]);
+    const saturation = Number(hslColourValues[2]);
+    const lightness = Number(hslColourValues[3]);
+
+    const offset = offsetLimit * 0.5;
+
+    const newLightness =
+      lightness > 50 ? lightness - offset : offset + lightness;
+    const updatedTargetColour = `hsl(${hue}, ${saturation}%, ${newLightness}%)`;
+    setTargetColour(updatedTargetColour);
+    setBaseColour(randomBaseColours[0]);
+    setRangeLimit(currentOffsetLimit / 2);
   };
 
   const nextGame = () => {
-    if (level === MAX_LEVEL) {
-      return;
-    }
     setLevel((prev) => prev + 1);
-    getRandomTarget();
-    setRandomColour();
+    randomiseBoard(offsetLimit);
     setSelected(null);
   };
 
   const reset = () => {
     setSelected(null);
     setLevel(1);
-    getRandomTarget();
-    setRandomColour();
-  };
-
-  const setRandomColour = () => {
-    let randomBaseColours: string[];
-
-    randomBaseColours = fullRandomShuffleArray({
-      items: Object.values(BASE_COLOURS).filter((x) =>
-        !baseColour ? x !== baseColour : true,
-      ),
-    });
-
-    setBaseColour(randomBaseColours[0]);
+    setRangeLimit(100);
+    randomiseBoard(100);
   };
 
   useEffect(() => {
-    getRandomTarget();
-    setRandomColour();
+    randomiseBoard(100);
   }, []);
 
   const hasWon =
-    level === 50 &&
+    level === MAX_LEVEL &&
     target &&
     selected &&
     target.x === selected.x &&
@@ -90,12 +100,12 @@ const ColourGame = () => {
     target && selected && (target.x !== selected.x || target.y !== selected.y);
 
   const onSelect = (val: Coords): void => {
+    if (hasLost || hasWon) {
+      return;
+    }
     setSelected(val);
-    if (val?.x === target?.x && val?.y === target?.y) {
-      if (level < 50) {
-        nextGame();
-        return;
-      }
+    if (val?.x === target?.x && val?.y === target?.y && level < MAX_LEVEL) {
+      nextGame();
     }
   };
 
@@ -109,10 +119,7 @@ const ColourGame = () => {
           {hasWon && "You've won!"}
           {hasLost && "Game over!"}
         </h1>
-        <h3 className="text-lg font-bold">
-          Level: {level} | selected {JSON.stringify(selected)} | target{" "}
-          {JSON.stringify(target)}
-        </h3>
+        <h3 className="text-lg font-bold">Level: {level}</h3>
         <div className="flex flex-col items-center justify-center w-full h-full gap-y-6 mb-10">
           <div
             className={`w-full grid grid-rows-${MAX_GRID_LEN} grid-flow-col gap-2`}
@@ -127,17 +134,24 @@ const ColourGame = () => {
                     target?.x === rowIndex && target?.y === colIndex;
                   return (
                     <button
+                      disabled={!!hasWon}
                       type="button"
                       onClick={() => {
                         onSelect({ x: rowIndex, y: colIndex });
                       }}
                       key={`${rowIndex} ${colIndex}`}
-                      className={`${isTarget ? "bg-red-700" : ""} aspect-square rounded-xl text-sm hover:cursor-pointer rounded flex flex-row items-center justify-center border-2 ${hasLost ? "border-black" : "border-white"}`}
+                      className={`aspect-square rounded-xl text-sm hover:cursor-pointer rounded flex flex-row items-center justify-center border-2 ${hasLost && isTarget ? "border-black" : "border-white"}`}
                       style={{
-                        backgroundColor: isTarget ? "" : `${baseColour}`,
+                        backgroundColor: isTarget
+                          ? `${targetColour}`
+                          : `${baseColour}`,
                       }}
                     >
-                      ({rowIndex}, {colIndex})
+                      {hasWon
+                        ? decode(`&#127942;`)
+                        : hasLost
+                          ? decode(`&#128170;`)
+                          : `${rowIndex}, ${colIndex}`}
                     </button>
                   );
                 })}
