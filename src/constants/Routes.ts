@@ -294,6 +294,5 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     title: "Event Creation Wizard",
     description:
       "With zod validation, useActionstate, conditional nav, persistent form values between steps",
-    inProgress: true,
   },
 ];
