@@ -10,7 +10,12 @@ import {
   type OnlineEventStepType,
   type PhysicalEventStepType,
 } from "@/schema/eventSchema";
-import { EVENT_STEP, type EventStepType } from "@/types/Events";
+import {
+  EVENT_STEP,
+  eventTypeKeys,
+  type EventStepType,
+  type EventType,
+} from "@/types/Events";
 import { useEffect, useState } from "react";
 import z from "zod";
 
@@ -35,6 +40,10 @@ const initialPhysical: PhysicalEventStepType = {
   city: "",
   postCode: "",
   address: "",
+};
+
+const isEventType = (value: string): value is EventType => {
+  return (eventTypeKeys as string[]).includes(value);
 };
 
 const useEventWizard = () => {
@@ -141,7 +150,7 @@ const useEventWizard = () => {
       const { fieldErrors } = z.flattenError(result.error);
 
       return {
-        physicalFormData: result.data!,
+        physicalFormData,
         errors: {
           startDate: fieldErrors.startDate?.toString() ?? "",
           endDate: fieldErrors.endDate?.toString() ?? "",
@@ -196,7 +205,7 @@ const useEventWizard = () => {
       const { fieldErrors } = z.flattenError(result.error);
 
       return {
-        onlineFormData: result.data!,
+        onlineFormData,
         errors: {
           startDate: fieldErrors.startDate?.toString() ?? "",
           endDate: fieldErrors.endDate?.toString() ?? "",
@@ -226,7 +235,12 @@ const useEventWizard = () => {
 
     const name = formData.get("name")?.toString() ?? "";
     const description = formData.get("description")?.toString() ?? "";
-    const eventType = formData.get("eventType")?.toString() ?? "";
+    const rawEventType = formData.get("eventType")?.toString() ?? "";
+
+    // any input value that is not of EventType will resolve to null
+    // not ideal but avoids creating a separate type for handling raw data
+    const eventType = isEventType(rawEventType) ? rawEventType : null;
+
     const onlineEvent = formData.has("onlineEvent");
 
     const baseFormData = {
@@ -243,7 +257,7 @@ const useEventWizard = () => {
     if (!result.success) {
       const { fieldErrors } = z.flattenError(result.error);
       return {
-        baseFormData: result.data!,
+        baseFormData,
         errors: {
           // TODO Check how validation errors come through
           name: fieldErrors["name"]?.toString(),
