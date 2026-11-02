@@ -25,3 +25,6 @@ export const atLeastOneLowerCase = /[a-z]/;
 export const notDigitSpacePlus = /(?!^)\+|[^\d\s+]/g;
 
 export const validHSLColour = /hsl\(\s*(\d+)\s*,\s*(\d+)%\s*,\s*(\d+)%\s*\)/;
+
+// must have at least 1 number
+export const validPostCode = /^(?=.*\d)[A-Za-z0-9 -]+$/;

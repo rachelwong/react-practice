@@ -74,6 +74,7 @@ const ColourGameScreen = lazy(() => import("./screens/ColourGame.tsx"));
 const FilterAndOrScreen = lazy(() => import("./screens/FilterAndOr.tsx"));
 const DaysOldScreen = lazy(() => import("./screens/DaysOldCounter.tsx"));
 const SortableTableScreen = lazy(() => import("./screens/SortableTable.tsx"));
+const EventsWizardScreen = lazy(() => import("./screens/EventsWizard.tsx"));
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -225,6 +226,7 @@ createRoot(document.getElementById("root")!).render(
               path={ROUTES.SORTABLE_TABLE}
               element={<SortableTableScreen />}
             />
+            <Route path={ROUTES.EVENTS_ZOD} element={<EventsWizardScreen />} />
           </AllRoutes>
         </Suspense>
       </Layout>

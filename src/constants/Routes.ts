@@ -49,6 +49,7 @@ export const ROUTES = {
   FILTER_AND_OR: "/filter-and-or",
   DAYS_OLD: "/days-old",
   SORTABLE_TABLE: "/sortable-table",
+  EVENTS_ZOD: "/events-zod",
 } as const;
 
 export const ROUTE_CONFIG: RouteConfig[] = [
@@ -287,5 +288,12 @@ export const ROUTE_CONFIG: RouteConfig[] = [
     title: "Sortable Table",
     description:
       "Click on column headers to sort data in ascending or descending order",
+  },
+  {
+    route: ROUTES.EVENTS_ZOD,
+    title: "Event Creation Wizard",
+    description:
+      "With zod validation, useActionstate, conditional nav, persistent form values between steps",
+    inProgress: true,
   },
 ];

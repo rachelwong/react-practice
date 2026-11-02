@@ -23,6 +23,7 @@
     "country-codes-list": "^3.2.0",
     "date-fns": "^4.4.0",
     "date-fns-tz": "^3.2.0",
+    "dotenv": "^18.0.9",
     "html-entities": "^2.6.0",
     "html-react-parser": "^6.1.8",
     "lucide-react": "^1.41.0",
