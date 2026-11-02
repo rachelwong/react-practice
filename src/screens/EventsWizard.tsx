@@ -4,6 +4,10 @@ import OnlineEventStep from "@/components/OnlineEventStep";
 import PhysicalEventStep from "@/components/PhysicalEventStep";
 import ScreenLayout from "@/components/ScreenLayout";
 import useEventWizard from "@/hooks/useEventWizard";
+import {
+  fullOnlineEventDataSchema,
+  fullPhysicalEventDataSchema,
+} from "@/schema/eventSchema";
 import { EVENT_STEP } from "@/types/Events";
 
 // make country a typeable select list with fuzzy search
@@ -17,6 +21,11 @@ const EventsWizard = () => {
     resetWizard,
   } = useEventWizard();
   const { base, online, physical, step } = state;
+
+  const finalEventData = base.onlineEvent
+    ? fullOnlineEventDataSchema.safeParse({ ...base, ...online })
+    : fullPhysicalEventDataSchema.safeParse({ ...base, ...physical });
+
   return (
     <ScreenLayout
       brief="https://www.reactchallenges.com/challenges/event-creation-wizard"
@@ -39,7 +48,9 @@ const EventsWizard = () => {
           onBack={goBack}
         />
       )}
-      {step === EVENT_STEP.REVIEW && <EventReviewStep onReset={resetWizard} />}
+      {step === EVENT_STEP.REVIEW && finalEventData.success && (
+        <EventReviewStep onReset={resetWizard} state={finalEventData?.data} />
+      )}
     </ScreenLayout>
   );
 };

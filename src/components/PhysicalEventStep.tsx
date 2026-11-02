@@ -45,6 +45,11 @@ const PhysicalEventStep = ({
               name="startDate"
               onClick={(e) => e.currentTarget.showPicker()}
               aria-invalid={!!state.errors.startDate}
+              defaultValue={
+                state.physicalFormData?.startDate?.toLocaleDateString(
+                  "en-AU",
+                ) ?? undefined
+              }
             />
             {state.errors.startDate && (
               <FieldError>{state.errors.startDate}</FieldError>
@@ -58,6 +63,10 @@ const PhysicalEventStep = ({
               name="endDate"
               onClick={(e) => e.currentTarget.showPicker()}
               aria-invalid={!!state.errors.endDate}
+              defaultValue={
+                state.physicalFormData?.endDate?.toLocaleDateString("en-AU") ??
+                undefined
+              }
             />
             {state.errors.endDate && (
               <FieldError>{state.errors.endDate}</FieldError>
@@ -69,6 +78,7 @@ const PhysicalEventStep = ({
               id="event-country"
               name="country"
               aria-invalid={!!state.errors.country}
+              defaultValue={state.physicalFormData?.country}
             />
             {state.errors.country && (
               <FieldError>{state.errors.country}</FieldError>
@@ -80,12 +90,17 @@ const PhysicalEventStep = ({
               id="event-city"
               name="city"
               aria-invalid={!!state.errors.city}
+              defaultValue={state.physicalFormData?.city}
             />
             {state.errors.city && <FieldError>{state.errors.city}</FieldError>}
           </Field>
           <Field>
             <FieldLabel htmlFor="event-postcode">Postcode</FieldLabel>
-            <Input id="event-postcode" name="postCode" />
+            <Input
+              id="event-postcode"
+              name="postCode"
+              defaultValue={state.physicalFormData?.postCode}
+            />
             {state.errors.postCode && (
               <FieldError>{state.errors.postCode}</FieldError>
             )}
@@ -96,6 +111,7 @@ const PhysicalEventStep = ({
               id="event-address"
               name="address"
               aria-invalid={!!state.errors.address}
+              defaultValue={state.physicalFormData?.address}
             />
             {state.errors.address && (
               <FieldError>{state.errors.address}</FieldError>

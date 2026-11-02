@@ -48,7 +48,7 @@ export const eventDateSchema = z
   });
 
 export const onlineEventStep2Schema = eventDateSchema.extend({
-  requireRegistration: z.boolean().default(false).optional(),
+  requireRegistration: z.boolean().default(false),
   email: z.email({ error: "Provide a valid email" }),
 });
 
@@ -100,7 +100,7 @@ export type PhysicalEventDataType = z.infer<typeof fullPhysicalEventDataSchema>;
 export type OnlineEventDataType = z.infer<typeof fullOnlineEventDataSchema>;
 
 export const makePhysicalEventStep2Schema = (countries: string[]) =>
-  physicalEventStep2Schema.extend({
+  physicalEventStep2Schema.safeExtend({
     country: z
       .string({ error: "Real country is required" })
       .trim()

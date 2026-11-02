@@ -43,6 +43,10 @@ const OnlineEventStep = ({
               type="date"
               name="startDate"
               aria-invalid={!!state.errors.startDate}
+              defaultValue={
+                state.onlineFormData?.startDate?.toLocaleDateString("en-AU") ??
+                undefined
+              }
               onClick={(e) => e.currentTarget.showPicker()}
             />
             {state.errors.startDate && (
@@ -55,6 +59,10 @@ const OnlineEventStep = ({
               type="date"
               id="event-end-date"
               name="endDate"
+              defaultValue={
+                state.onlineFormData?.endDate?.toLocaleDateString("en-AU") ??
+                undefined
+              }
               onClick={(e) => e.currentTarget.showPicker()}
               aria-invalid={!!state.errors.endDate}
             />
@@ -68,6 +76,7 @@ const OnlineEventStep = ({
               id="event-email"
               name="email"
               aria-invalid={!!state.errors.email}
+              defaultValue={state.onlineFormData?.email}
             />
             {state.errors.email && (
               <FieldError>{state.errors.email}</FieldError>
@@ -78,8 +87,9 @@ const OnlineEventStep = ({
             <div className="">
               <Checkbox
                 id="event-registratio-required"
-                name="registrationRequired"
+                name="requireRegistration"
                 className="w-6 h-6"
+                defaultChecked={state.onlineFormData?.requireRegistration}
               />
             </div>
           </Field>
