@@ -3,7 +3,12 @@ import EventReviewStep from "@/components/EventReviewStep";
 import OnlineEventStep from "@/components/OnlineEventStep";
 import PhysicalEventStep from "@/components/PhysicalEventStep";
 import ScreenLayout from "@/components/ScreenLayout";
-import { Alert, AlertAction, AlertTitle } from "@/components/ui/alert";
+import {
+  Alert,
+  AlertAction,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import useEventWizard from "@/hooks/useEventWizard";
 import {
@@ -12,6 +17,7 @@ import {
 } from "@/schema/eventSchema";
 import { EVENT_STEP } from "@/types/Events";
 import { InfoIcon } from "lucide-react";
+import z from "zod";
 
 // make country a typeable select list with fuzzy search
 const EventsWizard = () => {
@@ -54,10 +60,17 @@ const EventsWizard = () => {
       {step === EVENT_STEP.REVIEW && finalEventData.success && (
         <EventReviewStep onReset={resetWizard} state={finalEventData?.data} />
       )}
-      {step === EVENT_STEP.REVIEW && finalEventData.error && (
+      {step === EVENT_STEP.REVIEW && !finalEventData.success && (
         <Alert>
           <InfoIcon />
           <AlertTitle>Something has gone wrong!</AlertTitle>
+          <AlertDescription>
+            {/* generalised to ZodError as this can be an online event error or
+            physical event error */}
+            {JSON.stringify(
+              z.flattenError(finalEventData.error as z.ZodError).fieldErrors,
+            )}
+          </AlertDescription>
           <AlertAction>
             <Button
               variant="outline"
