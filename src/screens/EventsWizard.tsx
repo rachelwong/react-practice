@@ -3,12 +3,15 @@ import EventReviewStep from "@/components/EventReviewStep";
 import OnlineEventStep from "@/components/OnlineEventStep";
 import PhysicalEventStep from "@/components/PhysicalEventStep";
 import ScreenLayout from "@/components/ScreenLayout";
+import { Alert, AlertAction, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 import useEventWizard from "@/hooks/useEventWizard";
 import {
   fullOnlineEventDataSchema,
   fullPhysicalEventDataSchema,
 } from "@/schema/eventSchema";
 import { EVENT_STEP } from "@/types/Events";
+import { InfoIcon } from "lucide-react";
 
 // make country a typeable select list with fuzzy search
 const EventsWizard = () => {
@@ -50,6 +53,22 @@ const EventsWizard = () => {
       )}
       {step === EVENT_STEP.REVIEW && finalEventData.success && (
         <EventReviewStep onReset={resetWizard} state={finalEventData?.data} />
+      )}
+      {step === EVENT_STEP.REVIEW && finalEventData.error && (
+        <Alert>
+          <InfoIcon />
+          <AlertTitle>Something has gone wrong!</AlertTitle>
+          <AlertAction>
+            <Button
+              variant="outline"
+              onClick={() => {
+                resetWizard();
+              }}
+            >
+              Start again
+            </Button>
+          </AlertAction>
+        </Alert>
       )}
     </ScreenLayout>
   );
